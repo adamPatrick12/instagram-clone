@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { MongoClient } = require("mongodb");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const port = process.env.PORT || 3030;
+const signup = require("./routes/AuthPageRoute.ts");
 
 app.use(cors());
 app.use(express.json());
+app.use("/instagram-clone", signup);
 
 const mongoDbAtlas = process.env.ATLAS_URI;
 
