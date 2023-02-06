@@ -1,4 +1,13 @@
-import { authenticationAtom, userNameAtom, displayNameAtom, emailAtom } from "../Atoms/AuthenticationAtom";
+
+import {
+  authenticationAtom,
+  userNameAtom,
+  displayNameAtom,
+  emailAtom,
+  disabledButtonAtom,
+  profilePictureAtom
+} from "../Atoms/AuthenticationAtom";
+
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../Firebase/FirebaseConfig";
 import { useRecoilState } from "recoil";
@@ -10,20 +19,29 @@ import {
   SignUpFormContainer,
   UserNameInput,
   UserNameSymbol,
-  LogInWithGoogleButton
+  SignUpWithGoogleButton,
+  LoginButton
 } from "../Styles/SignUpPage/PageContainer";
 
 import InstagramLogo from "../Images/instagram-logo.png";
-import { MdOutlineAlternateEmail } from 'react-icons/md';
+import GoogleLogo from '../Images/google-logo.png';
+import { useNavigate } from "react-router";
+
 
 const SighUpComponent = () => {
   const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
   const [userName, setUserName] = useRecoilState(userNameAtom);
   const [displayName, setdisplayName] = useRecoilState(displayNameAtom);
   const [email, setemail] = useRecoilState(emailAtom);
+  const [disabledBtn, seteDisabledBtn] = useRecoilState(disabledButtonAtom);
+  const [profilePicture, setProfilePicture] = useRecoilState(profilePictureAtom);
+
+
 
   // TODO: Figure out why photo isn't displaying
   // TODO: Why user gets 'logged out on refresh'
+
+  const navigate = useNavigate();
 
   const signOutOfGoogle = () => {
     signOut(auth)
@@ -42,6 +60,8 @@ const SighUpComponent = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
+
+
     })
       .catch(error => {
         console.log(error);
@@ -53,6 +73,7 @@ const SighUpComponent = () => {
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then((result) => {
+
         setAuthentication(true);
 
         const userData = {
@@ -61,14 +82,13 @@ const SighUpComponent = () => {
           email: result.user.email
         };
 
-        const profilePic = result.user.photoURL;
 
-        localStorage.setItem("name", displayName || "");
-        localStorage.setItem("email", email || "");
-        localStorage.setItem("profilePic", profilePic || "");
 
         Authentication(userData);
 
+        navigate("/user-feed");
+
+        setProfilePicture(result.user.photoURL);
         setdisplayName(result.user.displayName);
         setemail(result.user.email);
 
@@ -79,16 +99,14 @@ const SighUpComponent = () => {
   };
 
   useEffect(() => {
-    const userData = {
-      userName: userName,
-      displayName: displayName,
-      email: email
-    };
-
-
-    console.log(JSON.stringify(userData));
-
+    if (userName.length > 2) {
+      seteDisabledBtn(false);
+    }
+    else {
+      seteDisabledBtn(true);
+    }
   }, [userName]);
+
 
   return (
     <Container>
@@ -98,7 +116,7 @@ const SighUpComponent = () => {
           Sign Up
         </SignUpHeader>
 
-        <SignUpFormContainer>
+        <SignUpFormContainer isDisabled={disabledBtn}>
 
           <UserNameSymbol />
           <UserNameInput type="text" name="name" placeholder="Username" onChange={(e) => { setUserName(e.target.value); }} >
@@ -107,21 +125,21 @@ const SighUpComponent = () => {
           <h6>Name must be 3-15 characters.</h6>
 
 
-
+          <img src={GoogleLogo} alt="" />
           {!IsAuthentication && (
-            <LogInWithGoogleButton onClick={signInWithGoogle}>Sign in with Google</LogInWithGoogleButton>
+            <SignUpWithGoogleButton isDisabled={disabledBtn} onClick={signInWithGoogle} disabled={disabledBtn}>Sign up with Google</SignUpWithGoogleButton>
           )}
-          {IsAuthentication && (
+          {false && (
             <button onClick={signOutOfGoogle}>Sign out with Google</button>
           )}
-          <h1>{localStorage.getItem("name")}</h1>å
-          <h1>{localStorage.getItem("email")}</h1>
-          <img src={localStorage.getItem("profilePic") || ""} />
 
+          <h4>Already signed up?</h4>
 
         </SignUpFormContainer>
 
-
+        <LoginButton>
+          <p> Login</p>
+        </LoginButton>
 
       </SignUpContainer>
     </Container>
