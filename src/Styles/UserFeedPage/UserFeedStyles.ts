@@ -86,9 +86,11 @@ export const TextDescription = styled.div`
   color: #888888;
   font-weight: 100;
   padding-top: 4px;
+  cursor: pointer;
 `;
 
 export const AddIcon = styled(AddCircle)`
   width: 14px;
   height: 14px;
+  cursor: pointer;
 `;

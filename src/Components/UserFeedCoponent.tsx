@@ -14,6 +14,8 @@ import {
     AddIcon
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
+import { useNavigate } from "react-router";
+
 import {
     authenticationAtom,
     userNameAtom,
@@ -30,7 +32,7 @@ export const UserFeed = () => {
     const userName = useRecoilValue(userNameAtom);
     const displayName = useRecoilValue(displayNameAtom);
     const profilePicture = useRecoilValue(profilePictureAtom);
-
+    const navigate = useNavigate();
 
 
     return (
@@ -77,7 +79,7 @@ export const UserFeed = () => {
                         </ProfileNumberContainer>
                         <ProfileNumberContainer>
                             <AddIcon />
-                            <TextDescription>
+                            <TextDescription onClick={() => { navigate("/new-post"); }}>
                                 New Post
                             </TextDescription>
                         </ProfileNumberContainer>
