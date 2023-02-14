@@ -1,13 +1,17 @@
+import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userPostImageFileAtom } from "../Atoms/NewUserPostAtoms";
 import { userPostCaptionAtom } from "../Atoms/NewUserPostAtoms";
+import { auth } from "../Firebase/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 
 const NewPostComponent = () => {
 
     const [userPostImage, setPostImage] = useRecoilState(userPostImageFileAtom);
     const [userPostCaption, setUserPostCaption] = useRecoilState(userPostCaptionAtom);
+    const navigate = useNavigate();
 
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,7 +25,15 @@ const NewPostComponent = () => {
             method: "POST",
             body: form,
         });
+
+        navigate('/user-feed');
     };
+
+
+
+    console.log(auth.currentUser);
+
+
 
     useEffect(() => {
         console.log(userPostImage);

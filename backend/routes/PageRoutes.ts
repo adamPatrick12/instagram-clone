@@ -13,6 +13,8 @@ router.post("/sign-up", createProfileController.create_user_profile);
 // new post
 router.post("/new-post", createPostController.create_new_post);
 
-module.exports = router;
+//get posts
 
-//instagram-clone-ap-s3
+router.get("/user-feed", createPostController.get_feed_posts);
+
+module.exports = router;

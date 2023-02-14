@@ -27,8 +27,7 @@ import InstagramLogo from "../Images/instagram-logo.png";
 import GoogleLogo from '../Images/google-logo.png';
 import { useNavigate } from "react-router";
 
-
-const SighUpComponent = () => {
+export const SighUpComponent = () => {
   const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
   const [userName, setUserName] = useRecoilState(userNameAtom);
   const [displayName, setdisplayName] = useRecoilState(displayNameAtom);
@@ -107,6 +106,11 @@ const SighUpComponent = () => {
     }
   }, [userName]);
 
+  useEffect(() => {
+    console.log(auth.currentUser);
+
+  }, [IsAuthentication]);
+
 
   return (
     <Container>
@@ -129,7 +133,7 @@ const SighUpComponent = () => {
           {!IsAuthentication && (
             <SignUpWithGoogleButton isDisabled={disabledBtn} onClick={signInWithGoogle} disabled={disabledBtn}>Sign up with Google</SignUpWithGoogleButton>
           )}
-          {false && (
+          {true && (
             <button onClick={signOutOfGoogle}>Sign out with Google</button>
           )}
 
@@ -141,9 +145,10 @@ const SighUpComponent = () => {
           <p> Login</p>
         </LoginButton>
 
+
       </SignUpContainer>
     </Container>
   );
 };
 
-export default SighUpComponent;
+

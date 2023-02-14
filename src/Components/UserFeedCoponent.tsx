@@ -20,29 +20,57 @@ import {
     authenticationAtom,
     userNameAtom,
     displayNameAtom,
-    profilePictureAtom
+    profilePictureAtom,
 } from "../Atoms/AuthenticationAtom";
 
-import { useRecoilValue } from 'recoil';
+import { UserFeedAtom } from '../Atoms/UserPostAtoms';
+
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
 
 
 
 export const UserFeed = () => {
 
+    const [postData, setPostData] = useState([]);
     const userName = useRecoilValue(userNameAtom);
     const displayName = useRecoilValue(displayNameAtom);
     const profilePicture = useRecoilValue(profilePictureAtom);
     const navigate = useNavigate();
 
 
+    const fetchUserFeed = async () => {
+        await fetch("http://localhost:3030/instagram-clone/user-feed")
+            .then((response) => response.json())
+            .then(((data) => setPostData(data)
+            ));
+
+    };
+
+    const array = [1, 2, 3, 4];
+
+    useEffect(() => {
+        fetchUserFeed();
+    }, []);
+
+    console.log(postData);
+
+
     return (
         <PageContainer>
-            <UserFeedContainer>
-                <UserPostCard />
-                <UserPostCard />
-                <UserPostCard />
-                <UserPostCard />
-            </UserFeedContainer>
+            <div className='UserPostContainer'>
+
+                {postData.map((data) => {
+                    return (
+                        <UserPostCard >
+                            <img src={data['imageKey']} alt="" />
+                        </UserPostCard >
+                    );
+                })}
+
+
+
+            </div>
             <UserContainer>
                 <UserInfoCardContainer>
                     <UserProfileContainer>
@@ -55,6 +83,8 @@ export const UserFeed = () => {
                     <UserFollowingContainer>
                         <ProfileNumberContainer>
                             <p>
+
+
                                 0
                             </p>
                             <TextDescription>
@@ -73,6 +103,11 @@ export const UserFeed = () => {
                             <p>
                                 0
                             </p>
+                            <div>
+                                <p>
+                                    0
+                                </p>
+                            </div>
                             <TextDescription>
                                 Posts
                             </TextDescription>

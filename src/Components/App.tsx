@@ -1,4 +1,4 @@
-import SighUpComponent from "./SignUpComponent";
+import { SighUpComponent } from "./SignUpComponent";
 import UserFeed from './UserFeedCoponent';
 import NewPostComponent from "./NewPosComponent";
 import { Route, Routes } from "react-router-dom";

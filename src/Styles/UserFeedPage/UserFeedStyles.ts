@@ -8,7 +8,11 @@ export const PageContainer = styled.div`
   justify-content: center;
 `;
 
-export const UserFeedContainer = styled.div`
+interface InputWrapperProps {
+  children?: JSX.Element | JSX.Element[];
+}
+
+export const UserFeedContainer = styled.div<InputWrapperProps>`
   display: flex;
   flex-direction: column;
 `;
@@ -25,6 +29,11 @@ export const UserPostCard = styled.div`
   height: 750px;
   border: 1px solid black;
   margin: 0 0 30px 0;
+
+  img {
+    width: 560px;
+    height: 500px;
+  }
 `;
 
 export const UserInfoCardContainer = styled.div`

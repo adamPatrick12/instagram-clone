@@ -1,19 +1,29 @@
+const cryptoKey = require("crypto");
+const UserPost = require("../models/posts.ts");
+
 const multer = require("multer");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const crypto = require("crypto");
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+} = require("@aws-sdk/client-s3");
 require("dotenv").config();
 const sharp = require("sharp");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+
 const bucket_name = process.env.BUCKET_NAME;
 const bucket_region = process.env.BUCKET_REGION;
 const access_key = process.env.ACCESS_KEY;
 const secret_access_key = process.env.SECRET_ACCESS_KEY;
 
+// Get logged in user?? Dont know which one
+
 const randomImageKey = (bytes = 32) =>
-  crypto.randomBytes(bytes).toString("hex");
+  cryptoKey.randomBytes(bytes).toString("hex");
 
 const s3 = new S3Client({
   credentials: {
@@ -23,26 +33,55 @@ const s3 = new S3Client({
   region: bucket_region,
 });
 
+exports.get_feed_posts = [
+  (req, res, next) => {
+    UserPost.find().exec(async (err, list_post) => {
+      if (err) {
+        return next(err);
+      }
+      for (const post of list_post) {
+        const getObjectParams = {
+          Bucket: bucket_name,
+          Key: post.imageKey,
+        };
+
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+        post.imageKey = url;
+      }
+      res.send(list_post);
+      console.log(list_post);
+    });
+  },
+];
+
 exports.create_new_post = [
   upload.single("NewPostImage"),
-  async (req, res) => {
+  async (req, res, next) => {
     console.log("req.body", req.body);
     console.log("req.file", req.file.buffer);
 
-    //resize image
-    const buffer = await sharp(req.file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
-      .toBuffer();
+    const imageKey = randomImageKey();
 
     const params = {
       Bucket: bucket_name,
-      Key: randomImageKey(),
-      Body: buffer,
+      Key: imageKey,
+      Body: req.file.buffer,
       ContentType: req.file.mimetype,
     };
 
     const command = new PutObjectCommand(params);
     await s3.send(command);
+
+    const newPost = new UserPost({
+      caption: req.body.Caption,
+      imageKey: imageKey,
+    });
+    newPost.save((err) => {
+      if (err) {
+        return next(err);
+      }
+    });
 
     res.send({});
   },
