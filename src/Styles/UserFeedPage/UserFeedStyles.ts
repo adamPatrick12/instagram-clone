@@ -6,6 +6,13 @@ export const PageContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  @media (max-width: 855px) {
+    flex-direction: column-reverse;
+    align-content: center;
+    justify-content: end;
+    flex-wrap: wrap;
+  }
 `;
 
 interface InputWrapperProps {
@@ -18,27 +25,18 @@ export const UserFeedContainer = styled.div<InputWrapperProps>`
 `;
 
 export const UserContainer = styled.div`
-  width: 30%;
-  border: 1px solid red;
+  width: 40%;
   display: flex;
   justify-content: center;
-`;
-
-export const UserPostCard = styled.div`
-  width: 560px;
-  height: 750px;
-  border: 1px solid black;
-  margin: 0 0 30px 0;
-
-  img {
-    width: 560px;
-    height: 500px;
-  }
 `;
 
 export const UserInfoCardContainer = styled.div`
   position: fixed;
   top: 15%;
+
+  @media (max-width: 855px) {
+    position: relative;
+  }
 `;
 
 export const UserProfileContainer = styled.div`
@@ -50,6 +48,7 @@ export const UserProfileContainer = styled.div`
     height: 80px;
     border-radius: 50%;
     box-shadow: 0 0 16px 10px rgb(0 0 0 / 10%);
+    align-self: flex-start;
   }
 `;
 

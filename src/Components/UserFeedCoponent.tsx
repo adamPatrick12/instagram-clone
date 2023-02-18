@@ -1,8 +1,6 @@
 import {
     PageContainer,
-    UserFeedContainer,
     UserContainer,
-    UserPostCard,
     UserInfoCardContainer,
     UserProfileContainer,
     UserNameContainer,
@@ -14,16 +12,16 @@ import {
     AddIcon
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
+import UserPost from './UserPostComponent';
+
 import { useNavigate } from "react-router";
 
 import {
-    authenticationAtom,
     userNameAtom,
     displayNameAtom,
     profilePictureAtom,
 } from "../Atoms/AuthenticationAtom";
 
-import { UserFeedAtom } from '../Atoms/UserPostAtoms';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
@@ -47,13 +45,11 @@ export const UserFeed = () => {
 
     };
 
-    const array = [1, 2, 3, 4];
-
     useEffect(() => {
         fetchUserFeed();
     }, []);
 
-    console.log(postData);
+    console.log(profilePicture);
 
 
     return (
@@ -62,13 +58,9 @@ export const UserFeed = () => {
 
                 {postData.map((data) => {
                     return (
-                        <UserPostCard >
-                            <img src={data['imageKey']} alt="" />
-                        </UserPostCard >
+                        <UserPost ImageURl={data['imageKey']} />
                     );
                 })}
-
-
 
             </div>
             <UserContainer>
@@ -103,11 +95,6 @@ export const UserFeed = () => {
                             <p>
                                 0
                             </p>
-                            <div>
-                                <p>
-                                    0
-                                </p>
-                            </div>
                             <TextDescription>
                                 Posts
                             </TextDescription>
