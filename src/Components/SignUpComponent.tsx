@@ -8,7 +8,7 @@ import {
   profilePictureAtom
 } from "../Atoms/AuthenticationAtom";
 
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithPopup, signOut, } from "firebase/auth";
 import { auth, provider } from "../Firebase/FirebaseConfig";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
@@ -70,10 +70,10 @@ export const SighUpComponent = () => {
   };
 
   const signInWithGoogle = async () => {
+
+
     signInWithPopup(auth, provider)
       .then((result) => {
-
-        setAuthentication(true);
 
         const userData = {
           userName: userName,

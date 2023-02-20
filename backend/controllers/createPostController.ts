@@ -35,23 +35,25 @@ const s3 = new S3Client({
 
 exports.get_feed_posts = [
   (req, res, next) => {
-    UserPost.find().exec(async (err, list_post) => {
-      if (err) {
-        return next(err);
-      }
-      for (const post of list_post) {
-        const getObjectParams = {
-          Bucket: bucket_name,
-          Key: post.imageKey,
-        };
+    UserPost.find()
+      .sort({ _id: -1 })
+      .exec(async (err, list_post) => {
+        if (err) {
+          return next(err);
+        }
+        for (const post of list_post) {
+          const getObjectParams = {
+            Bucket: bucket_name,
+            Key: post.imageKey,
+          };
 
-        const command = new GetObjectCommand(getObjectParams);
-        const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
-        post.imageKey = url;
-      }
-      res.send(list_post);
-      console.log(list_post);
-    });
+          const command = new GetObjectCommand(getObjectParams);
+          const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          post.imageKey = url;
+        }
+        res.send(list_post);
+        console.log(list_post);
+      });
   },
 ];
 

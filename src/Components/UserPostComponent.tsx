@@ -6,7 +6,8 @@ import {
     LikeButton, CommentButton,
     DownloadButton, LinkButton,
     CommnetStatus, CommentSection,
-    Likes
+    Likes, CommentInputContianer,
+    CommentInputBox, SubmitCommentButton
 } from "../Styles/UserFeedPage/UserPostStyles";
 
 import { UserName } from "../Styles/UserFeedPage/UserFeedStyles";
@@ -37,6 +38,10 @@ const UserPost = ({ ImageURl }: any) => {
                 <Likes>1 Like</Likes>
                 <CommnetStatus>No Comments</CommnetStatus>
                 <CommentSection></CommentSection>
+                <CommentInputContianer>
+                    <CommentInputBox placeholder="Add Comment..."></CommentInputBox>
+                    <SubmitCommentButton />
+                </CommentInputContianer>
             </UserPostFooter>
         </UserPostCardContainer>
     );

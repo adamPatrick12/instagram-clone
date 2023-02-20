@@ -16,6 +16,8 @@ import UserPost from './UserPostComponent';
 
 import { useNavigate } from "react-router";
 
+import { auth, provider } from "../Firebase/FirebaseConfig";
+
 import {
     userNameAtom,
     displayNameAtom,
@@ -25,7 +27,7 @@ import {
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
-
+import { checkAuth } from '../Hooks/useCheckAuth';
 
 
 export const UserFeed = () => {
@@ -49,8 +51,7 @@ export const UserFeed = () => {
         fetchUserFeed();
     }, []);
 
-    console.log(profilePicture);
-
+    checkAuth();
 
     return (
         <PageContainer>
@@ -58,7 +59,7 @@ export const UserFeed = () => {
 
                 {postData.map((data) => {
                     return (
-                        <UserPost ImageURl={data['imageKey']} />
+                        <UserPost key={data['date']} ImageURl={data['imageKey']} />
                     );
                 })}
 

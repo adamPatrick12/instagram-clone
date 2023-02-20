@@ -4,15 +4,17 @@ import { Heart } from "styled-icons/boxicons-regular";
 import { Comment } from "@styled-icons/boxicons-regular/Comment";
 import { Download } from "@styled-icons/boxicons-regular/Download";
 import { LinkAlt } from "styled-icons/boxicons-regular";
+import { Send } from "@styled-icons/ionicons-outline/Send";
 
 export const UserPostCardContainer = styled.div`
   width: 560px;
   height: 750px;
-  margin: 0 0 30px 0;
+  margin: 0 0 50px 0;
   border-radius: 16px;
+  box-shadow: 0 0 16px 1px rgb(0 0 0 / 10%);
 
   img {
-    width: 562px;
+    width: 560px;
     height: 500px;
     margin-bottom: -5px;
     margin-bottom: -4px;
@@ -20,21 +22,20 @@ export const UserPostCardContainer = styled.div`
 
   @media (max-width: 855px) {
     img {
-      width: 342px;
+      width: 340px;
       height: 340px;
       margin-bottom: -5px;
     }
 
     width: 340px;
-    height: 340px;
-    margin: 0 0 300px 0;
+    height: 590px;
+    margin: 4em 0px;
   }
 `;
 
 export const UserPostHeader = styled.div`
   width: 100%;
   height: 56px;
-  border: 1px solid red;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   display: flex;
@@ -86,7 +87,6 @@ export const MenuDots = styled(DotsHorizontalRounded)`
 export const UserPostFooter = styled.div`
   width: 100%;
   height: 200px;
-  border: 1px solid red;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   display: flex;
@@ -96,7 +96,7 @@ export const UserPostFooter = styled.div`
 export const PostIconContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 16px 1.25em;
+  padding: 10px 1.25em;
   justify-content: space-between;
 `;
 
@@ -148,5 +148,26 @@ export const CommentSection = styled.div`
   height: 48px;
   width: 90%;
   margin: 2px 1.25em;
-  border: 1px solid black;
+`;
+
+export const CommentInputContianer = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid black;
+  margin: 0 20px 20px 20px;
+`;
+
+export const CommentInputBox = styled.input`
+  color: #686868;
+  width: 97%;
+  outline: none;
+  border: none;
+  font-size: 15px;
+  margin-top: 10px;
+`;
+
+export const SubmitCommentButton = styled(Send)`
+  height: 1em;
+  width: 1em;
+  margin-top: 10px;
 `;
