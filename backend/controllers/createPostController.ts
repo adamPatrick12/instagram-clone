@@ -37,6 +37,7 @@ exports.get_feed_posts = [
   (req, res, next) => {
     UserPost.find()
       .sort({ _id: -1 })
+      .populate("user", "userName displayName profilePicture")
       .exec(async (err, list_post) => {
         if (err) {
           return next(err);
@@ -61,6 +62,8 @@ exports.create_new_post = [
   upload.single("NewPostImage"),
   async (req, res, next) => {
     console.log("req.body", req.body);
+    console.log("userID", req.body.UserID);
+
     console.log("req.file", req.file.buffer);
 
     const imageKey = randomImageKey();
@@ -78,6 +81,7 @@ exports.create_new_post = [
     const newPost = new UserPost({
       caption: req.body.Caption,
       imageKey: imageKey,
+      user: req.body.UserID,
     });
     newPost.save((err) => {
       if (err) {

@@ -32,3 +32,13 @@ export const profilePictureAtom = atom<any>({
   key: "profilePicAtom",
   default: "",
 });
+
+export const uuidAtom = atom<string>({
+  key: "uuidAtom",
+  default: "",
+});
+
+export const ObjectIDAtom = atom<any>({
+  key: "objectID",
+  default: "",
+});

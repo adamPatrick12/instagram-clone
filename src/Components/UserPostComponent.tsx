@@ -12,15 +12,17 @@ import {
 
 import { UserName } from "../Styles/UserFeedPage/UserFeedStyles";
 
-const UserPost = ({ ImageURl }: any) => {
+const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
+
+
     return (
         <UserPostCardContainer>
             <UserPostHeader>
                 <UserInfoContainer>
-                    <img src={'https://lh3.googleusercontent.com/a/AEdFTp6X9mS97AJ2nd8y-9xudoDY8vBCQo_idmJC8W8D=s96-c'} />
+                    <img src={profilePicture} />
                     <UserNameContainer>
-                        <DisplayName>Adam Patrick</DisplayName>
-                        <UserName>@adampat</UserName>
+                        <DisplayName>{displayName}</DisplayName>
+                        <UserName>@{userName}</UserName>
                     </UserNameContainer>
                 </UserInfoContainer>
                 <MenuDots />

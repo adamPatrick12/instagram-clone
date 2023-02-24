@@ -5,12 +5,13 @@ import {
   displayNameAtom,
   emailAtom,
   disabledButtonAtom,
-  profilePictureAtom
+  profilePictureAtom,
+  uuidAtom
 } from "../Atoms/AuthenticationAtom";
 
 import { signInWithPopup, signOut, } from "firebase/auth";
 import { auth, provider } from "../Firebase/FirebaseConfig";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import {
   Container,
@@ -30,15 +31,15 @@ import { useNavigate } from "react-router";
 export const SighUpComponent = () => {
   const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
   const [userName, setUserName] = useRecoilState(userNameAtom);
-  const [displayName, setdisplayName] = useRecoilState(displayNameAtom);
-  const [email, setemail] = useRecoilState(emailAtom);
+  const setdisplayName = useSetRecoilState(displayNameAtom);
+  const setEmail = useSetRecoilState(emailAtom);
   const [disabledBtn, seteDisabledBtn] = useRecoilState(disabledButtonAtom);
-  const [profilePicture, setProfilePicture] = useRecoilState(profilePictureAtom);
+  const setProfilePicture = useSetRecoilState(profilePictureAtom);
+  const setUniqueIdentifier = useSetRecoilState(uuidAtom);
 
 
 
   // TODO: Figure out why photo isn't displaying
-  // TODO: Why user gets 'logged out on refresh'
 
   const navigate = useNavigate();
 
@@ -75,10 +76,13 @@ export const SighUpComponent = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
 
+
         const userData = {
+          userID: result.user.uid,
           userName: userName,
           displayName: result.user.displayName,
-          email: result.user.email
+          email: result.user.email,
+          profilePicture: result.user.photoURL,
         };
 
 
@@ -89,7 +93,7 @@ export const SighUpComponent = () => {
 
         setProfilePicture(result.user.photoURL);
         setdisplayName(result.user.displayName);
-        setemail(result.user.email);
+        setEmail(result.user.email);
 
       })
       .catch((error) => {

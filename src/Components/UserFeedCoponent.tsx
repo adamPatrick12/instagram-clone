@@ -26,7 +26,7 @@ import {
 
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
 
 
@@ -39,6 +39,7 @@ export const UserFeed = () => {
     const navigate = useNavigate();
 
 
+
     const fetchUserFeed = async () => {
         await fetch("http://localhost:3030/instagram-clone/user-feed")
             .then((response) => response.json())
@@ -49,10 +50,14 @@ export const UserFeed = () => {
 
     useEffect(() => {
         fetchUserFeed();
+        console.log('profilePicture');
+
     }, []);
 
 
     checkAuth();
+
+
 
     return (
         <PageContainer>
@@ -60,7 +65,12 @@ export const UserFeed = () => {
 
                 {postData.map((data) => {
                     return (
-                        <UserPost key={data['date']} ImageURl={data['imageKey']} />
+                        <UserPost key={data['date']}
+                            ImageURl={data['imageKey']}
+                            userName={data['user']['userName']}
+                            displayName={data['user']['displayName']}
+                            profilePicture={data['user']['profilePicture']}
+                        />
                     );
                 })}
 

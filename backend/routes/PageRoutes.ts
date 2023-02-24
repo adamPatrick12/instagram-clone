@@ -20,6 +20,6 @@ router.get("/user-feed", createPostController.get_feed_posts);
 
 //get username
 
-router.get("/user/:email", getUsernameController.get_user_name);
+router.get("/user/:uid", getUsernameController.get_user_name);
 
 module.exports = router;

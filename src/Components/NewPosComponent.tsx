@@ -1,17 +1,24 @@
 import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userPostImageFileAtom } from "../Atoms/NewUserPostAtoms";
 import { userPostCaptionAtom } from "../Atoms/NewUserPostAtoms";
 import { auth } from "../Firebase/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { checkAuth } from "../Hooks/useCheckAuth";
+import { ObjectIDAtom } from "../Atoms/AuthenticationAtom";
 
 
 const NewPostComponent = () => {
-
+    const userObjectID = useRecoilValue(ObjectIDAtom);
     const [userPostImage, setPostImage] = useRecoilState(userPostImageFileAtom);
     const [userPostCaption, setUserPostCaption] = useRecoilState(userPostCaptionAtom);
     const navigate = useNavigate();
+
+
+    checkAuth();
+
+    console.log(userObjectID);
 
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,6 +27,7 @@ const NewPostComponent = () => {
         const form = new FormData();
         form.append("NewPostImage", userPostImage);
         form.append("Caption", userPostCaption);
+        form.append("UserID", userObjectID);
 
         await fetch("http://localhost:3030/instagram-clone/new-post", {
             method: "POST",
@@ -31,7 +39,7 @@ const NewPostComponent = () => {
 
 
 
-    console.log(auth.currentUser);
+
 
 
 

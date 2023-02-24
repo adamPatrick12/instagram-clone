@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  userID: {
+    type: String,
+  },
   userName: {
     type: String,
     minlength: 3,
@@ -29,7 +32,7 @@ const userSchema = new Schema({
     type: String,
     maxlength: 300,
   },
-  avatar: {
+  profilePicture: {
     type: String,
   },
   banner: {

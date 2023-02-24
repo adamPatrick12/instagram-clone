@@ -33,6 +33,7 @@ export const UserContainer = styled.div`
 export const UserInfoCardContainer = styled.div`
   position: fixed;
   top: 15%;
+  width: 270px;
 
   @media (max-width: 855px) {
     position: relative;
@@ -74,6 +75,7 @@ export const UserFollowingContainer = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 `;
 
 export const ProfileNumberContainer = styled.div`
