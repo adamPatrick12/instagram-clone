@@ -6,7 +6,11 @@ import { Download } from "@styled-icons/boxicons-regular/Download";
 import { LinkAlt } from "styled-icons/boxicons-regular";
 import { Send } from "@styled-icons/ionicons-outline/Send";
 
-export const UserPostCardContainer = styled.div`
+interface loadedProp {
+  isLoaded?: boolean;
+}
+
+export const UserPostCardContainer = styled.div<loadedProp>`
   width: 560px;
   height: 750px;
   margin: 0 0 50px 0;
@@ -18,6 +22,7 @@ export const UserPostCardContainer = styled.div`
     height: 500px;
     margin-bottom: -5px;
     margin-bottom: -4px;
+    display: ${(props) => (props.isLoaded ? "#ebebeb" : "white")};
   }
 
   @media (max-width: 855px) {

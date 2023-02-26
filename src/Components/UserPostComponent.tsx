@@ -10,9 +10,28 @@ import {
     CommentInputBox, SubmitCommentButton
 } from "../Styles/UserFeedPage/UserPostStyles";
 
+
 import { UserName } from "../Styles/UserFeedPage/UserFeedStyles";
 
+import { SyntheticEvent, useState } from 'react';
+
+import { Skeleton } from 'antd';
+
+
 const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
+
+    const [loading, setLoadingState] = useState(true);
+    const [loadingStateClass, setloadingStateClass] = useState('isLoading');
+
+
+    const handledLoadingImage = (event: SyntheticEvent<HTMLImageElement> | undefined) => {
+
+        setLoadingState(false);
+        setloadingStateClass('loaded');
+
+
+    };
+
 
 
     return (
@@ -27,7 +46,12 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
                 </UserInfoContainer>
                 <MenuDots />
             </UserPostHeader >
-            <img src={ImageURl} alt="" />
+            {loading &&
+                <div style={{ position: 'relative' }}>
+                    <Skeleton.Image style={{ width: 560, height: 500, position: 'absolute', top: 20 }} active={true} />
+                </div>
+            }
+            <img src={ImageURl} onLoad={(handledLoadingImage)} alt="" />
             <UserPostFooter>
                 <PostIconContainer>
                     <InteractIcons>

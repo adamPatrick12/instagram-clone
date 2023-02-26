@@ -7,9 +7,10 @@ import {
   displayNameAtom,
   profilePictureAtom,
   uuidAtom,
-  ObjectIDAtom
+  ObjectIDAtom,
 } from "../Atoms/AuthenticationAtom";
 import { useEffect } from "react";
+import { UserPostsCount } from "../Atoms/UserProfileAtoms";
 
 export const checkAuth = async () => {
 
@@ -18,6 +19,7 @@ export const checkAuth = async () => {
   const setUserName = useSetRecoilState(userNameAtom);
   const setProfilePicture = useSetRecoilState(profilePictureAtom);
   const setUniqueIdentifier = useSetRecoilState(uuidAtom);
+  const setNumberOfPosts = useSetRecoilState(UserPostsCount);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -32,7 +34,7 @@ export const checkAuth = async () => {
           .then((response) => response.json())
           .then(((data) =>
           (setUserName(data?.[0].userName),
-            setObjectID(data?.[0]._id))
+            setObjectID(data?.[0]._id), setNumberOfPosts(data[0].posts.length))
           ));
 
       }

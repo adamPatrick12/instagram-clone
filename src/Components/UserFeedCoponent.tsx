@@ -28,6 +28,7 @@ import {
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffect, useMemo, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
+import { UserPostsCount } from '../Atoms/UserProfileAtoms';
 
 
 export const UserFeed = () => {
@@ -37,6 +38,7 @@ export const UserFeed = () => {
     const displayName = useRecoilValue(displayNameAtom);
     const profilePicture = useRecoilValue(profilePictureAtom);
     const navigate = useNavigate();
+    const numberOfPosts = useRecoilValue(UserPostsCount);
 
 
 
@@ -87,8 +89,6 @@ export const UserFeed = () => {
                     <UserFollowingContainer>
                         <ProfileNumberContainer>
                             <p>
-
-
                                 0
                             </p>
                             <TextDescription>
@@ -105,7 +105,7 @@ export const UserFeed = () => {
                         </ProfileNumberContainer>
                         <ProfileNumberContainer>
                             <p>
-                                0
+                                {numberOfPosts}
                             </p>
                             <TextDescription>
                                 Posts

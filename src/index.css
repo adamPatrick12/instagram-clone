@@ -8,3 +8,11 @@ html {
   margin: 0;
   padding: 0;
 }
+
+.isLoaded {
+  display: none;
+}
+
+.loaded {
+  display: block;
+}

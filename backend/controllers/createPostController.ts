@@ -1,5 +1,6 @@
 const cryptoKey = require("crypto");
 const UserPost = require("../models/posts.ts");
+const UserProfile = require("../models/user.ts");
 
 const multer = require("multer");
 const {
@@ -88,6 +89,11 @@ exports.create_new_post = [
         return next(err);
       }
     });
+
+    const userIdToUpdate = { _id: req.body.UserID };
+    const postToAddToProfile = { $push: { posts: newPost._id } };
+
+    await UserProfile.updateOne(userIdToUpdate, postToAddToProfile);
 
     res.send({});
   },
