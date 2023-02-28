@@ -42,3 +42,13 @@ export const ObjectIDAtom = atom<any>({
   key: "objectID",
   default: "",
 });
+
+export const TakenUsernamesAtom = atom<any>({
+  key: "takenUsernameKey",
+  default: [],
+});
+
+export const TakenEmailsAtom = atom<any>({
+  key: "TakenEmailsKey",
+  default: [],
+});

@@ -6,13 +6,14 @@ import {
   emailAtom,
   disabledButtonAtom,
   profilePictureAtom,
-  uuidAtom
+  TakenUsernamesAtom,
+  TakenEmailsAtom
 } from "../Atoms/AuthenticationAtom";
 
 import { signInWithPopup, signOut, } from "firebase/auth";
 import { auth, provider } from "../Firebase/FirebaseConfig";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   SignUpContainer,
@@ -21,21 +22,26 @@ import {
   UserNameInput,
   UserNameSymbol,
   SignUpWithGoogleButton,
-  LoginButton
+  LoginButton,
+  UserNameCheck
 } from "../Styles/SignUpPage/PageContainer";
 
 import InstagramLogo from "../Images/instagram-logo.png";
 import GoogleLogo from '../Images/google-logo.png';
 import { useNavigate } from "react-router";
+import { activeUsernames, activeEmails } from '../Hooks/useActiveUsernames';
 
 export const SighUpComponent = () => {
   const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
   const [userName, setUserName] = useRecoilState(userNameAtom);
   const setdisplayName = useSetRecoilState(displayNameAtom);
   const setEmail = useSetRecoilState(emailAtom);
-  const [disabledBtn, seteDisabledBtn] = useRecoilState(disabledButtonAtom);
+  const [disabledBtn, setDisabledBtn] = useRecoilState(disabledButtonAtom);
   const setProfilePicture = useSetRecoilState(profilePictureAtom);
-  const setUniqueIdentifier = useSetRecoilState(uuidAtom);
+  const [usernameAvailability, setUsernameAvailability] = useState('Name must be 3-15 characters.');
+  const [usernameAvailabilityColor, setUsernameAvailabilityColor] = useState('#686868');
+  const [takenUsernames, setTakenUsernames] = useRecoilState(TakenUsernamesAtom);
+  const [takenEmails, setEmails] = useRecoilState(TakenEmailsAtom);
 
 
 
@@ -73,27 +79,32 @@ export const SighUpComponent = () => {
   const signInWithGoogle = async () => {
 
 
+
     signInWithPopup(auth, provider)
       .then((result) => {
 
+        if (takenEmails.includes(result.user.email)) {
+          navigate("/user-feed");
+          return;
+        } else {
+          const userData = {
+            userID: result.user.uid,
+            userName: userName,
+            displayName: result.user.displayName,
+            email: result.user.email,
+            profilePicture: result.user.photoURL,
+          };
 
-        const userData = {
-          userID: result.user.uid,
-          userName: userName,
-          displayName: result.user.displayName,
-          email: result.user.email,
-          profilePicture: result.user.photoURL,
-        };
+          Authentication(userData);
+
+          navigate("/user-feed");
+
+          setProfilePicture(result.user.photoURL);
+          setdisplayName(result.user.displayName);
+          setEmail(result.user.email);
+        }
 
 
-
-        Authentication(userData);
-
-        navigate("/user-feed");
-
-        setProfilePicture(result.user.photoURL);
-        setdisplayName(result.user.displayName);
-        setEmail(result.user.email);
 
       })
       .catch((error) => {
@@ -101,19 +112,42 @@ export const SighUpComponent = () => {
       });
   };
 
+  const handleUserNameLength = () => {
+    if (userName.length === 0) {
+      setUsernameAvailability('Name must be 3-15 characters.');
+      setDisabledBtn(true);
+      setUsernameAvailabilityColor('#686868');
+
+    } else if (userName.length < 3) {
+      setUsernameAvailability('Name is too short.');
+      setDisabledBtn(true);
+      setUsernameAvailabilityColor('#FF0000');
+    } else if (userName.length > 15) {
+      setUsernameAvailability('Name is too long.');
+      setDisabledBtn(true);
+      setUsernameAvailabilityColor('#FF0000');
+
+    } else if (takenUsernames.includes(userName)) {
+      setUsernameAvailability('Name is taken.');
+      setDisabledBtn(true);
+      setUsernameAvailabilityColor('#FF0000');
+    } else {
+      setUsernameAvailability('Name is available');
+      setDisabledBtn(false);
+      setUsernameAvailabilityColor('#00C138');
+
+    }
+  };
+
   useEffect(() => {
-    if (userName.length > 2) {
-      seteDisabledBtn(false);
-    }
-    else {
-      seteDisabledBtn(true);
-    }
+    handleUserNameLength();
+    activeEmails()
+      .then(result => setEmails(result));
+    activeUsernames()
+      .then(result => setTakenUsernames(result));
+
   }, [userName]);
 
-  useEffect(() => {
-    console.log(auth.currentUser);
-
-  }, [IsAuthentication]);
 
 
   return (
@@ -130,7 +164,7 @@ export const SighUpComponent = () => {
           <UserNameInput type="text" name="name" placeholder="Username" onChange={(e) => { setUserName(e.target.value); }} >
           </UserNameInput>
 
-          <h6>Name must be 3-15 characters.</h6>
+          <UserNameCheck color={usernameAvailabilityColor}>{usernameAvailability}</UserNameCheck>
 
 
           <img src={GoogleLogo} alt="" />
@@ -141,11 +175,11 @@ export const SighUpComponent = () => {
             <button onClick={signOutOfGoogle}>Sign out with Google</button>
           )}
 
-          <h4>Already signed up?</h4>
+          <h4 >Already signed up?</h4>
 
         </SignUpFormContainer>
 
-        <LoginButton>
+        <LoginButton onClick={signInWithGoogle}>
           <p> Login</p>
         </LoginButton>
 

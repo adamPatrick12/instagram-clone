@@ -5,6 +5,10 @@ interface DisabledProp {
   isDisabled?: boolean;
 }
 
+interface colorProp {
+  color?: string;
+}
+
 export const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -51,7 +55,6 @@ export const SignUpFormContainer = styled.div<DisabledProp>`
     font-size: 11px;
     margin-left: 16px;
     font-family: Helvetica, sans-serif;
-    color: #686868;
     font-weight: 100;
     align-self: left;
   }
@@ -125,6 +128,10 @@ export const SignUpWithGoogleButton = styled.button<DisabledProp>`
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
       0 0 0 3px #c8dafc;
   }
+`;
+
+export const UserNameCheck = styled.h6<colorProp>`
+  color: ${(props) => props.color};
 `;
 
 export const LoginButton = styled.button`

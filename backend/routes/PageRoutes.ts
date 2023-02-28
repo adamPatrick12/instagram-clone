@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const createProfileController = require("../controllers/createProfileController.ts");
 const createPostController = require("../controllers/createPostController.ts");
-const getUsernameController = require("../controllers/getUserInfo.ts");
+const getUserInfo = require("../controllers/getUserInfo.ts");
+const getUsernameAndEmail = require("../controllers/getUsernameEmail.ts");
 
 router.get("/", (req, res) => {
   res.send("Server is running");
@@ -18,8 +19,12 @@ router.post("/new-post", createPostController.create_new_post);
 
 router.get("/user-feed", createPostController.get_feed_posts);
 
-//get username
+//get user_info
 
-router.get("/user/:uid", getUsernameController.get_user_info);
+router.get("/user/:uid", getUserInfo.get_user_profile_info);
+
+//get user_info
+
+router.get("/usernames", getUsernameAndEmail.get_user_names);
 
 module.exports = router;

@@ -52,8 +52,6 @@ export const UserFeed = () => {
 
     useEffect(() => {
         fetchUserFeed();
-        console.log('profilePicture');
-
     }, []);
 
 

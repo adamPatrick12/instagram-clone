@@ -25,11 +25,8 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
 
 
     const handledLoadingImage = (event: SyntheticEvent<HTMLImageElement> | undefined) => {
-
         setLoadingState(false);
         setloadingStateClass('loaded');
-
-
     };
 
 

@@ -30,6 +30,7 @@ export const checkAuth = async () => {
         setUniqueIdentifier(user?.uid);
 
 
+
         await fetch(`http://localhost:3030/instagram-clone/user/${user?.uid}`)
           .then((response) => response.json())
           .then(((data) =>

@@ -54,7 +54,6 @@ exports.get_feed_posts = [
           post.imageKey = url;
         }
         res.send(list_post);
-        console.log(list_post);
       });
   },
 ];
@@ -62,11 +61,6 @@ exports.get_feed_posts = [
 exports.create_new_post = [
   upload.single("NewPostImage"),
   async (req, res, next) => {
-    console.log("req.body", req.body);
-    console.log("userID", req.body.UserID);
-
-    console.log("req.file", req.file.buffer);
-
     const imageKey = randomImageKey();
 
     const params = {
