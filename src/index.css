@@ -16,3 +16,15 @@ html {
 .loaded {
   display: block;
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.homeIcon {
+  font-size: 24px;
+}
+
+.userIcon {
+  font-size: 26px;
+}

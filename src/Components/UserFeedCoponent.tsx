@@ -1,5 +1,5 @@
 import {
-    PageContainer,
+    FeedDataContainer,
     UserContainer,
     UserInfoCardContainer,
     UserProfileContainer,
@@ -9,14 +9,15 @@ import {
     UserFollowingContainer,
     ProfileNumberContainer,
     TextDescription,
-    AddIcon
+    AddIcon,
+    PageContainer
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
 import UserPost from './UserPostComponent';
 
 import { useNavigate } from "react-router";
 
-import { auth, provider } from "../Firebase/FirebaseConfig";
+import NavBar from './Navbar';
 
 import {
     userNameAtom,
@@ -25,13 +26,16 @@ import {
 } from "../Atoms/AuthenticationAtom";
 
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useMemo, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
 import { UserPostsCount } from '../Atoms/UserProfileAtoms';
+import { HomePageIconAtom } from '../Atoms/Navbar';
 
 
 export const UserFeed = () => {
+
+
 
     const [postData, setPostData] = useState([]);
     const userName = useRecoilValue(userNameAtom);
@@ -39,7 +43,9 @@ export const UserFeed = () => {
     const profilePicture = useRecoilValue(profilePictureAtom);
     const navigate = useNavigate();
     const numberOfPosts = useRecoilValue(UserPostsCount);
+    const setHomePageIcon = useSetRecoilState(HomePageIconAtom);
 
+    setHomePageIcon(true);
 
 
     const fetchUserFeed = async () => {
@@ -61,64 +67,67 @@ export const UserFeed = () => {
 
     return (
         <PageContainer>
-            <div className='UserPostContainer'>
+            <NavBar />
+            <FeedDataContainer>
+                <div className='UserPostContainer'>
 
-                {postData.map((data) => {
-                    return (
-                        <UserPost key={data['date']}
-                            ImageURl={data['imageKey']}
-                            userName={data['user']['userName']}
-                            displayName={data['user']['displayName']}
-                            profilePicture={data['user']['profilePicture']}
-                        />
-                    );
-                })}
-
-            </div>
-            <UserContainer>
-                <UserInfoCardContainer>
-                    <UserProfileContainer>
-                        <img src={profilePicture} alt="" />
-                        <UserNameContainer>
-                            <DisplayName>{displayName}</DisplayName>
-                            <UserName>@{userName}</UserName>
-                        </UserNameContainer>
-                    </UserProfileContainer>
-                    <UserFollowingContainer>
-                        <ProfileNumberContainer>
-                            <p>
-                                0
-                            </p>
-                            <TextDescription>
-                                Following
-                            </TextDescription>
-                        </ProfileNumberContainer>
-                        <ProfileNumberContainer>
-                            <p>
-                                0
-                            </p>
-                            <TextDescription>
-                                Following
-                            </TextDescription>
-                        </ProfileNumberContainer>
-                        <ProfileNumberContainer>
-                            <p>
-                                {numberOfPosts}
-                            </p>
-                            <TextDescription>
-                                Posts
-                            </TextDescription>
-                        </ProfileNumberContainer>
-                        <ProfileNumberContainer>
-                            <AddIcon />
-                            <TextDescription onClick={() => { navigate("/new-post"); }}>
-                                New Post
-                            </TextDescription>
-                        </ProfileNumberContainer>
-                    </UserFollowingContainer>
-                </UserInfoCardContainer>
-            </UserContainer>
+                    {postData.map((data) => {
+                        return (
+                            <UserPost key={data['date']}
+                                ImageURl={data['imageKey']}
+                                userName={data['user']['userName']}
+                                displayName={data['user']['displayName']}
+                                profilePicture={data['user']['profilePicture']}
+                            />
+                        );
+                    })}
+                </div>
+                <UserContainer>
+                    <UserInfoCardContainer>
+                        <UserProfileContainer>
+                            <img src={profilePicture} alt="" />
+                            <UserNameContainer>
+                                <DisplayName>{displayName}</DisplayName>
+                                <UserName>@{userName}</UserName>
+                            </UserNameContainer>
+                        </UserProfileContainer>
+                        <UserFollowingContainer>
+                            <ProfileNumberContainer>
+                                <p>
+                                    0
+                                </p>
+                                <TextDescription>
+                                    Following
+                                </TextDescription>
+                            </ProfileNumberContainer>
+                            <ProfileNumberContainer>
+                                <p>
+                                    0
+                                </p>
+                                <TextDescription>
+                                    Following
+                                </TextDescription>
+                            </ProfileNumberContainer>
+                            <ProfileNumberContainer>
+                                <p>
+                                    {numberOfPosts}
+                                </p>
+                                <TextDescription>
+                                    Posts
+                                </TextDescription>
+                            </ProfileNumberContainer>
+                            <ProfileNumberContainer>
+                                <AddIcon />
+                                <TextDescription onClick={() => { navigate("/new-post"); }}>
+                                    New Post
+                                </TextDescription>
+                            </ProfileNumberContainer>
+                        </UserFollowingContainer>
+                    </UserInfoCardContainer>
+                </UserContainer>
+            </FeedDataContainer>
         </PageContainer>
+
     );
 };
 

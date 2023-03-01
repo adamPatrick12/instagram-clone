@@ -2,7 +2,12 @@ import styled from "styled-components";
 import { AddCircle } from "@styled-icons/fluentui-system-regular/AddCircle";
 
 export const PageContainer = styled.div`
-  margin: 40px 0 0 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const FeedDataContainer = styled.div`
+  margin: 100px 0 0 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
