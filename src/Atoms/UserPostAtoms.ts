@@ -4,3 +4,13 @@ export const UserFeedAtom = atom<[]>({
   key: "userImageState",
   default: [],
 });
+
+export const PostIdAtom = atom<string>({
+  key: "postIdState",
+  default: "",
+});
+
+export const UserCommentAtom = atom<string>({
+  key: "userCommentState",
+  default: "",
+});

@@ -6,20 +6,17 @@ import { userPostCaptionAtom } from "../Atoms/NewUserPostAtoms";
 import { auth } from "../Firebase/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { checkAuth } from "../Hooks/useCheckAuth";
-import { ObjectIDAtom } from "../Atoms/AuthenticationAtom";
+import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 
 
 const NewPostComponent = () => {
-    const userObjectID = useRecoilValue(ObjectIDAtom);
+    const userObjectID = useRecoilValue(UserObjectIDAtom);
     const [userPostImage, setPostImage] = useRecoilState(userPostImageFileAtom);
     const [userPostCaption, setUserPostCaption] = useRecoilState(userPostCaptionAtom);
     const navigate = useNavigate();
 
 
     checkAuth();
-
-    console.log(userObjectID);
-
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -36,11 +33,6 @@ const NewPostComponent = () => {
 
         navigate('/user-feed');
     };
-
-
-
-
-
 
 
     useEffect(() => {

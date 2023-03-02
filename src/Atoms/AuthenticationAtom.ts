@@ -38,7 +38,7 @@ export const uuidAtom = atom<string>({
   default: "",
 });
 
-export const ObjectIDAtom = atom<any>({
+export const UserObjectIDAtom = atom<string>({
   key: "objectID",
   default: "",
 });

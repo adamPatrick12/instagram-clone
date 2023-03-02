@@ -22,8 +22,6 @@ export const activeEmails = async () => {
 
   const fetchActiveUsernames = await fetchUsernames();
 
-  console.log(fetchActiveUsernames);
-
   fetchActiveUsernames.map((data: User) => {
     emailsInUse.push(data.email);
   });

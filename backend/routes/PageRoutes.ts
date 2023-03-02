@@ -4,6 +4,7 @@ const createProfileController = require("../controllers/createProfileController.
 const createPostController = require("../controllers/createPostController.ts");
 const getUserInfo = require("../controllers/getUserInfo.ts");
 const getUsernameAndEmail = require("../controllers/getUsernameEmail.ts");
+const createNewComment = require("../controllers/createNewCommentController.ts");
 
 router.get("/", (req, res) => {
   res.send("Server is running");
@@ -26,5 +27,9 @@ router.get("/user/:uid", getUserInfo.get_user_profile_info);
 //get user_info
 
 router.get("/usernames", getUsernameAndEmail.get_user_names);
+
+//Create new comment
+
+router.post("/post-comment", createNewComment.create_new_comment);
 
 module.exports = router;

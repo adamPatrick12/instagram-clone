@@ -23,8 +23,10 @@ body::-webkit-scrollbar {
 
 .homeIcon {
   font-size: 24px;
+  cursor: pointer;
 }
 
 .userIcon {
   font-size: 26px;
+  cursor: pointer;
 }

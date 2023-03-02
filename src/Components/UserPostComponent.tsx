@@ -7,9 +7,9 @@ import {
     DownloadButton, LinkButton,
     CommnetStatus, CommentSection,
     Likes, CommentInputContianer,
-    CommentInputBox, SubmitCommentButton
+    CommentInputBox, SubmitCommentButton,
+    CommentCard
 } from "../Styles/UserFeedPage/UserPostStyles";
-
 
 import { UserName } from "../Styles/UserFeedPage/UserFeedStyles";
 
@@ -17,11 +17,23 @@ import { SyntheticEvent, useState } from 'react';
 
 import { Skeleton } from 'antd';
 
+import { useEffect } from "react";
 
-const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
+import { PostIdAtom, UserCommentAtom } from "../Atoms/UserPostAtoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { PostComment } from "../api/postComment";
+import { checkAuth } from "../Hooks/useCheckAuth";
+import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
+
+const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments }: any) => {
+
+    checkAuth();
 
     const [loading, setLoadingState] = useState(true);
     const [loadingStateClass, setloadingStateClass] = useState('isLoading');
+    const [postID, setPostId] = useRecoilState(PostIdAtom);
+    const [userComment, setUserComment] = useRecoilState(UserCommentAtom);
+    const userObjectID = useRecoilValue(UserObjectIDAtom);
 
 
     const handledLoadingImage = (event: SyntheticEvent<HTMLImageElement> | undefined) => {
@@ -29,10 +41,26 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
         setloadingStateClass('loaded');
     };
 
+    const submitComment = () => {
+        const userCommentData = {
+            userComment: userComment,
+            userID: userObjectID,
+            postID: postID
+        };
+        PostComment(userCommentData);
+    };
+
+    console.log(comments);
+
+    useEffect(() => {
+
+
+    }, [userComment]);
+
 
 
     return (
-        <UserPostCardContainer>
+        <UserPostCardContainer >
             <UserPostHeader>
                 <UserInfoContainer>
                     <img src={profilePicture} />
@@ -59,11 +87,26 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture }: any) => {
                     <LinkButton />
                 </PostIconContainer>
                 <Likes>1 Like</Likes>
-                <CommnetStatus>No Comments</CommnetStatus>
-                <CommentSection></CommentSection>
+                {comments.length === 0 ?
+                    <CommnetStatus>No Comments</CommnetStatus>
+                    : <CommnetStatus>View All Comments</CommnetStatus>}
+                <CommentSection>
+                    {comments.map((data: any) => {
+                        return <CommentCard>
+                            <span> {data.user.displayName} </span>
+                            {data.comment}</CommentCard>;
+                    })}
+                </CommentSection>
                 <CommentInputContianer>
-                    <CommentInputBox placeholder="Add Comment..."></CommentInputBox>
-                    <SubmitCommentButton />
+                    <CommentInputBox
+                        value={userComment}
+                        onClick={() => setPostId(imageID)}
+                        onChange={(e) => { setUserComment(e.target.value); }} placeholder="Add Comment..."></CommentInputBox>
+                    <SubmitCommentButton
+                        onClick={() => {
+                            submitComment();
+                            setUserComment('');
+                        }} />
                 </CommentInputContianer>
             </UserPostFooter>
         </UserPostCardContainer>

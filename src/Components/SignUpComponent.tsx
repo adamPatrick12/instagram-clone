@@ -66,12 +66,9 @@ export const SighUpComponent = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
-
-
     })
       .catch(error => {
         console.log(error);
-
         return;
       });
   };
@@ -103,9 +100,6 @@ export const SighUpComponent = () => {
           setdisplayName(result.user.displayName);
           setEmail(result.user.email);
         }
-
-
-
       })
       .catch((error) => {
         console.log(error);
@@ -117,7 +111,6 @@ export const SighUpComponent = () => {
       setUsernameAvailability('Name must be 3-15 characters.');
       setDisabledBtn(true);
       setUsernameAvailabilityColor('#686868');
-
     } else if (userName.length < 3) {
       setUsernameAvailability('Name is too short.');
       setDisabledBtn(true);
@@ -126,7 +119,6 @@ export const SighUpComponent = () => {
       setUsernameAvailability('Name is too long.');
       setDisabledBtn(true);
       setUsernameAvailabilityColor('#FF0000');
-
     } else if (takenUsernames.includes(userName)) {
       setUsernameAvailability('Name is taken.');
       setDisabledBtn(true);

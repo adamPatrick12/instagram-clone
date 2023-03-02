@@ -145,14 +145,25 @@ export const Likes = styled.div`
 
 export const CommnetStatus = styled.div`
   font-size: 0.85rem;
-  padding: 10px 1.9em;
+  padding: 10px 1.9em 0px;
   color: #686868;
 `;
 
 export const CommentSection = styled.div`
   height: 48px;
   width: 90%;
-  margin: 2px 1.25em;
+  margin: 2px 1.45em 8px;
+`;
+
+export const CommentCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 2px;
+
+  span {
+    margin-right: 5px;
+    font-weight: 700;
+  }
 `;
 
 export const CommentInputContianer = styled.div`
@@ -175,4 +186,5 @@ export const SubmitCommentButton = styled(Send)`
   height: 1em;
   width: 1em;
   margin-top: 10px;
+  cursor: pointer;
 `;

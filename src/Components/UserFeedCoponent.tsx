@@ -35,8 +35,6 @@ import { HomePageIconAtom } from '../Atoms/Navbar';
 
 export const UserFeed = () => {
 
-
-
     const [postData, setPostData] = useState([]);
     const userName = useRecoilValue(userNameAtom);
     const displayName = useRecoilValue(displayNameAtom);
@@ -45,7 +43,6 @@ export const UserFeed = () => {
     const numberOfPosts = useRecoilValue(UserPostsCount);
     const setHomePageIcon = useSetRecoilState(HomePageIconAtom);
 
-    setHomePageIcon(true);
 
 
     const fetchUserFeed = async () => {
@@ -53,20 +50,18 @@ export const UserFeed = () => {
             .then((response) => response.json())
             .then(((data) => setPostData(data)
             ));
-
     };
 
     useEffect(() => {
         fetchUserFeed();
+        setHomePageIcon(true);
     }, []);
 
 
     checkAuth();
 
-
-
     return (
-        <PageContainer>
+        <PageContainer onMouseEnter={() => setHomePageIcon(true)}>
             <NavBar />
             <FeedDataContainer>
                 <div className='UserPostContainer'>
@@ -78,6 +73,9 @@ export const UserFeed = () => {
                                 userName={data['user']['userName']}
                                 displayName={data['user']['displayName']}
                                 profilePicture={data['user']['profilePicture']}
+                                comments={data['comments']}
+                                imageID={data['_id']
+                                }
                             />
                         );
                     })}

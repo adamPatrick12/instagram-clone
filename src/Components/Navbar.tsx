@@ -18,7 +18,6 @@ const NavBar: React.FC = () => {
     const [homePageActive, setHomePageActive] = useRecoilState(HomePageIconAtom);
     const [profilePageActive, setprofilePageActive] = useRecoilState(ProfilePageIconAtom);
 
-    console.log(homePageActive);
 
 
     return (

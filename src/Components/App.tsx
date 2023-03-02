@@ -2,7 +2,7 @@ import { SighUpComponent } from "./SignUpComponent";
 import UserFeed from './UserFeedCoponent';
 import NewPostComponent from "./NewPosComponent";
 import { Route, Routes } from "react-router-dom";
-import UserProfile from './Profile';
+import UserProfile from './ProfileComponent';
 
 const App = () => {
     return (
