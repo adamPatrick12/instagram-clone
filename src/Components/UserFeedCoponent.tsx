@@ -31,6 +31,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
 import { UserPostsCount } from '../Atoms/UserProfileAtoms';
 import { HomePageIconAtom } from '../Atoms/Navbar';
+import { UpdateCommentSectionAtom } from '../Atoms/UserPostAtoms';
 
 
 export const UserFeed = () => {
@@ -42,7 +43,8 @@ export const UserFeed = () => {
     const navigate = useNavigate();
     const numberOfPosts = useRecoilValue(UserPostsCount);
     const setHomePageIcon = useSetRecoilState(HomePageIconAtom);
-
+    const [render, setRender] = useState(0);
+    const updateComments = useRecoilValue(UpdateCommentSectionAtom);
 
 
     const fetchUserFeed = async () => {
@@ -55,7 +57,7 @@ export const UserFeed = () => {
     useEffect(() => {
         fetchUserFeed();
         setHomePageIcon(true);
-    }, []);
+    }, [updateComments]);
 
 
     checkAuth();
@@ -99,7 +101,7 @@ export const UserFeed = () => {
                                 </TextDescription>
                             </ProfileNumberContainer>
                             <ProfileNumberContainer>
-                                <p>
+                                <p >
                                     0
                                 </p>
                                 <TextDescription>
@@ -124,7 +126,7 @@ export const UserFeed = () => {
                     </UserInfoCardContainer>
                 </UserContainer>
             </FeedDataContainer>
-        </PageContainer>
+        </PageContainer >
 
     );
 };

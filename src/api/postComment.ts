@@ -1,6 +1,6 @@
 interface UserComment {
   userComment: String;
-  userID: String;
+  postID: String;
 }
 
 export const PostComment = async (userComment: UserComment) => {

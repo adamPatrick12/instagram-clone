@@ -21,6 +21,7 @@ export const checkAuth = async () => {
   const setUniqueIdentifier = useSetRecoilState(uuidAtom);
   const setNumberOfPosts = useSetRecoilState(UserPostsCount);
 
+
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
 

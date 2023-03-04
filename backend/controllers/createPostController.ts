@@ -35,22 +35,10 @@ const s3 = new S3Client({
 });
 
 exports.get_feed_posts = [
-  (req, res, next) => {
-    UserPost.find()
+  async (req, res, next) => {
+    await UserPost.find()
       .sort({ _id: -1 })
       .populate("user", "userName displayName profilePicture") //populating user info who posted
-      .populate("comments") // populating comments on post
-      .populate({
-        path: "comments", // populating users who posted on post
-        options: {
-          limit: 2,
-          sort: { _id: -1 },
-        },
-        populate: {
-          path: "user",
-          model: "User",
-        },
-      })
       .exec(async (err, list_post) => {
         if (err) {
           return next(err);

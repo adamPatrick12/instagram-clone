@@ -18,8 +18,7 @@ const PostSchema = new Schema({
   },
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comments",
+      type: Object,
     },
   ],
   likes: [

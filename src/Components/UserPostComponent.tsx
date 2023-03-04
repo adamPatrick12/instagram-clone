@@ -17,13 +17,15 @@ import { SyntheticEvent, useState } from 'react';
 
 import { Skeleton } from 'antd';
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { PostIdAtom, UserCommentAtom } from "../Atoms/UserPostAtoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { PostComment } from "../api/postComment";
 import { checkAuth } from "../Hooks/useCheckAuth";
 import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
+import { UpdateCommentSectionAtom } from "../Atoms/UserPostAtoms";
+import { profilePictureAtom, displayNameAtom } from "../Atoms/AuthenticationAtom";
 
 const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments }: any) => {
 
@@ -34,6 +36,11 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
     const [postID, setPostId] = useRecoilState(PostIdAtom);
     const [userComment, setUserComment] = useRecoilState(UserCommentAtom);
     const userObjectID = useRecoilValue(UserObjectIDAtom);
+    const [disabledStatus, setDisabledStatus] = useState(true);
+    const [updateComments, setUpdateComments] = useRecoilState(UpdateCommentSectionAtom);
+    const time: number = 500;
+    const currentUserProfilePic = useRecoilValue(profilePictureAtom);
+    const currentUserDisplayname = useRecoilValue(displayNameAtom);
 
 
     const handledLoadingImage = (event: SyntheticEvent<HTMLImageElement> | undefined) => {
@@ -44,20 +51,35 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
     const submitComment = () => {
         const userCommentData = {
             userComment: userComment,
-            userID: userObjectID,
-            postID: postID
+            postID: postID,
+            profilePicture: currentUserProfilePic,
+            userName: currentUserDisplayname,
         };
         PostComment(userCommentData);
+
+        setTimeout(() => {
+            if (updateComments) {
+                setUpdateComments(false);
+            } else {
+                setUpdateComments(true);
+            }
+        }, time);
     };
 
-    console.log(comments);
-
     useEffect(() => {
-
-
+        if (userComment.length === 0) {
+            setDisabledStatus(true);
+        } else {
+            setDisabledStatus(false);
+        }
     }, [userComment]);
 
+    const currentComments = comments;
 
+    const reverseComments = [...currentComments];
+
+
+    console.log(reverseComments);
 
     return (
         <UserPostCardContainer >
@@ -91,10 +113,10 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                     <CommnetStatus>No Comments</CommnetStatus>
                     : <CommnetStatus>View All Comments</CommnetStatus>}
                 <CommentSection>
-                    {comments.map((data: any) => {
-                        return <CommentCard>
-                            <span> {data.user.displayName} </span>
-                            {data.comment}</CommentCard>;
+                    {[...comments].reverse().slice(0, 2).map((data: any, index: any) => {
+                        return <CommentCard key={index}>
+                            <span> {data.userName} </span>
+                            {data.userComment}</CommentCard>;
                     })}
                 </CommentSection>
                 <CommentInputContianer>
@@ -103,6 +125,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                         onClick={() => setPostId(imageID)}
                         onChange={(e) => { setUserComment(e.target.value); }} placeholder="Add Comment..."></CommentInputBox>
                     <SubmitCommentButton
+                        isDisabled={disabledStatus}
                         onClick={() => {
                             submitComment();
                             setUserComment('');

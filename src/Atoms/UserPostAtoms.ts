@@ -14,3 +14,8 @@ export const UserCommentAtom = atom<string>({
   key: "userCommentState",
   default: "",
 });
+
+export const UpdateCommentSectionAtom = atom<boolean>({
+  key: "UpdateCommentState",
+  default: false,
+});
