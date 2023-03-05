@@ -26,8 +26,12 @@ import { checkAuth } from "../Hooks/useCheckAuth";
 import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 import { UpdateCommentSectionAtom } from "../Atoms/UserPostAtoms";
 import { profilePictureAtom, displayNameAtom } from "../Atoms/AuthenticationAtom";
+import { useNavigate } from "react-router";
+
 
 const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments }: any) => {
+
+    const navigate = useNavigate();
 
     checkAuth();
 
@@ -74,12 +78,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         }
     }, [userComment]);
 
-    const currentComments = comments;
 
-    const reverseComments = [...currentComments];
-
-
-    console.log(reverseComments);
 
     return (
         <UserPostCardContainer >
@@ -98,7 +97,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                     <Skeleton.Image style={{ width: 560, height: 500, position: 'absolute', top: 20 }} active={true} />
                 </div>
             }
-            <img src={ImageURl} onLoad={(handledLoadingImage)} alt="" />
+            <img onClick={() => navigate(`/user-post/${imageID}`)} src={ImageURl} onLoad={(handledLoadingImage)} alt="" />
             <UserPostFooter>
                 <PostIconContainer>
                     <InteractIcons>

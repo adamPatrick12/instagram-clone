@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
 
     return (
         <NavbarContainer>
-            <InstagramLogo>
+            <InstagramLogo onClick={() => navigate('/user-feed')}>
                 <img src={InstagramImg} alt="" />
                 <h2>Instagram</h2>
             </InstagramLogo>

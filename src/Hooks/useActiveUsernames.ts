@@ -26,7 +26,5 @@ export const activeEmails = async () => {
     emailsInUse.push(data.email);
   });
 
-  console.log(emailsInUse);
-
   return emailsInUse;
 };

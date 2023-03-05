@@ -17,6 +17,7 @@ export const InstagramLogo = styled.div`
   display: flex;
   align-items: center;
   padding: 0 3em;
+  cursor: pointer;
 
   img {
     width: 30px;

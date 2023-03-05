@@ -6,7 +6,6 @@ exports.get_user_profile_info = [
       .populate("posts")
       .exec((err, user) => {
         res.send(user);
-        console.log(user);
       });
   },
 ];

@@ -58,6 +58,32 @@ exports.get_feed_posts = [
   },
 ];
 
+exports.get_single_post = [
+  async (req, res, next) => {
+    console.log(req.params.postID);
+
+    await UserPost.find({ _id: req.params.postID })
+      .populate("user", "userName displayName profilePicture") //populating user info who posted
+      .exec(async (err, list_post) => {
+        if (err) {
+          return next(err);
+        }
+        for (const post of list_post) {
+          const getObjectParams = {
+            Bucket: bucket_name,
+            Key: post.imageKey,
+          };
+
+          const command = new GetObjectCommand(getObjectParams);
+          const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          post.imageKey = url;
+        }
+        res.send(list_post);
+        console.log(list_post);
+      });
+  },
+];
+
 exports.create_new_post = [
   upload.single("NewPostImage"),
   async (req, res, next) => {
