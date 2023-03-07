@@ -42,7 +42,7 @@ export const CardContainer = styled.div`
 export const PostSideBarTopContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100px;
+  height: 125px;
   margin: 0 1.25em;
   padding: 1.2rem 0;
   justify-content: center;
@@ -54,13 +54,122 @@ export const PostSideBarMiddleContainer = styled.div`
   display: flex;
   flex-direction: row;
   height: 315px;
-  border: 1px solid red;
+  border-top: 1px solid #888;
   margin: 1em 1.25em;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const PostSideBarBottomContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 7em;
   padding: 0 1.25em;
-  border: 1px solid red;
+`;
+
+export const Caption = styled.div`
+  margin-top: 1rem;
+  font-size: 1rem;
+  word-break: normal;
+  color: #888;
+`;
+
+export const CommentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 10%;
+  width: 100%;
+  word-break: break-all;
+`;
+
+export const UserProfilePic = styled.div`
+  img {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+    cursor: pointer;
+    margin-right: 7px;
+  }
+`;
+
+export const UserComment = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 14px 0;
+
+  h5 {
+    padding-right: 7px;
+    font-size: 13.5px;
+  }
+
+  span {
+    font-size: 13.5px;
+    text-align: left;
+  }
+`;
+
+export const UserInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 4px;
+  width: 100%;
+`;
+
+export const PostedDate = styled.div`
+  color: #888;
+  font-size: 13.5px;
+  padding-right: 4px;
+  padding-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+export const Comment = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const IconContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const LikesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+`;
+
+export const Likes = styled.div`
+  cursor: pointer;
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: left;
+`;
+
+export const CommentInputTextContianer = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #888;
 `;

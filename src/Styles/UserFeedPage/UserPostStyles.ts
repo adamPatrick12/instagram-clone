@@ -27,6 +27,7 @@ export const UserPostCardContainer = styled.div<loadedProp>`
     margin-bottom: -5px;
     margin-bottom: -4px;
     display: ${(props) => (props.isLoaded ? "#ebebeb" : "white")};
+    cursor: pointer;
   }
 
   @media (max-width: 855px) {
@@ -34,6 +35,7 @@ export const UserPostCardContainer = styled.div<loadedProp>`
       width: 340px;
       height: 340px;
       margin-bottom: -5px;
+      cursor: pointer;
     }
 
     width: 340px;
@@ -125,6 +127,7 @@ export const CommentButton = styled(Comment)`
   height: 1.7em;
   margin: 0 7px 0 0;
   padding-top: 1.5px;
+  cursor: pointer;
 `;
 
 export const DownloadButton = styled(Download)`
@@ -173,7 +176,7 @@ export const CommentCard = styled.div`
 export const CommentInputContianer = styled.div`
   display: flex;
   flex-direction: row;
-  border-top: 1px solid black;
+  border-top: 1px solid #888;
   margin: 0 20px 20px 20px;
 `;
 

@@ -30,9 +30,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useMemo, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
 import { UserPostsCount } from '../Atoms/UserProfileAtoms';
-import { HomePageIconAtom } from '../Atoms/Navbar';
+import { HomePageIconAtom, ProfilePageIconAtom } from '../Atoms/Navbar';
 import { UpdateCommentSectionAtom } from '../Atoms/UserPostAtoms';
-
 
 export const UserFeed = () => {
 
@@ -45,6 +44,7 @@ export const UserFeed = () => {
     const setHomePageIcon = useSetRecoilState(HomePageIconAtom);
     const [render, setRender] = useState(0);
     const updateComments = useRecoilValue(UpdateCommentSectionAtom);
+    const setProfilePageIcon = useSetRecoilState(ProfilePageIconAtom);
 
 
     const fetchUserFeed = async () => {
@@ -57,13 +57,20 @@ export const UserFeed = () => {
     useEffect(() => {
         fetchUserFeed();
         setHomePageIcon(true);
+        setProfilePageIcon(false);
+
     }, [updateComments]);
 
 
     checkAuth();
 
+
+
+
     return (
-        <PageContainer onMouseEnter={() => setHomePageIcon(true)}>
+        <PageContainer onMouseEnter={() => {
+            setHomePageIcon(true);
+        }}>
             <NavBar />
             <FeedDataContainer>
                 <div className='UserPostContainer'>

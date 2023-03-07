@@ -27,6 +27,7 @@ import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 import { UpdateCommentSectionAtom } from "../Atoms/UserPostAtoms";
 import { profilePictureAtom, displayNameAtom } from "../Atoms/AuthenticationAtom";
 import { useNavigate } from "react-router";
+import { emojisplosion } from "emojisplosion";
 
 
 const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments }: any) => {
@@ -70,6 +71,9 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         }, time);
     };
 
+    console.log(postID);
+
+
     useEffect(() => {
         if (userComment.length === 0) {
             setDisabledStatus(true);
@@ -77,6 +81,19 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
             setDisabledStatus(false);
         }
     }, [userComment]);
+
+
+    const handleUserComment = (userComment: any) => {
+
+        const commentLength = userComment.length;
+        let comment = userComment;
+
+        if (commentLength > 50) {
+            comment = comment.slice(0, 50);
+            comment = comment.concat('...');
+        }
+        return comment;
+    };
 
 
 
@@ -102,7 +119,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                 <PostIconContainer>
                     <InteractIcons>
                         <LikeButton />
-                        <CommentButton />
+                        <CommentButton onClick={() => navigate(`/user-post/${imageID}`)} />
                         <DownloadButton />
                     </InteractIcons>
                     <LinkButton />
@@ -110,12 +127,14 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                 <Likes>1 Like</Likes>
                 {comments.length === 0 ?
                     <CommnetStatus>No Comments</CommnetStatus>
-                    : <CommnetStatus>View All Comments</CommnetStatus>}
+                    : <CommnetStatus style={{ cursor: "pointer" }} onClick={() => navigate(`/user-post/${imageID}`)}>
+                        View All Comments</CommnetStatus>}
                 <CommentSection>
                     {[...comments].reverse().slice(0, 2).map((data: any, index: any) => {
                         return <CommentCard key={index}>
                             <span> {data.userName} </span>
-                            {data.userComment}</CommentCard>;
+
+                            {handleUserComment(data.userComment)}</CommentCard>;
                     })}
                 </CommentSection>
                 <CommentInputContianer>

@@ -1,6 +1,8 @@
 interface UserComment {
   userComment: String;
-  postID: String;
+  postID: String | undefined;
+  profilePicture: String;
+  userName: String | null | undefined;
 }
 
 export const PostComment = async (userComment: UserComment) => {
