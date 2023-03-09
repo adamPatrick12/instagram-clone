@@ -150,7 +150,7 @@ export const SighUpComponent = () => {
           Sign Up
         </SignUpHeader>
 
-        <SignUpFormContainer isDisabled={disabledBtn}>
+        <SignUpFormContainer isdisabled={disabledBtn}>
 
           <UserNameSymbol />
           <UserNameInput type="text" name="name" placeholder="Username" onChange={(e) => { setUserName(e.target.value); }} >
@@ -161,7 +161,7 @@ export const SighUpComponent = () => {
 
           <img src={GoogleLogo} alt="" />
           {!IsAuthentication && (
-            <SignUpWithGoogleButton isDisabled={disabledBtn} onClick={signInWithGoogle} disabled={disabledBtn}>Sign up with Google</SignUpWithGoogleButton>
+            <SignUpWithGoogleButton isdisabled={disabledBtn} onClick={signInWithGoogle} disabled={disabledBtn}>Sign up with Google</SignUpWithGoogleButton>
           )}
           {true && (
             <button onClick={signOutOfGoogle}>Sign out with Google</button>

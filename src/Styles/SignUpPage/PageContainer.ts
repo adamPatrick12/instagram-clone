@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { AlternateEmail } from "@styled-icons/material-outlined/AlternateEmail";
 
 interface DisabledProp {
-  isDisabled?: boolean;
+  isdisabled?: boolean;
 }
 
 interface colorProp {
@@ -73,7 +73,7 @@ export const SignUpFormContainer = styled.div<DisabledProp>`
     top: 34%;
     right: 20%;
     filter: ${(props) =>
-      props.isDisabled ? "grayscale(100%)" : "grayscale(0%)"};
+      props.isdisabled ? "grayscale(100%)" : "grayscale(0%)"};
   }
 `;
 
@@ -107,13 +107,13 @@ export const SignUpWithGoogleButton = styled.button<DisabledProp>`
   width: 55%;
   border-radius: 16px;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: ${(props) => (props.isDisabled ? "#ebebeb" : "white")};
+  background-color: ${(props) => (props.isdisabled ? "#ebebeb" : "white")};
   color: #686868;
   font-size: 14px;
   font-weight: 500;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  cursor: ${(props) => (props.isDisabled ? "not-allowed" : "pointer")};
+  cursor: ${(props) => (props.isdisabled ? "not-allowed" : "pointer")};
 
   &:hover {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);

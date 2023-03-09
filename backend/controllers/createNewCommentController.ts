@@ -1,5 +1,4 @@
 const UserPost = require("../models/posts.ts");
-const Comments = require("../models/comments.ts");
 
 exports.create_new_comment = [
   async (req, res, next) => {

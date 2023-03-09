@@ -39,6 +39,7 @@ exports.get_feed_posts = [
     await UserPost.find()
       .sort({ _id: -1 })
       .populate("user", "userName displayName profilePicture") //populating user info who posted
+      .populate("likes", "userName")
       .exec(async (err, list_post) => {
         if (err) {
           return next(err);

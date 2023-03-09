@@ -58,7 +58,6 @@ export const UserFeed = () => {
         fetchUserFeed();
         setHomePageIcon(true);
         setProfilePageIcon(false);
-
     }, [updateComments]);
 
 
@@ -83,6 +82,7 @@ export const UserFeed = () => {
                                 displayName={data['user']['displayName']}
                                 profilePicture={data['user']['profilePicture']}
                                 comments={data['comments']}
+                                likes={data['likes']}
                                 imageID={data['_id']
                                 }
                             />

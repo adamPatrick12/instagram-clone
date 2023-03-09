@@ -8,8 +8,10 @@ import {
     CommnetStatus, CommentSection,
     Likes, CommentInputContianer,
     CommentInputBox, SubmitCommentButton,
-    CommentCard
+    CommentCard,
 } from "../Styles/UserFeedPage/UserPostStyles";
+
+import { motion } from "framer-motion";
 
 import { UserName } from "../Styles/UserFeedPage/UserFeedStyles";
 
@@ -17,20 +19,23 @@ import { SyntheticEvent, useState } from 'react';
 
 import { Skeleton } from 'antd';
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { PostIdAtom, UserCommentAtom } from "../Atoms/UserPostAtoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { PostComment } from "../api/postComment";
 import { checkAuth } from "../Hooks/useCheckAuth";
-import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
+import { userNameAtom, UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 import { UpdateCommentSectionAtom } from "../Atoms/UserPostAtoms";
 import { profilePictureAtom, displayNameAtom } from "../Atoms/AuthenticationAtom";
 import { useNavigate } from "react-router";
-import { emojisplosion } from "emojisplosion";
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { handleUserComment } from "../Hooks/handleUserComment";
+import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 
 
-const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments }: any) => {
+
+const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments, likes }: any) => {
 
     const navigate = useNavigate();
 
@@ -46,7 +51,20 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
     const time: number = 500;
     const currentUserProfilePic = useRecoilValue(profilePictureAtom);
     const currentUserDisplayname = useRecoilValue(displayNameAtom);
+    const [likedPicture, setLikedPicture] = useState(false);
+    const currentUserName = useRecoilValue(userNameAtom);
 
+    const listOfUserLikes = likes.map((data: any) => data.userName);
+
+    const reRenderPage = () => {
+        setTimeout(() => {
+            if (updateComments) {
+                setUpdateComments(false);
+            } else {
+                setUpdateComments(true);
+            }
+        }, time);
+    };
 
     const handledLoadingImage = (event: SyntheticEvent<HTMLImageElement> | undefined) => {
         setLoadingState(false);
@@ -62,17 +80,8 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         };
         PostComment(userCommentData);
 
-        setTimeout(() => {
-            if (updateComments) {
-                setUpdateComments(false);
-            } else {
-                setUpdateComments(true);
-            }
-        }, time);
+        reRenderPage();
     };
-
-    console.log(postID);
-
 
     useEffect(() => {
         if (userComment.length === 0) {
@@ -83,22 +92,8 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
     }, [userComment]);
 
 
-    const handleUserComment = (userComment: any) => {
-
-        const commentLength = userComment.length;
-        let comment = userComment;
-
-        if (commentLength > 50) {
-            comment = comment.slice(0, 50);
-            comment = comment.concat('...');
-        }
-        return comment;
-    };
-
-
-
     return (
-        <UserPostCardContainer >
+        <UserPostCardContainer onMouseOver={() => setPostId(imageID)}>
             <UserPostHeader>
                 <UserInfoContainer>
                     <img src={profilePicture} />
@@ -118,13 +113,34 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
             <UserPostFooter>
                 <PostIconContainer>
                     <InteractIcons>
-                        <LikeButton />
+                        {listOfUserLikes.includes(currentUserName) ?
+                            <motion.div
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}>
+                                <AiFillHeart onClick={() => {
+                                    setLikedPicture(false);
+                                    handleUnLikeClick(postID, userObjectID);
+                                    reRenderPage();
+                                }
+                                } className="like" />
+                            </motion.div> :
+                            <motion.div
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                            >
+                                <AiOutlineHeart className="notLiked" onClick={() => {
+                                    setLikedPicture(true);
+                                    handleLikeClick(postID, userObjectID);
+                                    reRenderPage();
+                                }} />
+                            </motion.div>}
+
                         <CommentButton onClick={() => navigate(`/user-post/${imageID}`)} />
                         <DownloadButton />
                     </InteractIcons>
                     <LinkButton />
                 </PostIconContainer>
-                <Likes>1 Like</Likes>
+                <Likes>{likes.length} Likes</Likes>
                 {comments.length === 0 ?
                     <CommnetStatus>No Comments</CommnetStatus>
                     : <CommnetStatus style={{ cursor: "pointer" }} onClick={() => navigate(`/user-post/${imageID}`)}>
@@ -143,7 +159,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                         onClick={() => setPostId(imageID)}
                         onChange={(e) => { setUserComment(e.target.value); }} placeholder="Add Comment..."></CommentInputBox>
                     <SubmitCommentButton
-                        isDisabled={disabledStatus}
+                        isdisabled={disabledStatus}
                         onClick={() => {
                             submitComment();
                             setUserComment('');

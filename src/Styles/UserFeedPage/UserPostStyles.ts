@@ -11,7 +11,7 @@ interface loadedProp {
 }
 
 interface DisabledProp {
-  isDisabled?: boolean;
+  isdisabled?: boolean;
 }
 
 export const UserPostCardContainer = styled.div<loadedProp>`
@@ -194,6 +194,6 @@ export const SubmitCommentButton = styled(Send)<DisabledProp>`
   width: 1em;
   margin-top: 10px;
   cursor: pointer;
-  pointer-events: ${(props) => (props.isDisabled ? "none" : null)};
-  color: ${(props) => (props.isDisabled ? "gray" : "black")};
+  pointer-events: ${(props) => (props.isdisabled ? "none" : null)};
+  color: ${(props) => (props.isdisabled ? "gray" : "black")};
 `;

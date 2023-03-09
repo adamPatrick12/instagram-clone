@@ -30,3 +30,20 @@ body::-webkit-scrollbar {
   font-size: 26px;
   cursor: pointer;
 }
+
+.like {
+  width: 1.7em;
+  height: 1.7em;
+  margin: 0 7px 0 0;
+  padding-top: 1.5px;
+  cursor: pointer;
+  color: red;
+}
+
+.notLiked {
+  width: 1.7em;
+  height: 1.7em;
+  margin: 0 7px 0 0;
+  padding-top: 1.5px;
+  cursor: pointer;
+}
