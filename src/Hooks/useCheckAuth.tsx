@@ -2,7 +2,6 @@ import { auth } from "../Firebase/FirebaseConfig";
 import { useSetRecoilState } from "recoil";
 
 import {
-  authenticationAtom,
   userNameAtom,
   displayNameAtom,
   profilePictureAtom,

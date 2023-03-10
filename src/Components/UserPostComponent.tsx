@@ -35,7 +35,7 @@ import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 
 
 
-const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments, likes }: any) => {
+const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, comments, likes, userID }: any) => {
 
     const navigate = useNavigate();
 
@@ -91,15 +91,20 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         }
     }, [userComment]);
 
-
     return (
         <UserPostCardContainer onMouseOver={() => setPostId(imageID)}>
             <UserPostHeader>
                 <UserInfoContainer>
-                    <img src={profilePicture} />
+                    <img src={profilePicture}
+                        onClick={() => navigate(`/user-profile/${userID}`)}
+                    />
                     <UserNameContainer>
-                        <DisplayName>{displayName}</DisplayName>
-                        <UserName>@{userName}</UserName>
+                        <DisplayName
+                            onClick={() => navigate(`/user-profile/${userID}`)}
+                        >{displayName}</DisplayName>
+                        <UserName
+                            onClick={() => navigate(`/user-profile/${userID}`)}
+                        >@{userName}</UserName>
                     </UserNameContainer>
                 </UserInfoContainer>
                 <MenuDots />

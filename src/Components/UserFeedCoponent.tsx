@@ -63,9 +63,6 @@ export const UserFeed = () => {
 
     checkAuth();
 
-
-
-
     return (
         <PageContainer onMouseEnter={() => {
             setHomePageIcon(true);
@@ -79,6 +76,7 @@ export const UserFeed = () => {
                             <UserPost key={data['date']}
                                 ImageURl={data['imageKey']}
                                 userName={data['user']['userName']}
+                                userID={data['user']['_id']}
                                 displayName={data['user']['displayName']}
                                 profilePicture={data['user']['profilePicture']}
                                 comments={data['comments']}

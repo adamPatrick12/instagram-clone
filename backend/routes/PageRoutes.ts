@@ -6,6 +6,7 @@ const getUserInfo = require("../controllers/getUserInfo.ts");
 const getUsernameAndEmail = require("../controllers/getUsernameEmail.ts");
 const createNewComment = require("../controllers/createNewCommentController.ts");
 const createNewLike = require("../controllers/createNewLikeController.ts");
+const getUserProfile = require("../controllers/getUserProfile.ts");
 
 router.get("/", (req, res) => {
   res.send("Server is running");
@@ -40,5 +41,9 @@ router.post("/post-comment", createNewComment.create_new_comment);
 router.post("/like-post", createNewLike.create_new_like);
 
 router.post("/unlike-post", createNewLike.create_new_unlike);
+
+router.post("/unlike-post", createNewLike.create_new_unlike);
+
+router.get("/user-profile/:profileID", getUserProfile.get_user_profile);
 
 module.exports = router;

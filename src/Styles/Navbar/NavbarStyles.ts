@@ -11,6 +11,7 @@ export const NavbarContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  z-index: 1000;
 `;
 
 export const InstagramLogo = styled.div`

@@ -3,13 +3,11 @@ import { NavbarContainer, InstagramLogo, InputContainer, NavbarIcons, UserIcon }
 import { Input, Tooltip } from 'antd';
 import { InfoCircleOutlined, UserOutlined, HomeOutlined, HomeFilled } from '@ant-design/icons';
 import InstagramImg from "../Images/instagram-logo.png";
-import { UserIconFilled } from "../Styles/Navbar/UserIcon";
-import { useState } from "react";
 import { HomePageIconAtom, ProfilePageIconAtom } from "../Atoms/Navbar";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { RiUserLine, RiUserFill } from 'react-icons/ri';
 import { useNavigate } from "react-router";
-
+import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 
 
 const NavBar: React.FC = () => {
@@ -17,6 +15,7 @@ const NavBar: React.FC = () => {
     const navigate = useNavigate();
     const [homePageActive, setHomePageActive] = useRecoilState(HomePageIconAtom);
     const [profilePageActive, setprofilePageActive] = useRecoilState(ProfilePageIconAtom);
+    const userObjectID = useRecoilValue(UserObjectIDAtom);
 
 
 
@@ -39,7 +38,7 @@ const NavBar: React.FC = () => {
             </InputContainer>
             <NavbarIcons>
                 {homePageActive ? <HomeFilled onMouseLeave={() => setHomePageActive(false)} onClick={() => navigate("/user-feed")} className="homeIcon" /> : <HomeOutlined onMouseEnter={() => setHomePageActive(true)} className="homeIcon" />}
-                {profilePageActive ? <RiUserFill onClick={() => navigate("/user-profile")} className="userIcon" onMouseLeave={() => setprofilePageActive(false)} /> :
+                {profilePageActive ? <RiUserFill onClick={() => navigate(`/user-profile/${userObjectID}`)} className="userIcon" onMouseLeave={() => setprofilePageActive(false)} /> :
                     <RiUserLine className="userIcon" onMouseEnter={() => setprofilePageActive(true)}
 
                     />}
