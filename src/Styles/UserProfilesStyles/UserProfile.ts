@@ -45,7 +45,7 @@ export const ProfileTopSection = styled.div`
   }
 `;
 
-export const FollowButton = styled.button`
+export const ProfileActionButton = styled.button`
   border: none;
   box-shadow: 0 0 20px 1px rgb(0 0 0 / 10%);
   background-color: #fff;
@@ -171,6 +171,18 @@ export const ProfilePhotosContainer = styled.div`
   justify-content: flex-start;
 `;
 
+export const ProfilePhotoHoverState = styled.div`
+  width: 280px;
+  height: 280px;
+  background-color: black;
+  border-radius: 9px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: inherit;
+  justify-content: inherit;
+  display: none;
+`;
+
 export const ProfilePhoto = styled.div<img>`
   display: flex;
   width: 280px;
@@ -183,18 +195,14 @@ export const ProfilePhoto = styled.div<img>`
   background: url(${(props) => props.img});
   background-size: 150%;
   background-position: center;
-`;
-
-export const ProfilePhotoHoverState = styled.div`
-  width: 280px;
-  height: 280px;
-  background-color: black;
-  border-radius: 9px;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-  display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover ${ProfilePhotoHoverState} {
+    display: flexbox;
+  }
 `;
 
 export const LikeHover = styled(Heart)`

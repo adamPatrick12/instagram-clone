@@ -1,12 +1,12 @@
 
 import NavBar from "./Navbar";
 import { HomePageIconAtom, ProfilePageIconAtom } from "../Atoms/Navbar";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilCallback, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import {
     UserProfilePageContainer, ProfileHeaderImage,
     ProfileTopSectionContainer, ProfileTopSection,
-    FollowButton, ProfileInnerContainer, ProfileUserInfoContainer,
+    ProfileActionButton, ProfileInnerContainer, ProfileUserInfoContainer,
     NameContainer, InfoContainerPost, ProfilePhotosContainer,
     InfoContainerFollowing, InfoContainerFollowers,
     InfoContainerFollow, UserBioContainer, ProfilePhoto,
@@ -19,6 +19,9 @@ import { checkAuth } from "../Hooks/useCheckAuth";
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchUserProfile } from "../api/fetchUserProfile";
 import { UserProfileDataAtom } from "../Atoms/UserProfileAtoms";
+import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
+import { postFollow } from "../api/postFollow";
+import { postUnFollow } from "../api/postUnFollow";
 
 const UserProfile = () => {
 
@@ -26,10 +29,12 @@ const UserProfile = () => {
 
     const setHomeIcon = useSetRecoilState(HomePageIconAtom);
     const setProfileIcon = useSetRecoilState(ProfilePageIconAtom);
-    const profilePicture = useRecoilValue(profilePictureAtom);
     const { profileID } = useParams();
     const [profileData, setProfileData] = useRecoilState(UserProfileDataAtom);
-    const [hoverState, setHoverState] = useState(false);
+    const currentUser = useRecoilValue(UserObjectIDAtom);
+    const [followStatus, setFollowStatus] = useState(false);
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,9 +42,41 @@ const UserProfile = () => {
         setProfileIcon(true);
         fetchUserProfile(profileID)
             .then(result => setProfileData(result));
-    }, []);
+    }, [followStatus]);
 
-    console.log(profileData);
+
+    const followInfo = {
+        currentUser: currentUser,
+        userToUpdate: profileID,
+    };
+
+    const timeOut = () => {
+        setTimeout(() => {
+            if (followStatus) {
+                setFollowStatus(false);
+            } else {
+                setFollowStatus(true);
+            }
+        }, 1000);
+    };
+
+
+    const ProfileActionButtonFunction = (data: any) => {
+        if (profileID === currentUser) {
+            return <ProfileActionButton>Edit Profile</ProfileActionButton>;
+        }
+        if (data.includes(currentUser)) {
+            return <ProfileActionButton onClick={() => {
+                postUnFollow(followInfo);
+                timeOut();
+            }}>Unfollow</ProfileActionButton>;
+        } else {
+            return <ProfileActionButton onClick={() => {
+                postFollow(followInfo);
+                timeOut();
+            }}>Follow</ProfileActionButton>;
+        }
+    };
 
 
     return (
@@ -53,7 +90,7 @@ const UserProfile = () => {
                         <ProfileTopSectionContainer>
                             <ProfileTopSection>
                                 <img src={data.profilePicture} alt="" />
-                                <FollowButton>Follow</FollowButton>
+                                {ProfileActionButtonFunction(data.followers)}
                             </ProfileTopSection>
                         </ProfileTopSectionContainer>
                         <ProfileInnerContainer>
@@ -72,7 +109,7 @@ const UserProfile = () => {
                                         <p>Following</p>
                                     </InfoContainerFollowing>
                                     <InfoContainerFollowers>
-                                        <h3>{data.following.length}</h3>
+                                        <h3>{data.followers.length}</h3>
                                         <p>Followers</p>
                                     </InfoContainerFollowers>
                                 </InfoContainerFollow>
@@ -85,11 +122,8 @@ const UserProfile = () => {
                                 {data.posts.map((image: any) => {
                                     return (
                                         <ProfilePhoto img={image.imageKey}
-                                            onClick={() => navigate(`/user-post/${image._id}`)}
-                                            onMouseEnter={() => setHoverState(true)}
-                                            onMouseLeave={() => setHoverState(false)}
-                                        >
-                                            {hoverState ? <ProfilePhotoHoverState>
+                                            onClick={() => navigate(`/user-post/${image._id}`)}                                        >
+                                            <ProfilePhotoHoverState>
                                                 <HoverContainers>
                                                     <LikeHover />
                                                     <p>{image.likes.length}</p>
@@ -98,7 +132,7 @@ const UserProfile = () => {
                                                     <CommentHover />
                                                     <p>{image.comments.length}</p>
                                                 </HoverContainers>
-                                            </ProfilePhotoHoverState> : <div></div>}
+                                            </ProfilePhotoHoverState>
 
                                         </ProfilePhoto>
                                     );

@@ -151,7 +151,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                     : <CommnetStatus style={{ cursor: "pointer" }} onClick={() => navigate(`/user-post/${imageID}`)}>
                         View All Comments</CommnetStatus>}
                 <CommentSection>
-                    {[...comments].reverse().slice(0, 2).map((data: any, index: any) => {
+                    {[...comments].reverse().slice(0, 2).map((data: any, index: number) => {
                         return <CommentCard key={index}>
                             <span> {data.userName} </span>
 

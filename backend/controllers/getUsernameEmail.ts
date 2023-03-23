@@ -8,7 +8,6 @@ exports.get_user_names = [
           return next(err);
         }
         res.send(user);
-        console.log(user);
       }
     );
   },

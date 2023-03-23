@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, RecoilValue } from "recoil";
 
 export const UserPostsCount = atom<[]>({
   key: "UserPostsState",
