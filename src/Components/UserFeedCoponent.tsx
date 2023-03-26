@@ -18,6 +18,7 @@ import UserPost from './UserPostComponent';
 import { useNavigate } from "react-router";
 
 import NavBar from './Navbar';
+import FollowListComponent from "./FollowViewComponent";
 
 import {
     userNameAtom,
@@ -27,9 +28,9 @@ import {
 
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
-import { UserPostsCount } from '../Atoms/UserProfileAtoms';
+import { UserPostsCount, UserFollowingCount, UserFollowerCount } from '../Atoms/UserProfileAtoms';
 import { HomePageIconAtom, ProfilePageIconAtom } from '../Atoms/Navbar';
 import { UpdateCommentSectionAtom } from '../Atoms/UserPostAtoms';
 
@@ -45,6 +46,9 @@ export const UserFeed = () => {
     const [render, setRender] = useState(0);
     const updateComments = useRecoilValue(UpdateCommentSectionAtom);
     const setProfilePageIcon = useSetRecoilState(ProfilePageIconAtom);
+    const followerCount = useRecoilValue(UserFollowerCount);
+    const followingCount = useRecoilValue(UserFollowingCount);
+
 
 
     const fetchUserFeed = async () => {
@@ -61,13 +65,16 @@ export const UserFeed = () => {
     }, [updateComments]);
 
 
+
     checkAuth();
 
     return (
+
         <PageContainer onMouseEnter={() => {
             setHomePageIcon(true);
         }}>
             <NavBar />
+            <FollowListComponent />
             <FeedDataContainer>
                 <div className='UserPostContainer'>
 
@@ -99,7 +106,7 @@ export const UserFeed = () => {
                         <UserFollowingContainer>
                             <ProfileNumberContainer>
                                 <p>
-                                    0
+                                    {followingCount}
                                 </p>
                                 <TextDescription>
                                     Following
@@ -107,10 +114,10 @@ export const UserFeed = () => {
                             </ProfileNumberContainer>
                             <ProfileNumberContainer>
                                 <p >
-                                    0
+                                    {followerCount}
                                 </p>
                                 <TextDescription>
-                                    Following
+                                    Followers
                                 </TextDescription>
                             </ProfileNumberContainer>
                             <ProfileNumberContainer>

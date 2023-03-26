@@ -9,7 +9,7 @@ import {
   UserObjectIDAtom,
 } from "../Atoms/AuthenticationAtom";
 import { useEffect } from "react";
-import { UserPostsCount } from "../Atoms/UserProfileAtoms";
+import { UserPostsCount, UserFollowerCount, UserFollowingCount } from "../Atoms/UserProfileAtoms";
 
 export const checkAuth = async () => {
 
@@ -19,6 +19,9 @@ export const checkAuth = async () => {
   const setProfilePicture = useSetRecoilState(profilePictureAtom);
   const setUniqueIdentifier = useSetRecoilState(uuidAtom);
   const setNumberOfPosts = useSetRecoilState(UserPostsCount);
+  const setUserFollowingCount = useSetRecoilState(UserFollowingCount);
+  const setUserFollowerCount = useSetRecoilState(UserFollowerCount);
+
 
 
   useEffect(() => {
@@ -33,8 +36,14 @@ export const checkAuth = async () => {
         await fetch(`http://localhost:3030/instagram-clone/user/${user?.uid}`)
           .then((response) => response.json())
           .then(((data) =>
+
           (setUserName(data?.[0].userName),
-            setUserObjectID(data?.[0]._id), setNumberOfPosts(data[0].posts.length))
+            setUserObjectID(data?.[0]._id),
+            setNumberOfPosts(data[0].posts.length),
+            setUserFollowingCount(data[0].following.length),
+            setUserFollowerCount(data[0].followers.length),
+            console.log(data[0].following.length)
+          )
           ));
 
       }
