@@ -87,12 +87,14 @@ export const ProfileNumberContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 
   p {
     font-weight: bold;
     font-size: 14px;
     line-height: 14px;
     height: 14px;
+    cursor: pointer;
   }
 `;
 

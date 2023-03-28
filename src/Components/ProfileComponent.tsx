@@ -22,6 +22,8 @@ import { UserProfileDataAtom } from "../Atoms/UserProfileAtoms";
 import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 import { postFollow } from "../api/postFollow";
 import { postUnFollow } from "../api/postUnFollow";
+import { FollowListDisplayAtom, FollowListDisplayTab } from "../Atoms/UserProfileAtoms";
+import FollowListComponent from "./FollowViewComponent";
 
 const UserProfile = () => {
 
@@ -33,6 +35,9 @@ const UserProfile = () => {
     const [profileData, setProfileData] = useRecoilState(UserProfileDataAtom);
     const currentUser = useRecoilValue(UserObjectIDAtom);
     const [followStatus, setFollowStatus] = useState(false);
+    const [followDisplayModual, setFollowDisplayModual] = useRecoilState(FollowListDisplayAtom);
+    const setFollowListDisplayTab = useSetRecoilState(FollowListDisplayTab);
+
 
 
     const navigate = useNavigate();
@@ -82,6 +87,7 @@ const UserProfile = () => {
     return (
         <UserProfilePageContainer onMouseEnter={() => setProfileIcon(true)}>
             <NavBar />
+            {followDisplayModual && <FollowListComponent />}
             {profileData.map((data) => {
                 return (
                     <div>
@@ -104,11 +110,17 @@ const UserProfile = () => {
                                     <p>Posts</p>
                                 </InfoContainerPost>
                                 <InfoContainerFollow>
-                                    <InfoContainerFollowing>
+                                    <InfoContainerFollowing onClick={() => {
+                                        setFollowDisplayModual(true);
+                                        setFollowListDisplayTab('following');
+                                    }}>
                                         <h3>{data.following.length}</h3>
                                         <p>Following</p>
-                                    </InfoContainerFollowing>
-                                    <InfoContainerFollowers>
+                                    </InfoContainerFollowing >
+                                    <InfoContainerFollowers onClick={() => {
+                                        setFollowDisplayModual(true);
+                                        setFollowListDisplayTab('follower');
+                                    }}>
                                         <h3>{data.followers.length}</h3>
                                         <p>Followers</p>
                                     </InfoContainerFollowers>

@@ -19,3 +19,13 @@ export const UserProfileDataAtom = atom<any[]>({
   key: "UserProfileState",
   default: [],
 });
+
+export const FollowListDisplayAtom = atom<boolean>({
+  key: "DisplayFollowState",
+  default: false,
+});
+
+export const FollowListDisplayTab = atom<string>({
+  key: "DisplayFollowTabState",
+  default: "following",
+});

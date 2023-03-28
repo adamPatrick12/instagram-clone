@@ -26,8 +26,8 @@ import {
     profilePictureAtom,
 } from "../Atoms/AuthenticationAtom";
 
-
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { FollowListDisplayAtom, FollowListDisplayTab } from '../Atoms/UserProfileAtoms';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
 import { UserPostsCount, UserFollowingCount, UserFollowerCount } from '../Atoms/UserProfileAtoms';
@@ -43,11 +43,13 @@ export const UserFeed = () => {
     const navigate = useNavigate();
     const numberOfPosts = useRecoilValue(UserPostsCount);
     const setHomePageIcon = useSetRecoilState(HomePageIconAtom);
-    const [render, setRender] = useState(0);
+    const [followListModual, setFollowListModual] = useRecoilState(FollowListDisplayAtom);
     const updateComments = useRecoilValue(UpdateCommentSectionAtom);
     const setProfilePageIcon = useSetRecoilState(ProfilePageIconAtom);
     const followerCount = useRecoilValue(UserFollowerCount);
     const followingCount = useRecoilValue(UserFollowingCount);
+    const [DisplayTabValue, setFollowListDisplayTab] = useRecoilState(FollowListDisplayTab);
+
 
 
 
@@ -74,7 +76,9 @@ export const UserFeed = () => {
             setHomePageIcon(true);
         }}>
             <NavBar />
-            <FollowListComponent />
+            {followListModual && <FollowListComponent />}
+
+
             <FeedDataContainer>
                 <div className='UserPostContainer'>
 
@@ -104,7 +108,10 @@ export const UserFeed = () => {
                             </UserNameContainer>
                         </UserProfileContainer>
                         <UserFollowingContainer>
-                            <ProfileNumberContainer>
+                            <ProfileNumberContainer onClick={() => {
+                                setFollowListModual(true),
+                                setFollowListDisplayTab('following');
+                            }}>
                                 <p>
                                     {followingCount}
                                 </p>
@@ -112,7 +119,10 @@ export const UserFeed = () => {
                                     Following
                                 </TextDescription>
                             </ProfileNumberContainer>
-                            <ProfileNumberContainer>
+                            <ProfileNumberContainer onClick={() => {
+                                setFollowListModual(true),
+                                    setFollowListDisplayTab('follower');
+                            }}>
                                 <p >
                                     {followerCount}
                                 </p>

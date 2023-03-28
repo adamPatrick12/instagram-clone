@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { Close } from "@styled-icons/evil/Close";
 
+interface FollowTabProps {
+  tab: string;
+}
+
 export const PageContainer = styled.div`
   display: flex;
   position: fixed;
@@ -24,6 +28,7 @@ export const FollowerContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  z-index: 1000000;
 `;
 
 export const FollowViewHeaderContainer = styled.div`
@@ -34,24 +39,57 @@ export const FollowViewHeaderContainer = styled.div`
   align-items: center;
   border-bottom: 1px solid gray;
   justify-content: space-between;
+  box-sizing: border-box;
 `;
 
 export const CloseModelIcon = styled(Close)`
   height: 22px;
   width: 22px;
   cursor: pointer;
+  transition: color 0.5s;
+
+  &:hover {
+    color: red;
+  }
 `;
 
 export const FollowTitles = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid black;
   height: 100%;
+  box-sizing: border-box;
+`;
+
+export const FollowingTitle = styled.div<FollowTabProps>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: ${(props) =>
+    props.tab === "following" ? "1px solid black" : "none"};
+  height: 100%;
+  box-sizing: border-box;
 
   h3 {
     cursor: pointer;
     padding: 10px;
+    color: ${(props) => (props.tab === "following" ? "black" : "gray")};
+  }
+`;
+
+export const FollowerTitle = styled.div<FollowTabProps>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: ${(props) =>
+    props.tab === "follower" ? "1px solid black" : "none"};
+  height: 100%;
+  box-sizing: border-box;
+
+  h3 {
+    cursor: pointer;
+    padding: 10px;
+    color: ${(props) => (props.tab === "follower" ? "black" : "gray")};
   }
 `;
 

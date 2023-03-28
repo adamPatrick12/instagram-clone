@@ -130,6 +130,7 @@ export const InfoContainerFollowing = styled.div`
     font-size: 16px;
     font-weight: 700;
     color: #888888;
+    cursor: pointer;
   }
 `;
 
@@ -139,11 +140,16 @@ export const InfoContainerFollowers = styled.div`
   font-weight: 700;
   justify-content: flex-start;
   margin-right: 50px;
+  cursor: pointer;
 
   p {
     font-size: 16px;
     font-weight: 700;
     color: #888888;
+  }
+
+  h3 {
+    cursor: pointer;
   }
 `;
 
