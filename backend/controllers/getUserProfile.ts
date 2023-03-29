@@ -24,6 +24,8 @@ exports.get_user_profile = [
   async (req, res, next) => {
     UserProfile.find({ _id: req.params.profileID })
       .populate("posts")
+      .populate("followers", "_id displayName profilePicture userName")
+      .populate("following", "_id displayName profilePicture userName")
       .exec(async (err, user_profile) => {
         if (err) {
           return next(err);

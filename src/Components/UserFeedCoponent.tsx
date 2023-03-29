@@ -26,7 +26,7 @@ import {
     profilePictureAtom,
 } from "../Atoms/AuthenticationAtom";
 
-import { FollowListDisplayAtom, FollowListDisplayTab } from '../Atoms/UserProfileAtoms';
+import { FollowListDisplayAtom, FollowListDisplayTab, CurrentUserFollowerListAtom, CurrentUserFollowingListAtom } from '../Atoms/UserProfileAtoms';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { checkAuth } from '../Hooks/useCheckAuth';
@@ -49,8 +49,8 @@ export const UserFeed = () => {
     const followerCount = useRecoilValue(UserFollowerCount);
     const followingCount = useRecoilValue(UserFollowingCount);
     const [DisplayTabValue, setFollowListDisplayTab] = useRecoilState(FollowListDisplayTab);
-
-
+    const currentUserFollowingList = useRecoilValue(CurrentUserFollowingListAtom);
+    const currentUserFollowerList = useRecoilValue(CurrentUserFollowerListAtom);
 
 
     const fetchUserFeed = async () => {
@@ -76,7 +76,7 @@ export const UserFeed = () => {
             setHomePageIcon(true);
         }}>
             <NavBar />
-            {followListModual && <FollowListComponent />}
+            {followListModual && <FollowListComponent followingList={currentUserFollowingList} followerList={currentUserFollowerList} />}
 
 
             <FeedDataContainer>
@@ -110,7 +110,7 @@ export const UserFeed = () => {
                         <UserFollowingContainer>
                             <ProfileNumberContainer onClick={() => {
                                 setFollowListModual(true),
-                                setFollowListDisplayTab('following');
+                                    setFollowListDisplayTab('following');
                             }}>
                                 <p>
                                     {followingCount}

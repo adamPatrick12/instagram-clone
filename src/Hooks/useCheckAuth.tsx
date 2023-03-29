@@ -9,7 +9,11 @@ import {
   UserObjectIDAtom,
 } from "../Atoms/AuthenticationAtom";
 import { useEffect } from "react";
-import { UserPostsCount, UserFollowerCount, UserFollowingCount } from "../Atoms/UserProfileAtoms";
+import { UserPostsCount, UserFollowerCount, UserFollowingCount, } from "../Atoms/UserProfileAtoms";
+import {
+  FollowListDataAtom, CurrentUserFollowingListAtom,
+  CurrentUserFollowerListAtom
+} from "../Atoms/UserProfileAtoms";
 
 export const checkAuth = async () => {
 
@@ -21,6 +25,10 @@ export const checkAuth = async () => {
   const setNumberOfPosts = useSetRecoilState(UserPostsCount);
   const setUserFollowingCount = useSetRecoilState(UserFollowingCount);
   const setUserFollowerCount = useSetRecoilState(UserFollowerCount);
+  // const setFollowListData = useSetRecoilState(FollowListDataAtom);
+  const setFollowingList = useSetRecoilState(CurrentUserFollowingListAtom);
+  const setFollowerList = useSetRecoilState(CurrentUserFollowerListAtom);
+
 
 
 
@@ -42,7 +50,8 @@ export const checkAuth = async () => {
             setNumberOfPosts(data[0].posts.length),
             setUserFollowingCount(data[0].following.length),
             setUserFollowerCount(data[0].followers.length),
-            console.log(data[0].following.length)
+            setFollowingList(data[0].following),
+            setFollowerList(data[0].followers)
           )
           ));
 

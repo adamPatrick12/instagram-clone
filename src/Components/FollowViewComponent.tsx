@@ -6,19 +6,30 @@ import {
     FollowingTitle, FollowerTitle
 } from "../Styles/FollowListStyles/FollowList";
 
-import { FollowListDisplayAtom, FollowListDisplayTab } from "../Atoms/UserProfileAtoms";
+import { FollowListDisplayAtom, FollowListDisplayTab, FollowListDataAtom } from "../Atoms/UserProfileAtoms";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 
-const FollowListComponent = () => {
+const FollowListComponent = ({ followingList, followerList }: any) => {
 
     const [followListView, setFollowListView] = useRecoilState(FollowListDisplayAtom);
     const [DisplayTabValue, setFollowListDisplayTab] = useRecoilState(FollowListDisplayTab);
+    const [followListData, setFollowListData] = useRecoilState(FollowListDataAtom);
+
+
+
+    const followListDataToDisplay = () => {
+        if (DisplayTabValue === 'following') {
+            setFollowListData(followingList);
+        } else {
+            setFollowListData(followerList);
+        }
+    };
 
     useEffect(() => {
-        console.log("mounted");
+        followListDataToDisplay();
+    }, [DisplayTabValue]);
 
-    }, []);
 
     return (
         <PageContainer>
@@ -37,18 +48,23 @@ const FollowListComponent = () => {
                     </CloseModelIcon>
                 </FollowViewHeaderContainer>
                 <FollowListContainer>
-                    <UserInfoContainer>
-                        <img src="https://firebasestorage.googleapis.com/v0/b/insta-a107a.appspot.com/o/e9x1NbFsE8VqLAqAKfbpHkH0QS93%2Fbanner?alt=media&token=c17c12e5-0d7d-4602-a97c-9bb56d05a932" alt="" />
-                        <UserInfo>
-                            <span >APatty</span>
-                            <h6>@adamp3</h6>
-                        </UserInfo>
-                    </UserInfoContainer>
-                    <FollowButton>
-                        Unfollow
-                    </FollowButton>
+                    {followListData.map((followerData: any) => {
+                        return (
+                            <>
+                                <UserInfoContainer>
+                                    <img src={followerData.profilePicture} alt="" />
+                                    <UserInfo>
+                                        <span>{followerData.displayName}</span>
+                                        <h6>@{followerData.userName}</h6>
+                                    </UserInfo>
+                                </UserInfoContainer>
+                                <FollowButton>
+                                    Unfollow
+                                </FollowButton>
+                            </>
+                        );
+                    })}
                 </FollowListContainer>
-
             </FollowerContainer >
         </PageContainer >
     );

@@ -66,6 +66,19 @@ const UserProfile = () => {
     };
 
 
+    const allFollowerIDs = () => {
+        let currentFollowers: any = [];
+
+        profileData.map((data: any) => {
+            data.followers.map((followers: any) => {
+                currentFollowers.push(followers._id);
+            });
+        });
+
+        return currentFollowers;
+    };
+
+
     const ProfileActionButtonFunction = (data: any) => {
         if (profileID === currentUser) {
             return <ProfileActionButton>Edit Profile</ProfileActionButton>;
@@ -87,8 +100,8 @@ const UserProfile = () => {
     return (
         <UserProfilePageContainer onMouseEnter={() => setProfileIcon(true)}>
             <NavBar />
-            {followDisplayModual && <FollowListComponent />}
-            {profileData.map((data) => {
+            {followDisplayModual && <FollowListComponent followingList={profileData[0].following} followerList={profileData[0].followers} />}
+            {profileData.map((data: any) => {
                 return (
                     <div>
                         <ProfileHeaderImage img={"https://firebasestorage.googleapis.com/v0/b/insta-a107a.appspot.com/o/e9x1NbFsE8VqLAqAKfbpHkH0QS93%2Fbanner?alt=media&token=c17c12e5-0d7d-4602-a97c-9bb56d05a932"}>
@@ -96,7 +109,7 @@ const UserProfile = () => {
                         <ProfileTopSectionContainer>
                             <ProfileTopSection>
                                 <img src={data.profilePicture} alt="" />
-                                {ProfileActionButtonFunction(data.followers)}
+                                {ProfileActionButtonFunction(allFollowerIDs())}
                             </ProfileTopSection>
                         </ProfileTopSectionContainer>
                         <ProfileInnerContainer>
