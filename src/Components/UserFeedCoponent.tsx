@@ -9,8 +9,8 @@ import {
     UserFollowingContainer,
     ProfileNumberContainer,
     TextDescription,
-    AddIcon,
-    PageContainer
+    AddIcon, LoginBtn,
+    PageContainer, ButtonContainer, SignUpBtn
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
 import UserPost from './UserPostComponent';
@@ -24,6 +24,8 @@ import {
     userNameAtom,
     displayNameAtom,
     profilePictureAtom,
+    emailAtom,
+    TakenEmailsAtom
 } from "../Atoms/AuthenticationAtom";
 
 import { FollowListDisplayAtom, FollowListDisplayTab, CurrentUserFollowerListAtom, CurrentUserFollowingListAtom } from '../Atoms/UserProfileAtoms';
@@ -33,8 +35,15 @@ import { checkAuth } from '../Hooks/useCheckAuth';
 import { UserPostsCount, UserFollowingCount, UserFollowerCount } from '../Atoms/UserProfileAtoms';
 import { HomePageIconAtom, ProfilePageIconAtom } from '../Atoms/Navbar';
 import { UpdateCommentSectionAtom } from '../Atoms/UserPostAtoms';
+import { auth, provider } from "../Firebase/FirebaseConfig";
+import { Authentication } from '../api/postUser';
+import { signInWithPopup, } from "firebase/auth";
+import { activeEmails } from '../Hooks/useActiveUsernames';
+
 
 export const UserFeed = () => {
+
+    checkAuth();
 
     const [postData, setPostData] = useState([]);
     const userName = useRecoilValue(userNameAtom);
@@ -51,6 +60,14 @@ export const UserFeed = () => {
     const [DisplayTabValue, setFollowListDisplayTab] = useRecoilState(FollowListDisplayTab);
     const currentUserFollowingList = useRecoilValue(CurrentUserFollowingListAtom);
     const currentUserFollowerList = useRecoilValue(CurrentUserFollowerListAtom);
+    const [isUserSignedIn, setUserStatus] = useState(false);
+    const setdisplayName = useSetRecoilState(displayNameAtom);
+    const setProfilePicture = useSetRecoilState(profilePictureAtom);
+    const setEmail = useSetRecoilState(emailAtom);
+    const [takenEmails, setEmails] = useRecoilState(TakenEmailsAtom);
+
+
+    const currentUser = auth.currentUser;
 
 
     const fetchUserFeed = async () => {
@@ -64,11 +81,47 @@ export const UserFeed = () => {
         fetchUserFeed();
         setHomePageIcon(true);
         setProfilePageIcon(false);
-    }, [updateComments]);
+        activeEmails()
+            .then(result => setEmails(result));
+
+        if (currentUser) {
+            setUserStatus(true);
+        } else {
+            setUserStatus(false);
+        }
+    }, [updateComments, currentUser]);
 
 
 
-    checkAuth();
+    const signInWithGoogle = async () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+
+                if (takenEmails.includes(result.user.email)) {
+                    navigate("/user-feed");
+                    return;
+                } else {
+                    const userData = {
+                        userID: result.user.uid,
+                        userName: userName,
+                        displayName: result.user.displayName,
+                        email: result.user.email,
+                        profilePicture: result.user.photoURL,
+                    };
+
+                    Authentication(userData);
+
+                    navigate("/user-feed");
+
+                    setProfilePicture(result.user.photoURL);
+                    setdisplayName(result.user.displayName);
+                    setEmail(result.user.email);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
 
@@ -98,7 +151,7 @@ export const UserFeed = () => {
                         );
                     })}
                 </div>
-                <UserContainer>
+                {isUserSignedIn ? <UserContainer>
                     <UserInfoCardContainer>
                         <UserProfileContainer>
                             <img src={profilePicture} alt="" />
@@ -146,7 +199,16 @@ export const UserFeed = () => {
                             </ProfileNumberContainer>
                         </UserFollowingContainer>
                     </UserInfoCardContainer>
-                </UserContainer>
+                </UserContainer> :
+                    <UserContainer>
+                        <UserInfoCardContainer>
+                            <ButtonContainer>
+                                <SignUpBtn onClick={() => { navigate("/sign-up"); }}>Sign Up</SignUpBtn>
+                                <LoginBtn onClick={() => signInWithGoogle()}>Login</LoginBtn>
+                            </ButtonContainer>
+                        </UserInfoCardContainer>
+                    </UserContainer>
+                }
             </FeedDataContainer>
         </PageContainer >
 

@@ -95,7 +95,7 @@ export const FollowerTitle = styled.div<FollowTabProps>`
 
 export const FollowListContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 86%;
   padding: 20px 25px;
   align-items: center;
@@ -126,6 +126,7 @@ export const UserInfo = styled.div`
   align-items: flex-start;
   justify-content: center;
   margin: 0 0 0 22px;
+  cursor: pointer;
 
   span {
     font-size: 20px;
@@ -161,4 +162,12 @@ export const FollowButton = styled.div`
     -webkit-transform: translateY(-2px);
     transform: translateY(-2px);
   }
+`;
+
+export const FollowItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding: 15px;
 `;

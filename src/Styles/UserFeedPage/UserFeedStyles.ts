@@ -111,3 +111,48 @@ export const AddIcon = styled(AddCircle)`
   height: 14px;
   cursor: pointer;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const SignUpBtn = styled.button`
+  background-color: black;
+  color: white;
+  width: 13em;
+  height: 2.25em;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px;
+  transition: box-shadow 0.25s, transform 0.25s, -webkit-transform 0.25s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.2);
+    transform: translate(0px, -2px);
+  }
+`;
+
+export const LoginBtn = styled.button`
+  background-color: white;
+  color: black;
+  width: 13em;
+  height: 2.25em;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 10px;
+  transition: box-shadow 0.25s, transform 0.25s, -webkit-transform 0.25s;
+  cursor: pointer;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.2);
+    transform: translate(0px, -2px);
+  }
+`;

@@ -30,6 +30,7 @@ import InstagramLogo from "../Images/instagram-logo.png";
 import GoogleLogo from '../Images/google-logo.png';
 import { useNavigate } from "react-router";
 import { activeUsernames, activeEmails } from '../Hooks/useActiveUsernames';
+import { Authentication } from "../api/postUser";
 
 export const SighUpComponent = () => {
   const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
@@ -42,8 +43,6 @@ export const SighUpComponent = () => {
   const [usernameAvailabilityColor, setUsernameAvailabilityColor] = useState('#686868');
   const [takenUsernames, setTakenUsernames] = useRecoilState(TakenUsernamesAtom);
   const [takenEmails, setEmails] = useRecoilState(TakenEmailsAtom);
-
-
 
   // TODO: Figure out why photo isn't displaying
 
@@ -58,25 +57,8 @@ export const SighUpComponent = () => {
       .catch((error) => { });
   };
 
-  const Authentication = async (userData: any) => {
-
-    await fetch("http://localhost:3030/instagram-clone/sign-up", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .catch(error => {
-        console.log(error);
-        return;
-      });
-  };
 
   const signInWithGoogle = async () => {
-
-
-
     signInWithPopup(auth, provider)
       .then((result) => {
 

@@ -47,7 +47,7 @@ const UserProfile = () => {
         setProfileIcon(true);
         fetchUserProfile(profileID)
             .then(result => setProfileData(result));
-    }, [followStatus]);
+    }, [followStatus, profileID]);
 
 
     const followInfo = {
