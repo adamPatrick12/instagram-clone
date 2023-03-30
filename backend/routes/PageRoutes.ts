@@ -7,6 +7,7 @@ const getUsernameAndEmail = require("../controllers/getUsernameEmail.ts");
 const createNewComment = require("../controllers/createNewCommentController.ts");
 const createNewLike = require("../controllers/createNewLikeController.ts");
 const getUserProfile = require("../controllers/getUserProfile.ts");
+const getAllUsersController = require("../controllers/getAllUsers.ts");
 const createFollow = require("../controllers/createFollower.ts");
 
 router.get("/", (req, res) => {
@@ -52,5 +53,9 @@ router.get("/user-profile/:profileID", getUserProfile.get_user_profile);
 router.post("/follow-user", createFollow.post_new_follow);
 
 router.post("/unfollow-user", createFollow.post_new_unfollow);
+
+// get all users
+
+router.get("/all-users", getAllUsersController.get_all_users);
 
 module.exports = router;

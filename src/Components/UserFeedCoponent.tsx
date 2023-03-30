@@ -39,6 +39,7 @@ import { auth, provider } from "../Firebase/FirebaseConfig";
 import { Authentication } from '../api/postUser';
 import { signInWithPopup, } from "firebase/auth";
 import { activeEmails } from '../Hooks/useActiveUsernames';
+import { DisplaySearchResultsAtom } from "../Atoms/Navbar";
 
 
 export const UserFeed = () => {
@@ -65,6 +66,7 @@ export const UserFeed = () => {
     const setProfilePicture = useSetRecoilState(profilePictureAtom);
     const setEmail = useSetRecoilState(emailAtom);
     const [takenEmails, setEmails] = useRecoilState(TakenEmailsAtom);
+    const setShowSearchResults = useSetRecoilState(DisplaySearchResultsAtom);
 
 
     const currentUser = auth.currentUser;
@@ -125,14 +127,16 @@ export const UserFeed = () => {
 
     return (
 
-        <PageContainer onMouseEnter={() => {
-            setHomePageIcon(true);
-        }}>
+        <PageContainer
+
+            onMouseEnter={() => {
+                setHomePageIcon(true);
+            }}>
             <NavBar />
             {followListModual && <FollowListComponent followingList={currentUserFollowingList} followerList={currentUserFollowerList} />}
 
 
-            <FeedDataContainer>
+            <FeedDataContainer onClick={() => setShowSearchResults(false)}>
                 <div className='UserPostContainer'>
 
                     {postData.map((data) => {
