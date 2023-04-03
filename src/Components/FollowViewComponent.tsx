@@ -7,19 +7,37 @@ import {
 } from "../Styles/FollowListStyles/FollowList";
 
 import { FollowListDisplayAtom, FollowListDisplayTab, FollowListDataAtom } from "../Atoms/UserProfileAtoms";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { checkAuth } from "../Hooks/useCheckAuth";
+import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
+import { CurrentUserFollowerListAtom, CurrentUserFollowingListAtom } from '../Atoms/UserProfileAtoms';
 
 
-const FollowListComponent = ({ followingList, followerList }: any) => {
+const FollowListComponent = ({ followingList, followerList, followerIDs, followingIDs }: any) => {
+
+    checkAuth();
 
     const navigate = useNavigate();
 
     const [followListView, setFollowListView] = useRecoilState(FollowListDisplayAtom);
     const [DisplayTabValue, setFollowListDisplayTab] = useRecoilState(FollowListDisplayTab);
     const [followListData, setFollowListData] = useRecoilState(FollowListDataAtom);
+    const currentUserFollowingList = useRecoilValue(CurrentUserFollowingListAtom);
+    const currentUserFollowerList = useRecoilValue(CurrentUserFollowerListAtom);
 
+    const currentUser = useRecoilValue(UserObjectIDAtom);
+
+    const userIDs = (dataSet: any) => {
+        let userIDs: any[] = [];
+
+        dataSet.map((data: any) => {
+            userIDs.push(data._id);
+        });
+
+        return userIDs;
+    };
 
 
     const followListDataToDisplay = () => {
@@ -34,6 +52,53 @@ const FollowListComponent = ({ followingList, followerList }: any) => {
         followListDataToDisplay();
     }, [DisplayTabValue]);
 
+
+    const followStatus = () => {
+        console.log(DisplayTabValue);
+
+
+        if (DisplayTabValue === 'follower') {
+            if (userIDs(currentUserFollowerList).some((followListID) => followListID.includes(followingIDs))) {
+                console.log('here');
+
+                return (
+                    <FollowButton>
+                        Following
+                    </FollowButton>
+                );
+            } else {
+                return (
+                    <FollowButton>
+                        Not Following
+                    </FollowButton>
+                );
+            }
+        }
+
+
+        if (DisplayTabValue === 'following') {
+            if (userIDs(currentUserFollowingList).some((followListID) => followListID.includes(followingIDs))) {
+                return (
+                    <FollowButton>
+                        Following
+                    </FollowButton>
+                );
+            } else {
+                return (
+                    <FollowButton>
+                        Not Following
+                    </FollowButton>
+                );
+            }
+        }
+
+
+
+
+
+
+
+    };
 
 
     return (
@@ -71,9 +136,7 @@ const FollowListComponent = ({ followingList, followerList }: any) => {
                                         <h6>@{followData.userName}</h6>
                                     </UserInfo>
                                 </UserInfoContainer>
-                                <FollowButton>
-                                    Unfollow
-                                </FollowButton>
+
                             </FollowItemContainer >
                         );
                     })}

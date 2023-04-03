@@ -14,7 +14,6 @@ import {
     HoverContainers
 } from "../Styles/UserProfilesStyles/UserProfile";
 
-import { profilePictureAtom } from "../Atoms/AuthenticationAtom";
 import { checkAuth } from "../Hooks/useCheckAuth";
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchUserProfile } from "../api/fetchUserProfile";
@@ -24,30 +23,20 @@ import { postFollow } from "../api/postFollow";
 import { postUnFollow } from "../api/postUnFollow";
 import { FollowListDisplayAtom, FollowListDisplayTab } from "../Atoms/UserProfileAtoms";
 import FollowListComponent from "./FollowViewComponent";
+import { useQuery, useMutation } from "@tanstack/react-query";
+
 
 const UserProfile = () => {
 
     checkAuth();
 
+    const navigate = useNavigate();
     const setHomeIcon = useSetRecoilState(HomePageIconAtom);
     const setProfileIcon = useSetRecoilState(ProfilePageIconAtom);
     const { profileID } = useParams();
-    const [profileData, setProfileData] = useRecoilState(UserProfileDataAtom);
     const currentUser = useRecoilValue(UserObjectIDAtom);
-    const [followStatus, setFollowStatus] = useState(false);
     const [followDisplayModual, setFollowDisplayModual] = useRecoilState(FollowListDisplayAtom);
     const setFollowListDisplayTab = useSetRecoilState(FollowListDisplayTab);
-
-
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        setHomeIcon(false);
-        setProfileIcon(true);
-        fetchUserProfile(profileID)
-            .then(result => setProfileData(result));
-    }, [followStatus, profileID]);
 
 
     const followInfo = {
@@ -55,43 +44,74 @@ const UserProfile = () => {
         userToUpdate: profileID,
     };
 
-    const timeOut = () => {
-        setTimeout(() => {
-            if (followStatus) {
-                setFollowStatus(false);
-            } else {
-                setFollowStatus(true);
-            }
-        }, 1000);
-    };
+
+    const { data: userProfileData, refetch } = useQuery(
+        ['profile', profileID],
+        () => fetchUserProfile(profileID),
+    );
+
+
+    const newFollowMutation = useMutation({
+        mutationFn: () => postFollow(followInfo),
+        onMutate: () => {
+            setTimeout(() => {
+                refetch();
+            }, 500);
+        },
+    });
+
+    const newUnFollowMutation = useMutation({
+        mutationFn: () => postUnFollow(followInfo),
+        onMutate: () => {
+            setTimeout(() => {
+                refetch();
+            }, 500);
+        }
+    });
+
+
+
+    useEffect(() => {
+        setHomeIcon(false);
+        setProfileIcon(true);
+    }, []);
+
 
 
     const allFollowerIDs = () => {
         let currentFollowers: any = [];
 
-        profileData.map((data: any) => {
+        userProfileData?.map((data: any) => {
             data.followers.map((followers: any) => {
                 currentFollowers.push(followers._id);
             });
         });
-
         return currentFollowers;
     };
 
+    const allFollowingIDs = () => {
+        let currentFollowing: any = [];
 
-    const ProfileActionButtonFunction = (data: any) => {
+        userProfileData?.map((data: any) => {
+            data.following.map((following: any) => {
+                currentFollowing.push(following._id);
+            });
+        });
+        return currentFollowing;
+    };
+
+
+    const ProfileActionButtonFunction = (followerList: any) => {
         if (profileID === currentUser) {
             return <ProfileActionButton>Edit Profile</ProfileActionButton>;
         }
-        if (data.includes(currentUser)) {
+        if (followerList.includes(currentUser)) {
             return <ProfileActionButton onClick={() => {
-                postUnFollow(followInfo);
-                timeOut();
+                newUnFollowMutation.mutate();
             }}>Unfollow</ProfileActionButton>;
         } else {
             return <ProfileActionButton onClick={() => {
-                postFollow(followInfo);
-                timeOut();
+                newFollowMutation.mutate();
             }}>Follow</ProfileActionButton>;
         }
     };
@@ -100,10 +120,15 @@ const UserProfile = () => {
     return (
         <UserProfilePageContainer onMouseEnter={() => setProfileIcon(true)}>
             <NavBar />
-            {followDisplayModual && <FollowListComponent followingList={profileData[0].following} followerList={profileData[0].followers} />}
-            {profileData.map((data: any) => {
+            {followDisplayModual && <FollowListComponent
+                followingList={userProfileData[0].following}
+                followerList={userProfileData[0].followers}
+                followerIDs={allFollowerIDs()}
+                followingIDs={allFollowingIDs()}
+            />}
+            {userProfileData?.map((data: any, index: number) => {
                 return (
-                    <div>
+                    <div key={index}>
                         <ProfileHeaderImage img={"https://firebasestorage.googleapis.com/v0/b/insta-a107a.appspot.com/o/e9x1NbFsE8VqLAqAKfbpHkH0QS93%2Fbanner?alt=media&token=c17c12e5-0d7d-4602-a97c-9bb56d05a932"}>
                         </ProfileHeaderImage>
                         <ProfileTopSectionContainer>
@@ -135,7 +160,7 @@ const UserProfile = () => {
                                         setFollowListDisplayTab('follower');
                                     }}>
                                         <h3>{data.followers.length}</h3>
-                                        <p>Followers</p>
+                                        <p >Followers</p>
                                     </InfoContainerFollowers>
                                 </InfoContainerFollow>
                                 <UserBioContainer>
@@ -144,10 +169,10 @@ const UserProfile = () => {
                                 </UserBioContainer>
                             </ProfileUserInfoContainer>
                             <ProfilePhotosContainer>
-                                {data.posts.map((image: any) => {
+                                {data.posts.map((image: any, index: number) => {
                                     return (
-                                        <ProfilePhoto img={image.imageKey}
-                                            onClick={() => navigate(`/user-post/${image._id}`)}                                        >
+                                        <ProfilePhoto key={index} img={image.imageKey}
+                                            onClick={() => navigate(`/user-post/${image._id}`)} >
                                             <ProfilePhotoHoverState>
                                                 <HoverContainers>
                                                     <LikeHover />

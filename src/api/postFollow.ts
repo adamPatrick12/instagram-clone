@@ -3,8 +3,8 @@ interface followInfoType {
   userToUpdate: string | undefined;
 }
 
-export const postFollow = (followInfo: followInfoType) => {
-  fetch("http://localhost:3030/instagram-clone/follow-user", {
+export const postFollow = async (followInfo: any) => {
+  await fetch("http://localhost:3030/instagram-clone/follow-user", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

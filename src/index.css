@@ -47,3 +47,32 @@ body::-webkit-scrollbar {
   padding-top: 1.5px;
   cursor: pointer;
 }
+
+input[type="file"]::file-selector-button {
+  display: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  height: 250px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1.7em;
+  color: #888888;
+  font-weight: 100;
+  border-radius: 16px;
+}
+
+input:focus {
+  outline: none;
+}

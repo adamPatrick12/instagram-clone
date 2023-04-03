@@ -172,9 +172,9 @@ export const ProfilePhotosContainer = styled.div`
   width: 100%;
   margin: 0 0 24px 24px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: flex-end;
 `;
 
 export const ProfilePhotoHoverState = styled.div`

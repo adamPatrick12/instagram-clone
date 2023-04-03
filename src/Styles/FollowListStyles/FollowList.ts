@@ -29,6 +29,7 @@ export const FollowerContainer = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 1000000;
+  overflow-y: scroll;
 `;
 
 export const FollowViewHeaderContainer = styled.div`
