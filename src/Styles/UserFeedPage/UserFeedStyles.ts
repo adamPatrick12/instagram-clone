@@ -81,6 +81,22 @@ export const UserFollowingContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
+  transition: box-shadow 0.5s, background-color 0.5s, color 0.25s,
+    transform 0.5s, -webkit-transform 0.5s;
+
+  &:hover {
+    background-color: black;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px 1px rgba(0, 0, 0, 0.2);
+
+    p {
+      color: white;
+    }
+
+    div {
+      color: white;
+    }
+  }
 `;
 
 export const ProfileNumberContainer = styled.div`
@@ -95,6 +111,23 @@ export const ProfileNumberContainer = styled.div`
     line-height: 14px;
     height: 14px;
     cursor: pointer;
+    transition: color 0.5s;
+  }
+`;
+
+export const ProfileNewPostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+
+  p {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 14px;
+    height: 14px;
+    cursor: pointer;
+    transition: color 0.5s;
   }
 `;
 

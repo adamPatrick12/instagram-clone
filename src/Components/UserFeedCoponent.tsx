@@ -10,7 +10,8 @@ import {
     ProfileNumberContainer,
     TextDescription,
     AddIcon, LoginBtn,
-    PageContainer, ButtonContainer, SignUpBtn
+    PageContainer, ButtonContainer, SignUpBtn,
+    ProfileNewPostContainer
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
 import UserPost from './UserPostComponent';
@@ -195,12 +196,12 @@ export const UserFeed = () => {
                                     Posts
                                 </TextDescription>
                             </ProfileNumberContainer>
-                            <ProfileNumberContainer>
+                            <ProfileNewPostContainer onClick={() => { navigate("/new-post"); }}>
                                 <AddIcon />
-                                <TextDescription onClick={() => { navigate("/new-post"); }}>
+                                <TextDescription >
                                     New Post
                                 </TextDescription>
-                            </ProfileNumberContainer>
+                            </ProfileNewPostContainer>
                         </UserFollowingContainer>
                     </UserInfoCardContainer>
                 </UserContainer> :
