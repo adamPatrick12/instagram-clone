@@ -11,7 +11,7 @@ import {
     InfoContainerFollowing, InfoContainerFollowers,
     InfoContainerFollow, UserBioContainer, ProfilePhoto,
     ProfilePhotoHoverState, CommentHover, LikeHover,
-    HoverContainers
+    HoverContainers, ProfilePlusButton, PlusIcon
 } from "../Styles/UserProfilesStyles/UserProfile";
 
 import { checkAuth } from "../Hooks/useCheckAuth";
@@ -103,7 +103,16 @@ const UserProfile = () => {
 
     const ProfileActionButtonFunction = (followerList: any) => {
         if (profileID === currentUser) {
-            return <ProfileActionButton>Edit Profile</ProfileActionButton>;
+            return (
+                <div>
+                    <ProfileActionButton>
+                        Edit Profile
+                    </ProfileActionButton>
+                    <ProfilePlusButton onClick={() => navigate("/new-post")}>
+                        <PlusIcon></PlusIcon>
+                    </ProfilePlusButton>
+                </div>
+            );
         }
         if (followerList.includes(currentUser)) {
             return <ProfileActionButton onClick={() => {
@@ -183,7 +192,6 @@ const UserProfile = () => {
                                                     <p>{image.comments.length}</p>
                                                 </HoverContainers>
                                             </ProfilePhotoHoverState>
-
                                         </ProfilePhoto>
                                     );
                                 })}

@@ -70,6 +70,8 @@ const NewPostComponent = () => {
 
 
     useEffect(() => {
+        console.log(userPostImage);
+
     }, [userPostImage]);
 
     return (

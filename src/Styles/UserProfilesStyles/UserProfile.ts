@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Heart } from "styled-icons/boxicons-regular";
 import { Comment } from "@styled-icons/boxicons-regular/Comment";
+import { Plus } from "@styled-icons/heroicons-solid/Plus";
 
 interface img {
   img?: string;
@@ -60,6 +61,30 @@ export const ProfileActionButton = styled.button`
   transition: box-shadow 0.25s, -webkit-transform 0.25s;
   transition: box-shadow 0.25s, transform 0.25s;
   transition: box-shadow 0.25s, transform 0.25s, -webkit-transform 0.25s;
+
+  &:hover {
+    box-shadow: 0 3px 20px 1px rgb(0 0 0 / 20%);
+    transform: translateY(-2px);
+  }
+`;
+
+export const ProfilePlusButton = styled.button`
+  border: none;
+  box-shadow: 0 0 20px 1px rgb(0 0 0 / 10%);
+  background-color: #fff;
+  color: #000;
+  width: 44px;
+  height: 44px;
+  font-size: 17px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-weight: 700;
+  transition: box-shadow 0.25s, -webkit-transform 0.25s;
+  transition: box-shadow 0.25s, transform 0.25s;
+  transition: box-shadow 0.25s, transform 0.25s, -webkit-transform 0.25s;
+  margin: 0px 10px;
+  text-align: center;
 
   &:hover {
     box-shadow: 0 3px 20px 1px rgb(0 0 0 / 20%);
@@ -238,4 +263,9 @@ export const HoverContainers = styled.div`
   display: flex;
   flex-direction: row;
   margin: 24px;
+`;
+
+export const PlusIcon = styled(Plus)`
+  width: 24px;
+  height: 24px;
 `;
