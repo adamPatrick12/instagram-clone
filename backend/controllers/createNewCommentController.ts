@@ -6,6 +6,8 @@ exports.create_new_comment = [
       userComment: req.body.userComment,
       profilePicture: req.body.profilePicture,
       userName: req.body.userName,
+      userID: req.body.id,
+      date: Date.now(),
     };
 
     const postToUpdate = { _id: req.body.postID };

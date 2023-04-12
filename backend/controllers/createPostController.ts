@@ -61,7 +61,7 @@ exports.get_feed_posts = [
 
 exports.get_single_post = [
   async (req, res, next) => {
-    console.log(req.params.postID);
+    console.log(req.params);
 
     await UserPost.find({ _id: req.params.postID })
       .populate("user", "userName displayName profilePicture") //populating user info who posted
@@ -80,7 +80,6 @@ exports.get_single_post = [
           post.imageKey = url;
         }
         res.send(list_post);
-        console.log(list_post);
       });
   },
 ];
@@ -104,6 +103,7 @@ exports.create_new_post = [
       caption: req.body.Caption,
       imageKey: imageKey,
       user: req.body.UserID,
+      date: Date.now(),
     });
     newPost.save((err) => {
       if (err) {

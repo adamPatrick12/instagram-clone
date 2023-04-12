@@ -16,6 +16,7 @@
     "firebase": "^9.16.0",
     "framer-motion": "^10.2.3",
     "fuzzy-search": "^3.2.1",
+    "javascript-time-ago": "^2.5.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",

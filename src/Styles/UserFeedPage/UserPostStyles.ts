@@ -79,6 +79,7 @@ export const UserNameContainer = styled.div`
 export const DisplayName = styled.div`
   font-weight: 700;
   font-size: 0.9em;
+  cursor: pointer;
 `;
 
 export const ProfilePicture = styled.img`

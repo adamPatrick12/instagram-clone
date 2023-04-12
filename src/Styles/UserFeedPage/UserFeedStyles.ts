@@ -48,6 +48,7 @@ export const UserInfoCardContainer = styled.div`
 export const UserProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 
   img {
     width: 80px;
@@ -69,6 +70,7 @@ export const DisplayName = styled.h2``;
 
 export const UserName = styled.p`
   color: #888888;
+  cursor: pointer;
 `;
 
 export const UserFollowingContainer = styled.div`

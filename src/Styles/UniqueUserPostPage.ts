@@ -139,6 +139,8 @@ export const Comment = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: 10px;
+  cursor: pointer;
+  padding: 3px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);

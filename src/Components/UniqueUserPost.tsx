@@ -27,26 +27,30 @@ import {
     CommentButton, DownloadButton, LinkButton,
 } from "../Styles/UserFeedPage/UserPostStyles";
 
-import { profilePictureAtom, displayNameAtom } from "../Atoms/AuthenticationAtom";
+import { profilePictureAtom, displayNameAtom, UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 
 import { CommentInputBox, SubmitCommentButton } from "../Styles/UserFeedPage/UserPostStyles";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UpdateCommentSectionAtom } from "../Atoms/UserPostAtoms";
 import { checkAuth } from "../Hooks/useCheckAuth";
 import { useNavigate } from "react-router";
-
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 const UniqueUserPostComponent = () => {
+    TimeAgo.addLocale(en);
 
     checkAuth();
 
     const currentUserProfilePic = useRecoilValue(profilePictureAtom);
     const currentUserDisplayname = useRecoilValue(displayNameAtom);
+    const currentUserID = useRecoilValue(UserObjectIDAtom);
     const [singlePostData, setSinglePostData] = useState<any[]>([]);
     const [userComment, setUserComment] = useRecoilState(UserCommentAtom);
     const [updateComments, setUpdateComments] = useRecoilState(UpdateCommentSectionAtom);
     const time: number = 500;
     const navigate = useNavigate();
+    const timeAgo = new TimeAgo('en-US');
 
     const { postID } = useParams();
 
@@ -61,6 +65,7 @@ const UniqueUserPostComponent = () => {
             postID: postID,
             profilePicture: currentUserProfilePic,
             userName: currentUserDisplayname,
+            id: currentUserID
         };
         PostComment(userCommentData);
 
@@ -72,8 +77,6 @@ const UniqueUserPostComponent = () => {
             }
         }, time);
     };
-
-    console.log(currentUserProfilePic);
 
 
     return (
@@ -88,7 +91,7 @@ const UniqueUserPostComponent = () => {
                             </ImageContainer>
                             <PostSideBarContainer>
                                 <PostSideBarTopContainer>
-                                    <UserProfileContainer>
+                                    <UserProfileContainer onClick={() => navigate(`/user-profile/${data.user._id}`)}>
                                         <img src={data['user']['profilePicture']} alt="Profile Pic" />
                                         <UserNameContainer>
                                             <DisplayName>{data['user']['displayName']}</DisplayName>
@@ -101,7 +104,7 @@ const UniqueUserPostComponent = () => {
                                     <CommentsContainer>
                                         {data['comments'].map((data: any) => {
                                             return (
-                                                <Comment>
+                                                <Comment onClick={() => navigate(`/user-profile/${data.userID}`)}>
                                                     <UserInfo>
                                                         < UserProfilePic>
                                                             <img src={data.profilePicture} alt="Profile Pic" />
@@ -111,7 +114,7 @@ const UniqueUserPostComponent = () => {
                                                         </UserComment>
                                                     </UserInfo>
                                                     <PostedDate>
-                                                        2W
+                                                        {timeAgo.format(data.date, 'mini-now')}
                                                     </PostedDate>
                                                 </Comment>
                                             );
@@ -131,7 +134,7 @@ const UniqueUserPostComponent = () => {
                                     <LikesContainer>
                                         <Likes>1 Like</Likes>
                                         <PostedDate>
-                                            2W
+                                            {timeAgo.format(data.date)}
                                         </PostedDate>
                                     </LikesContainer>
                                     <CommentInputTextContianer>
