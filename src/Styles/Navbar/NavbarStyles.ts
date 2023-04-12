@@ -35,8 +35,13 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20%;
+  width: 15%;
   flex-direction: column;
+  transition: width 0.5s;
+
+  &:hover {
+    width: 18%;
+  }
 `;
 
 export const NavbarIcons = styled.div`
@@ -96,5 +101,30 @@ export const UserCardSearch = styled.div`
     font-size: 13.5px;
     font-weight: 100;
     color: #888888;
+  }
+`;
+
+export const MenuItems = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  p {
+    font-size: 15px;
+  }
+
+  button,
+  input[type="submit"],
+  input[type="reset"] {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;

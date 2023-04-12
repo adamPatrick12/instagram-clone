@@ -95,7 +95,6 @@ export const UserFeed = () => {
     }, [updateComments, currentUser]);
 
 
-
     const signInWithGoogle = async () => {
         signInWithPopup(auth, provider)
             .then((result) => {

@@ -1,20 +1,26 @@
 
 import {
     NavbarContainer, InstagramLogo, InputContainer, NavbarIcons, UserIcon,
-    SearchResultsContainer, UserCardSearch
+    SearchResultsContainer, UserCardSearch, MenuItems
 } from "../Styles/Navbar/NavbarStyles";
 import { Input, Tooltip } from 'antd';
 import { InfoCircleOutlined, UserOutlined, HomeOutlined, HomeFilled } from '@ant-design/icons';
 import InstagramImg from "../Images/instagram-logo.png";
 import { HomePageIconAtom, ProfilePageIconAtom } from "../Atoms/Navbar";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { RiUserLine, RiUserFill } from 'react-icons/ri';
+import { RiUserLine, RiUserFill, RiUserShared2Line, RiLogoutBoxRLine } from 'react-icons/ri';
 import { useNavigate } from "react-router";
 import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 import { handleUsernameSearch } from "../Hooks/handleFuzzySearch";
 import { fetchAllUsers } from "../api/fetchAllUsers";
 import { useEffect, useState } from "react";
 import { DisplaySearchResultsAtom } from "../Atoms/Navbar";
+import type { MenuProps } from 'antd';
+import { Dropdown, Space } from 'antd';
+import { signOut, } from "firebase/auth";
+import { auth } from "../Firebase/FirebaseConfig";
+import { authenticationAtom } from "../Atoms/AuthenticationAtom";
+
 
 
 const NavBar: React.FC = () => {
@@ -26,6 +32,19 @@ const NavBar: React.FC = () => {
     const userObjectID = useRecoilValue(UserObjectIDAtom);
     const [searchValue, setSearchValue] = useState('');
     const [showSearchResults, setShowSearchResults] = useRecoilState(DisplaySearchResultsAtom);
+    const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
+
+
+    const signOutOfGoogle = () => {
+        signOut(auth)
+            .then(() => {
+                setAuthentication(false);
+                localStorage.clear();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
 
 
@@ -33,8 +52,25 @@ const NavBar: React.FC = () => {
         fetchAllUsers().then(result => setAllUsers(result));
     }, []);
 
-
-
+    const items: MenuProps['items'] = [
+        {
+            label: <MenuItems onClick={() => navigate(`/user-profile/${userObjectID}`)}>
+                <RiUserShared2Line style={{ height: "20px", width: "20px" }} /><p style={{ padding: '2px', marginLeft: '3px' }}>Profile</p>
+            </MenuItems>,
+            key: '0',
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: <MenuItems>
+                <button onClick={signOutOfGoogle}>
+                    <RiLogoutBoxRLine style={{ height: "20px", width: "20px" }} /><p style={{ padding: '2px', marginLeft: '3px' }}>Log Out</p>
+                </button>
+            </MenuItems>,
+            key: '1',
+        },
+    ];
 
     return (
         <NavbarContainer >
@@ -71,11 +107,19 @@ const NavBar: React.FC = () => {
             </InputContainer>
             <NavbarIcons>
                 {homePageActive ? <HomeFilled onMouseLeave={() => setHomePageActive(false)} onClick={() => navigate("/user-feed")} className="homeIcon" /> : <HomeOutlined onMouseEnter={() => setHomePageActive(true)} className="homeIcon" />}
-                {profilePageActive ? <RiUserFill onClick={() => navigate(`/user-profile/${userObjectID}`)} className="userIcon" onMouseLeave={() => setprofilePageActive(false)} /> :
-                    <RiUserLine className="userIcon" onMouseEnter={() => setprofilePageActive(true)}
 
-                    />}
+                <Dropdown menu={{ items }} placement="bottomRight" arrow trigger={['click']}>
+                    <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                            {profilePageActive ? <RiUserFill
 
+                                className="userIcon" onMouseLeave={() => setprofilePageActive(false)} /> :
+                                <RiUserLine className="userIcon" onMouseEnter={() => setprofilePageActive(true)}
+
+                                />}
+                        </Space>
+                    </a>
+                </Dropdown>
             </NavbarIcons>
 
         </NavbarContainer >
