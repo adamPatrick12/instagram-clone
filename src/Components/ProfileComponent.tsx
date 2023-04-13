@@ -187,8 +187,9 @@ const UserProfile = () => {
                             <ProfilePhotosContainer>
                                 {data.posts.map((image: any, index: number) => {
                                     return (
-                                        <ProfilePhoto key={index} img={image.imageKey}
+                                        <ProfilePhoto key={index}
                                             onClick={() => navigate(`/user-post/${image._id}`)} >
+                                            <img src={image.imageKey} alt="" />
                                             <ProfilePhotoHoverState>
                                                 <HoverContainers>
                                                     <LikeHover />

@@ -19,6 +19,7 @@ import {
 } from "../Styles/UserFeedPage/UserFeedStyles";
 
 import { PostComment } from "../api/postComment";
+import { motion } from "framer-motion";
 
 import { UserCommentAtom } from "../Atoms/UserPostAtoms";
 
@@ -28,7 +29,7 @@ import {
 } from "../Styles/UserFeedPage/UserPostStyles";
 
 import { profilePictureAtom, displayNameAtom, UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
-
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { CommentInputBox, SubmitCommentButton } from "../Styles/UserFeedPage/UserPostStyles";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UpdateCommentSectionAtom } from "../Atoms/UserPostAtoms";
@@ -36,6 +37,8 @@ import { checkAuth } from "../Hooks/useCheckAuth";
 import { useNavigate } from "react-router";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
 const UniqueUserPostComponent = () => {
     TimeAgo.addLocale(en);
@@ -44,19 +47,58 @@ const UniqueUserPostComponent = () => {
 
     const currentUserProfilePic = useRecoilValue(profilePictureAtom);
     const currentUserDisplayname = useRecoilValue(displayNameAtom);
-    const currentUserID = useRecoilValue(UserObjectIDAtom);
-    const [singlePostData, setSinglePostData] = useState<any[]>([]);
+    const currentUserID: any = useRecoilValue(UserObjectIDAtom);
     const [userComment, setUserComment] = useRecoilState(UserCommentAtom);
     const [updateComments, setUpdateComments] = useRecoilState(UpdateCommentSectionAtom);
     const time: number = 500;
     const navigate = useNavigate();
     const timeAgo = new TimeAgo('en-US');
-
     const { postID } = useParams();
+    const [isPostLiked, setLikedPosted] = useState(true);
+
+    const { data: singlePostData, refetch } = useQuery(
+        ['singleUserPost', postID],
+        () => fetchSingleUserPost(postID),
+    );
+
+    const newLikeMutation = useMutation({
+        mutationFn: () => handleLikeClick(postID, currentUserID),
+        onMutate: () => {
+            setTimeout(() => {
+                refetch();
+            }, 500);
+        },
+    });
+
+    const newUnLikeMutation = useMutation({
+        mutationFn: () => handleUnLikeClick(postID, currentUserID),
+        onMutate: () => {
+            setTimeout(() => {
+                refetch();
+            }, 500);
+        },
+    });
+
+    const userWhoHaveLiked: [any] = singlePostData?.flatMap((postLikes: any) => postLikes.likes);
+
+
+    console.log(userWhoHaveLiked);
+
+    const checkIfPostIsLiked = () => {
+        if (userWhoHaveLiked?.length > 0) {
+            if (userWhoHaveLiked?.includes(currentUserID)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
 
     useEffect(() => {
-        fetchSingleUserPost(postID)
-            .then(result => setSinglePostData(result));
+
+        refetch();
     }, [updateComments]);
 
     const submitComment = () => {
@@ -79,10 +121,12 @@ const UniqueUserPostComponent = () => {
     };
 
 
+
+
     return (
         <div >
             <NavBar />
-            {singlePostData.map((data) => {
+            {singlePostData?.map((data: any) => {
                 return <PageCenterContainer>
                     <PostContainer>
                         <CardContainer>
@@ -119,20 +163,38 @@ const UniqueUserPostComponent = () => {
                                                 </Comment>
                                             );
                                         })}
-
                                     </CommentsContainer>
                                 </PostSideBarMiddleContainer>
                                 <PostSideBarBottomContainer>
                                     <IconContainer>
                                         <InteractIcons>
-                                            <LikeButton />
+                                            {checkIfPostIsLiked() ? <motion.div
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.9 }}
+                                            >
+                                                <AiFillHeart className="like" onClick={() => {
+                                                    setLikedPosted(false);
+                                                    newUnLikeMutation.mutate();
+                                                }} />
+                                            </motion.div> :
+                                                <motion.div
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                >
+                                                    <AiOutlineHeart className="notLiked" onClick={() => {
+                                                        newLikeMutation.mutate();
+                                                        setLikedPosted(true);
+                                                    }} />
+                                                </motion.div>
+                                            }
+
                                             <CommentButton />
                                             <DownloadButton />
                                         </InteractIcons>
                                         <LinkButton />
                                     </IconContainer>
                                     <LikesContainer>
-                                        <Likes>1 Like</Likes>
+                                        <Likes>{data.likes.length} Likes</Likes>
                                         <PostedDate>
                                             {timeAgo.format(data.date)}
                                         </PostedDate>

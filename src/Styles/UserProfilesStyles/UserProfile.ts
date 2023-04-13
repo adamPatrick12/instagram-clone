@@ -212,6 +212,7 @@ export const ProfilePhotoHoverState = styled.div`
   align-items: inherit;
   justify-content: inherit;
   display: none;
+  position: absolute;
 `;
 
 export const ProfilePhoto = styled.div<img>`
@@ -223,13 +224,18 @@ export const ProfilePhoto = styled.div<img>`
   border: 1px solid black;
   margin: 20px;
   box-sizing: border-box;
-  background: url(${(props) => props.img});
   background-size: 150%;
   background-position: center;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  img {
+    width: 279px;
+    height: 279px;
+    border-radius: 9px;
+  }
 
   &:hover ${ProfilePhotoHoverState} {
     display: flexbox;

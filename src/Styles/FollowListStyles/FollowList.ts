@@ -30,6 +30,11 @@ export const FollowerContainer = styled.div`
   flex-direction: column;
   z-index: 1000000;
   overflow-y: scroll;
+  /* overflow: hidden; */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const FollowViewHeaderContainer = styled.div`
