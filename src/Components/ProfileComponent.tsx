@@ -50,6 +50,8 @@ const UserProfile = () => {
         () => fetchUserProfile(profileID),
     );
 
+    console.log(userProfileData);
+
 
     const newFollowMutation = useMutation({
         mutationFn: () => postFollow(followInfo),
@@ -112,7 +114,7 @@ const UserProfile = () => {
         if (profileID === currentUser) {
             return (
                 <div>
-                    <ProfileActionButton>
+                    <ProfileActionButton onClick={() => navigate(`/edit-profile/${profileID}`)}>
                         Edit Profile
                     </ProfileActionButton>
                     <ProfilePlusButton onClick={() => navigate("/new-post")}>
@@ -181,7 +183,7 @@ const UserProfile = () => {
                                 </InfoContainerFollow>
                                 <UserBioContainer>
                                     <h3>Bio</h3>
-                                    <p>Hi my name is {data.displayName}</p>
+                                    <p>{data.bio}</p>
                                 </UserBioContainer>
                             </ProfileUserInfoContainer>
                             <ProfilePhotosContainer>

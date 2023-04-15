@@ -9,6 +9,7 @@ const createNewLike = require("../controllers/createNewLikeController.ts");
 const getUserProfile = require("../controllers/getUserProfile.ts");
 const getAllUsersController = require("../controllers/getAllUsers.ts");
 const createFollow = require("../controllers/createFollower.ts");
+const updateProfile = require("../controllers/updateUserProfile.ts");
 
 router.get("/", (req, res) => {
   res.send("Server is running");
@@ -57,5 +58,7 @@ router.post("/unfollow-user", createFollow.post_new_unfollow);
 // get all users
 
 router.get("/all-users", getAllUsersController.get_all_users);
+
+router.post("/update-profile", updateProfile.post_updated_profile);
 
 module.exports = router;

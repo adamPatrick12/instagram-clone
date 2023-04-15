@@ -30,7 +30,6 @@ const userSchema = new Schema({
   },
   bio: {
     type: String,
-    maxlength: 300,
   },
   profilePicture: {
     type: String,
