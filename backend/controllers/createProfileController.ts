@@ -8,7 +8,9 @@ exports.create_user_profile = [
       displayName: req.body.displayName,
       email: req.body.email,
       profilePicture: req.body.profilePicture,
-      bio: "Welcome to my profile",
+      banner:
+        "600f829d6548eb1f0e0acd0652ffa9add8fad7642f76c9446cd770b6940549eb",
+      bio: "Welcome to my profileee",
     });
     newUser.save((err) => {
       if (err) {

@@ -147,7 +147,7 @@ const UserProfile = () => {
             {userProfileData?.map((data: any, index: number) => {
                 return (
                     <div onMouseEnter={() => checkCurrentProfilePage()} key={index}>
-                        <ProfileHeaderImage img={"https://firebasestorage.googleapis.com/v0/b/insta-a107a.appspot.com/o/e9x1NbFsE8VqLAqAKfbpHkH0QS93%2Fbanner?alt=media&token=c17c12e5-0d7d-4602-a97c-9bb56d05a932"}>
+                        <ProfileHeaderImage img={data.banner}>
                         </ProfileHeaderImage>
                         <ProfileTopSectionContainer>
                             <ProfileTopSection>

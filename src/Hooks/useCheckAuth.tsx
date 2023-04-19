@@ -25,7 +25,6 @@ export const checkAuth = async () => {
   const setNumberOfPosts = useSetRecoilState(UserPostsCount);
   const setUserFollowingCount = useSetRecoilState(UserFollowingCount);
   const setUserFollowerCount = useSetRecoilState(UserFollowerCount);
-  // const setFollowListData = useSetRecoilState(FollowListDataAtom);
   const setFollowingList = useSetRecoilState(CurrentUserFollowingListAtom);
   const setFollowerList = useSetRecoilState(CurrentUserFollowerListAtom);
 
@@ -36,7 +35,6 @@ export const checkAuth = async () => {
     auth.onAuthStateChanged(async (user) => {
 
       if (user) {
-        setDisplayName(user?.displayName);
         setProfilePicture(user?.photoURL);
         setUniqueIdentifier(user?.uid);
 
@@ -46,6 +44,7 @@ export const checkAuth = async () => {
           .then(((data) =>
 
           (setUserName(data?.[0].userName),
+            setDisplayName(data?.[0].displayName),
             setUserObjectID(data?.[0]._id),
             setNumberOfPosts(data[0].posts.length),
             setUserFollowingCount(data[0].following.length),
@@ -54,7 +53,6 @@ export const checkAuth = async () => {
             setFollowerList(data[0].followers)
           )
           ));
-
       }
     });
   }, []);

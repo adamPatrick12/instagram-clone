@@ -61,8 +61,6 @@ exports.get_feed_posts = [
 
 exports.get_single_post = [
   async (req, res, next) => {
-    console.log(req.params);
-
     await UserPost.find({ _id: req.params.postID })
       .populate("user", "userName displayName profilePicture") //populating user info who posted
       .exec(async (err, list_post) => {
@@ -95,6 +93,8 @@ exports.create_new_post = [
       Body: req.file.buffer,
       ContentType: req.file.mimetype,
     };
+
+    console.log(req.body);
 
     const command = new PutObjectCommand(params);
     await s3.send(command);

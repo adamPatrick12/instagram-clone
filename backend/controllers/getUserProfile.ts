@@ -32,6 +32,15 @@ exports.get_user_profile = [
         }
 
         for (const user of user_profile) {
+          const getObjectParams = {
+            Bucket: bucket_name,
+            Key: user.banner,
+          };
+
+          const command = new GetObjectCommand(getObjectParams);
+          const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+          user.banner = url;
+
           for (const post of user.posts) {
             const getObjectParams = {
               Bucket: bucket_name,

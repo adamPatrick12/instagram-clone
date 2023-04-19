@@ -90,7 +90,6 @@ const NewPostComponent = () => {
                 <InputBox onChange={(e) => { setUserPostCaption(e.target.value); }} type="text" placeholder='Enter Caption...'></InputBox>
                 {isLoading ? <Spin indicator={antIcon} /> :
                     <PostButton type="submit">Post</PostButton>
-
                 }
 
 

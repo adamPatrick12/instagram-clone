@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BiPencil } from "react-icons/bi";
 
 export const PageContainer = styled.div`
   width: 100vw;
@@ -6,6 +7,19 @@ export const PageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const BannerHoverState = styled.div`
+  width: 400px;
+  height: 144px;
+  background: black;
+  position: absolute;
+  opacity: 0.3;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  display: none;
+  cursor: pointer;
 `;
 
 export const EditProfileContainer = styled.div`
@@ -18,6 +32,13 @@ export const EditProfileContainer = styled.div`
   border-radius: 16px;
   width: 400px;
   height: 672px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+  }
 `;
 
 export const EditProfileHeader = styled.h3`
@@ -27,6 +48,10 @@ export const EditProfileHeader = styled.h3`
 export const ProfileHeaderImagePreview = styled.div`
   width: 400px;
   height: 144px;
+
+  &:hover ${BannerHoverState} {
+    display: flexbox;
+  }
 
   img {
     width: inherit;
@@ -45,7 +70,6 @@ export const ProfilePicture = styled.div`
   border-radius: 100%;
   width: 112px;
   height: 112px;
-  background: red;
 
   img {
     width: inherit;
@@ -119,7 +143,7 @@ export const BioInput = styled.div`
   }
 `;
 
-export const SaveButton = styled.div`
+export const SaveButton = styled.button`
   background-color: black;
   display: flex;
   align-items: center;
@@ -160,4 +184,12 @@ export const ViewProfileButton = styled.div`
   border: 1px solid #cecece;
   justify-self: center;
   margin-top: 16px;
+`;
+
+export const ChangeBannerIcon = styled(BiPencil)`
+  color: white;
+  width: 35px;
+  height: 35px;
+  margin-bottom: 70px;
+  margin-right: 20px;
 `;

@@ -34,12 +34,12 @@ const userSchema = new Schema({
   profilePicture: {
     type: String,
   },
-  banner: {
-    type: String,
-  },
   password: {
     type: String,
     minlength: 6,
+  },
+  banner: {
+    type: String,
   },
   posts: [
     {

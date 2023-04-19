@@ -44,3 +44,8 @@ export const CurrentUserFollowerListAtom = atom<any>({
   key: "CurrentUserFollowerListState",
   default: [],
 });
+
+export const EditProfileLoadingAtom = atom<boolean>({
+  key: "ProfileEditLoadingState",
+  default: false,
+});

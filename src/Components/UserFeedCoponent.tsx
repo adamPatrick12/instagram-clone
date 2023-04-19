@@ -43,9 +43,11 @@ import { activeEmails } from '../Hooks/useActiveUsernames';
 import { DisplaySearchResultsAtom } from "../Atoms/Navbar";
 
 
+
 export const UserFeed = () => {
 
     checkAuth();
+
 
     const [postData, setPostData] = useState([]);
     const userName = useRecoilValue(userNameAtom);
@@ -92,7 +94,7 @@ export const UserFeed = () => {
         } else {
             setUserStatus(false);
         }
-    }, [updateComments, currentUser]);
+    }, [updateComments, currentUser, currentUser]);
 
 
     const signInWithGoogle = async () => {
