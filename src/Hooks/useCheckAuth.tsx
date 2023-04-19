@@ -1,5 +1,5 @@
 import { auth } from "../Firebase/FirebaseConfig";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   userNameAtom,
@@ -7,6 +7,7 @@ import {
   profilePictureAtom,
   uuidAtom,
   UserObjectIDAtom,
+  authenticationAtom
 } from "../Atoms/AuthenticationAtom";
 import { useEffect } from "react";
 import { UserPostsCount, UserFollowerCount, UserFollowingCount, } from "../Atoms/UserProfileAtoms";
@@ -27,7 +28,7 @@ export const checkAuth = async () => {
   const setUserFollowerCount = useSetRecoilState(UserFollowerCount);
   const setFollowingList = useSetRecoilState(CurrentUserFollowingListAtom);
   const setFollowerList = useSetRecoilState(CurrentUserFollowerListAtom);
-
+  const isUserSignIn = useSetRecoilState(authenticationAtom);
 
 
 
@@ -37,6 +38,7 @@ export const checkAuth = async () => {
       if (user) {
         setProfilePicture(user?.photoURL);
         setUniqueIdentifier(user?.uid);
+        isUserSignIn(true);
 
 
         await fetch(`http://localhost:3030/instagram-clone/user/${user?.uid}`)
@@ -53,6 +55,10 @@ export const checkAuth = async () => {
             setFollowerList(data[0].followers)
           )
           ));
+      } else {
+        isUserSignIn(false);
+        setUniqueIdentifier('');
+
       }
     });
   }, []);

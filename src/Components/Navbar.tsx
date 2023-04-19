@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
     const userObjectID = useRecoilValue(UserObjectIDAtom);
     const [searchValue, setSearchValue] = useState('');
     const [showSearchResults, setShowSearchResults] = useRecoilState(DisplaySearchResultsAtom);
-    const [IsAuthentication, setAuthentication] = useRecoilState(authenticationAtom);
+    const [_, setAuthentication] = useRecoilState(authenticationAtom);
 
 
     const signOutOfGoogle = () => {

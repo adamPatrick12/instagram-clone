@@ -50,8 +50,6 @@ const UserProfile = () => {
         () => fetchUserProfile(profileID),
     );
 
-    console.log(userProfileData);
-
 
     const newFollowMutation = useMutation({
         mutationFn: () => postFollow(followInfo),
@@ -85,6 +83,8 @@ const UserProfile = () => {
             setProfileIcon(false);
         }
     };
+
+    console.log(currentUser);
 
 
     const allFollowerIDs = () => {

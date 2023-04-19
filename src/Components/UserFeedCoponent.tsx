@@ -26,7 +26,8 @@ import {
     displayNameAtom,
     profilePictureAtom,
     emailAtom,
-    TakenEmailsAtom
+    TakenEmailsAtom,
+    authenticationAtom
 } from "../Atoms/AuthenticationAtom";
 
 import { FollowListDisplayAtom, FollowListDisplayTab, CurrentUserFollowerListAtom, CurrentUserFollowingListAtom } from '../Atoms/UserProfileAtoms';
@@ -70,7 +71,7 @@ export const UserFeed = () => {
     const setEmail = useSetRecoilState(emailAtom);
     const [takenEmails, setEmails] = useRecoilState(TakenEmailsAtom);
     const setShowSearchResults = useSetRecoilState(DisplaySearchResultsAtom);
-
+    const isUserSignIn = useRecoilValue(authenticationAtom);
 
     const currentUser = auth.currentUser;
 
@@ -94,7 +95,10 @@ export const UserFeed = () => {
         } else {
             setUserStatus(false);
         }
-    }, [updateComments, currentUser, currentUser]);
+
+        console.log(isUserSignIn);
+
+    }, [updateComments, isUserSignIn, currentUser]);
 
 
     const signInWithGoogle = async () => {
