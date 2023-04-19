@@ -8,7 +8,7 @@ const routes = require("./routes/PageRoutes.ts");
 
 app.use(cors());
 app.use(express.json());
-app.use("/instagram-clone", routes);
+app.use("/", routes);
 
 const mongoDbAtlas = process.env.ATLAS_URI;
 
