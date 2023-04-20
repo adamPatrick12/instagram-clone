@@ -9,7 +9,7 @@ const routes = require("./routes/PageRoutes.ts");
 app.use(cors());
 app.use(express.json());
 
-app.get("/instagram-clone", (req, res) => {
+app.get("/", (req, res) => {
   return res.send("Express Typescript on Vercel");
 });
 
