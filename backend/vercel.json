@@ -7,11 +7,5 @@
       "config": { "includeFiles": ["/**"] }
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/server.js"
-    }
-  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
