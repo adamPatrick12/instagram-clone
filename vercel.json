@@ -1,0 +1,10 @@
+{
+  "routes": [
+    { "src": "/sign-up", "dest": "/" },
+    { "src": "/", "dest": "/" },
+    { "src": "/new-post", "dest": "/" },
+    { "src": "/user-profile/:profileID", "dest": "/" },
+    { "src": "/user-post/:postID", "dest": "/" },
+    { "src": "/edit-profile/:profileID", "dest": "/" }
+  ]
+}

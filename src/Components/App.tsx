@@ -11,13 +11,11 @@ const App = () => {
     return (
         <Routes>
             <Route path="/sign-up" element={<SighUpComponent />} />
-            <Route path="/user-feed" element={<UserFeed />} />
+            <Route path="/" element={<UserFeed />} />
             <Route path="/new-post" element={<NewPostComponent />} />
             <Route path="/user-profile/:profileID" element={<UserProfile />} />
             <Route path="/user-post/:postID" element={<UniqueUserPost />} />
             <Route path="/edit-profile/:profileID" element={<EditProfile />} />
-
-
         </Routes>
 
     );
