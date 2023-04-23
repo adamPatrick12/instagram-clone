@@ -77,7 +77,7 @@ export const UserFeed = () => {
 
 
     const fetchUserFeed = async () => {
-        await fetch("http://localhost:3030/instagram-clone/user-feed")
+        await fetch("https://instagram-clone-backend-pi.vercel.app/instagram-clone/user-feed")
             .then((response) => response.json())
             .then(((data) => setPostData(data)
             ));

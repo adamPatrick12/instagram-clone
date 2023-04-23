@@ -9,9 +9,7 @@ const routes = require("./routes/PageRoutes.ts");
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  return res.send("Express Typescript on Vercel");
-});
+app.use("/instagram-clone", routes);
 
 const mongoDbAtlas = process.env.ATLAS_URI;
 

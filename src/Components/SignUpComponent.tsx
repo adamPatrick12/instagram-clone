@@ -145,9 +145,6 @@ export const SighUpComponent = () => {
           {!IsAuthentication && (
             <SignUpWithGoogleButton isdisabled={disabledBtn} onClick={signInWithGoogle} disabled={disabledBtn}>Sign up with Google</SignUpWithGoogleButton>
           )}
-          {true && (
-            <button onClick={signOutOfGoogle}>Sign out with Google</button>
-          )}
 
           <h4 >Already signed up?</h4>
 
