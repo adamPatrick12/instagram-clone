@@ -48,6 +48,9 @@ export const EditProfileHeader = styled.h3`
 export const ProfileHeaderImagePreview = styled.div`
   width: 400px;
   height: 144px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover ${BannerHoverState} {
     display: flexbox;
@@ -61,12 +64,8 @@ export const ProfileHeaderImagePreview = styled.div`
 
 export const ProfilePicture = styled.div`
   display: flex;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
   position: absolute;
-  top: 190px;
+  margin-top: 130px;
   border-radius: 100%;
   width: 112px;
   height: 112px;

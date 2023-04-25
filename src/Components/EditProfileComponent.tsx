@@ -26,10 +26,6 @@ const EditProfile = () => {
     );
     const [userBannerImage, setUserBanner] = useState<any>();
 
-    // const updateProfileMutation = useMutation({
-    //     mutationFn: () => updateProfile(updatedProfileInfo),
-    // });
-
 
 
     const [displayName, setDisplayName] = useState('');
@@ -40,17 +36,6 @@ const EditProfile = () => {
         newBio: bio,
         profileToUpdate: profileID
     };
-
-    // const updateProfile = async (profileInfo: any) => {
-    //     await fetch("http://localhost:3030/instagram-clone/update-profile", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(profileInfo),
-    //     });
-
-    // };
 
 
     useEffect(() => {
@@ -99,11 +84,12 @@ const EditProfile = () => {
                                     </BannerHoverState>
                                     <input onChange={(e) => { setUserBanner(e.target.files?.[0] || null); }} id="file-upload" type="file" accept="image/*"></input>
                                     <img src={userData.banner} alt="" />
+                                    <ProfilePicture>
+                                        <img src={userData.profilePicture} alt="" />
+                                    </ProfilePicture>
                                 </ProfileHeaderImagePreview>
                             </label>
-                            <ProfilePicture>
-                                <img src={userData.profilePicture} alt="" />
-                            </ProfilePicture>
+
                             <DisplayNameInput>
                                 <p>Display Name:</p>
                                 <input type="text"
