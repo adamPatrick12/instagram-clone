@@ -40,8 +40,8 @@ export const checkAuth = async () => {
         setUniqueIdentifier(user?.uid);
         isUserSignIn(true);
 
-
-        await fetch(`http://localhost:3030/instagram-clone/user/${user?.uid}`)
+        console.log(user?.uid);
+        await fetch(`https://instagram-clone-backend-pi.vercel.app/instagram-clone/user/${user?.uid}`)
           .then((response) => response.json())
           .then(((data) =>
 

@@ -106,7 +106,7 @@ export const UserFeed = () => {
             .then((result) => {
 
                 if (takenEmails.includes(result.user.email)) {
-                    navigate("/user-feed");
+                    navigate("/");
                     return;
                 } else {
                     const userData = {
@@ -119,7 +119,7 @@ export const UserFeed = () => {
 
                     Authentication(userData);
 
-                    navigate("/user-feed");
+                    navigate("/");
 
                     setProfilePicture(result.user.photoURL);
                     setdisplayName(result.user.displayName);
@@ -130,6 +130,8 @@ export const UserFeed = () => {
                 console.log(error);
             });
     };
+
+    console.log(postData);
 
     return (
 

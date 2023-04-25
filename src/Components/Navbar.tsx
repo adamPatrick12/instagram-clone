@@ -74,7 +74,7 @@ const NavBar: React.FC = () => {
 
     return (
         <NavbarContainer >
-            <InstagramLogo onClick={() => navigate('/user-feed')}>
+            <InstagramLogo onClick={() => navigate('/')}>
                 <img src={InstagramImg} alt="" />
                 <h2>Instagram</h2>
             </InstagramLogo>
@@ -106,7 +106,7 @@ const NavBar: React.FC = () => {
 
             </InputContainer>
             <NavbarIcons>
-                {homePageActive ? <HomeFilled onMouseLeave={() => setHomePageActive(false)} onClick={() => navigate("/user-feed")} className="homeIcon" /> : <HomeOutlined onMouseEnter={() => setHomePageActive(true)} className="homeIcon" />}
+                {homePageActive ? <HomeFilled onMouseLeave={() => setHomePageActive(false)} onClick={() => navigate("/")} className="homeIcon" /> : <HomeOutlined onMouseEnter={() => setHomePageActive(true)} className="homeIcon" />}
 
                 <Dropdown menu={{ items }} placement="bottomRight" arrow trigger={['click']}>
                     <a onClick={(e) => e.preventDefault()}>

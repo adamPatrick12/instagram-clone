@@ -45,17 +45,11 @@ router.post("/like-post", createNewLike.create_new_like);
 
 router.post("/unlike-post", createNewLike.create_new_unlike);
 
-router.post("/unlike-post", createNewLike.create_new_unlike);
-
 router.get("/user-profile/:profileID", getUserProfile.get_user_profile);
-
-//follow User
 
 router.post("/follow-user", createFollow.post_new_follow);
 
 router.post("/unfollow-user", createFollow.post_new_unfollow);
-
-// get all users
 
 router.get("/all-users", getAllUsersController.get_all_users);
 

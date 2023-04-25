@@ -48,22 +48,13 @@ export const SighUpComponent = () => {
 
   const navigate = useNavigate();
 
-  const signOutOfGoogle = () => {
-    signOut(auth)
-      .then(() => {
-        setAuthentication(false);
-        localStorage.clear();
-      })
-      .catch((error) => { });
-  };
-
 
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then((result) => {
 
         if (takenEmails.includes(result.user.email)) {
-          navigate("/user-feed");
+          navigate("/");
           return;
         } else {
           const userData = {
@@ -76,7 +67,8 @@ export const SighUpComponent = () => {
 
           Authentication(userData);
 
-          navigate("/user-feed");
+          setAuthentication(true);
+          navigate("/");
 
           setProfilePicture(result.user.photoURL);
           setdisplayName(result.user.displayName);

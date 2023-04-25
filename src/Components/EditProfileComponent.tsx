@@ -72,10 +72,8 @@ const EditProfile = () => {
         form.append('userBanner', userBannerImage);
         form.append("profileToUpdate", profileID);
 
-        console.log(form);
 
-
-        await fetch("http://localhost:3030/instagram-clone/update-profile", {
+        await fetch("https://instagram-clone-backend-pi.vercel.app/instagram-clone/update-profile", {
             method: "POST",
             body: form,
         });

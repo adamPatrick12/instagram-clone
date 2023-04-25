@@ -10,7 +10,7 @@ exports.create_user_profile = [
       profilePicture: req.body.profilePicture,
       banner:
         "600f829d6548eb1f0e0acd0652ffa9add8fad7642f76c9446cd770b6940549eb",
-      bio: "Welcome to my profileee",
+      bio: "Welcome to my profile",
     });
     newUser.save((err) => {
       if (err) {

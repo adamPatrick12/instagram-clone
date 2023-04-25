@@ -35,7 +35,7 @@ const NewPostComponent = () => {
         form.append("Caption", userPostCaption);
         form.append("UserID", userObjectID);
 
-        await fetch("http://localhost:3030/instagram-clone/new-post", {
+        await fetch("https://instagram-clone-backend-pi.vercel.app/instagram-clone/new-post", {
             method: "POST",
             body: form,
         });
@@ -44,7 +44,7 @@ const NewPostComponent = () => {
         setPostImage('');
         setIsLoading(false);
 
-        navigate('/user-feed');
+        navigate('/');
     };
 
     const uploadImgComponents = () => {
@@ -66,12 +66,9 @@ const NewPostComponent = () => {
 
     };
 
-    console.log(userPostImage);
 
 
     useEffect(() => {
-        console.log(userPostImage);
-
     }, [userPostImage]);
 
     return (
@@ -79,7 +76,7 @@ const NewPostComponent = () => {
             <NewPostHeader>
                 <h3>Create New Post</h3>
                 <CloseModelIcon onClick={() => {
-                    navigate('/user-feed');
+                    navigate('/');
                     setPostImage('');
 
                 }} />
