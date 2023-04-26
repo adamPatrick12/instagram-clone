@@ -24,6 +24,8 @@ export const UserPostCardContainer = styled.div<loadedProp>`
   img {
     width: 560px;
     height: 500px;
+    object-fit: cover;
+    object-position: center center;
     margin-bottom: -5px;
     margin-bottom: -4px;
     display: ${(props) => (props.isLoaded ? "#ebebeb" : "white")};

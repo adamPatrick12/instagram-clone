@@ -23,6 +23,10 @@ export const ImageContainer = styled.div`
   img {
     width: 35em;
     height: 39.5em;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 1;
+    transition: opacity 0.7s ease 0s;
   }
 `;
 

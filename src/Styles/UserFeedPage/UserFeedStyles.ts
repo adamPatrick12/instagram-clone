@@ -30,14 +30,14 @@ export const UserFeedContainer = styled.div<InputWrapperProps>`
 `;
 
 export const UserContainer = styled.div`
-  width: 40%;
+  width: 25%;
   display: flex;
   justify-content: center;
 `;
 
 export const UserInfoCardContainer = styled.div`
   position: fixed;
-  top: 15%;
+  top: 10%;
   width: 270px;
 
   @media (max-width: 855px) {
@@ -49,6 +49,7 @@ export const UserProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
   cursor: pointer;
+  margin-left: 30px;
 
   img {
     width: 80px;
@@ -71,6 +72,8 @@ export const DisplayName = styled.h2``;
 export const UserName = styled.p`
   color: #888888;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 100;
 `;
 
 export const UserFollowingContainer = styled.div`

@@ -15,12 +15,15 @@ export const UserProfilePageContainer = styled.div`
 
 export const ProfileHeaderImage = styled.div<img>`
   width: 100vw;
-  background: url(${(props) => props.img});
   background-size: 200%;
   height: 320px;
-  background-position: 0px;
-  object-position: center;
-  object-fit: cover;
+
+  img {
+    object-fit: cover;
+    object-position: center center;
+    width: inherit;
+    height: inherit;
+  }
 `;
 
 export const ProfileTopSectionContainer = styled.div`
@@ -230,11 +233,14 @@ export const ProfilePhoto = styled.div<img>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 
   img {
     width: 279px;
     height: 279px;
     border-radius: 9px;
+    object-fit: cover;
+    object-position: center center;
   }
 
   &:hover ${ProfilePhotoHoverState} {

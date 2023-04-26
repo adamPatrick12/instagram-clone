@@ -2,8 +2,6 @@ const UserPost = require("../models/posts.ts");
 
 exports.create_new_like = [
   async (req, res, next) => {
-    // console.log(req.body.postID);
-
     const postToUpdate = { _id: req.body.postID };
     const postToAddLikeTo = { $push: { likes: req.body.userID } };
 

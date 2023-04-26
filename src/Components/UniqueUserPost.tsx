@@ -82,7 +82,6 @@ const UniqueUserPostComponent = () => {
     const userWhoHaveLiked: [any] = singlePostData?.flatMap((postLikes: any) => postLikes.likes);
 
 
-    console.log(userWhoHaveLiked);
 
     const checkIfPostIsLiked = () => {
         if (userWhoHaveLiked?.length > 0) {

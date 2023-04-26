@@ -53,53 +53,6 @@ const FollowListComponent = ({ followingList, followerList, followerIDs, followi
     }, [DisplayTabValue]);
 
 
-    const followStatus = () => {
-        console.log(DisplayTabValue);
-
-
-        if (DisplayTabValue === 'follower') {
-            if (userIDs(currentUserFollowerList).some((followListID) => followListID.includes(followingIDs))) {
-                console.log('here');
-
-                return (
-                    <FollowButton>
-                        Following
-                    </FollowButton>
-                );
-            } else {
-                return (
-                    <FollowButton>
-                        Not Following
-                    </FollowButton>
-                );
-            }
-        }
-
-
-        if (DisplayTabValue === 'following') {
-            if (userIDs(currentUserFollowingList).some((followListID) => followListID.includes(followingIDs))) {
-                return (
-                    <FollowButton>
-                        Following
-                    </FollowButton>
-                );
-            } else {
-                return (
-                    <FollowButton>
-                        Not Following
-                    </FollowButton>
-                );
-            }
-        }
-
-
-
-
-
-
-
-    };
-
 
     return (
         <PageContainer>

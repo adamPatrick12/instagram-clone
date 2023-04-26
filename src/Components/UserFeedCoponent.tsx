@@ -96,7 +96,6 @@ export const UserFeed = () => {
             setUserStatus(false);
         }
 
-        console.log(isUserSignIn);
 
     }, [updateComments, isUserSignIn, currentUser]);
 
@@ -131,12 +130,10 @@ export const UserFeed = () => {
             });
     };
 
-    console.log(postData);
 
     return (
 
         <PageContainer
-
             onMouseEnter={() => {
                 setHomePageIcon(true);
             }}>

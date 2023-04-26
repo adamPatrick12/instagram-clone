@@ -84,7 +84,6 @@ const UserProfile = () => {
         }
     };
 
-    console.log(currentUser);
 
 
     const allFollowerIDs = () => {
@@ -147,7 +146,8 @@ const UserProfile = () => {
             {userProfileData?.map((data: any, index: number) => {
                 return (
                     <div onMouseEnter={() => checkCurrentProfilePage()} key={index}>
-                        <ProfileHeaderImage img={data.banner}>
+                        <ProfileHeaderImage >
+                            <img src={data.banner} alt="" />
                         </ProfileHeaderImage>
                         <ProfileTopSectionContainer>
                             <ProfileTopSection>
