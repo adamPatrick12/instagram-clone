@@ -10,7 +10,7 @@ import {
     IconContainer, LikesContainer, Likes,
     CommentInputTextContianer
 } from "../Styles/UniqueUserPostPage";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchSingleUserPost } from "../api/fetchSingleUserPostInfo";
 import { useParams } from 'react-router-dom';
 import {
@@ -39,12 +39,15 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { auth } from "../Firebase/FirebaseConfig";
+
 
 const UniqueUserPostComponent = () => {
     TimeAgo.addLocale(en);
 
     checkAuth();
 
+    const currentUser = auth.currentUser;
     const currentUserProfilePic = useRecoilValue(profilePictureAtom);
     const currentUserDisplayname = useRecoilValue(displayNameAtom);
     const currentUserID: any = useRecoilValue(UserObjectIDAtom);
@@ -55,6 +58,8 @@ const UniqueUserPostComponent = () => {
     const timeAgo = new TimeAgo('en-US');
     const { postID } = useParams();
     const [isPostLiked, setLikedPosted] = useState(true);
+    const inputRef = useRef<any>(null);
+
 
     const { data: singlePostData, refetch } = useQuery(
         ['singleUserPost', postID],
@@ -119,14 +124,30 @@ const UniqueUserPostComponent = () => {
         }, time);
     };
 
+    const handleLikeEvent = () => {
+        if (currentUser) {
+            newLikeMutation.mutate();
+            setLikedPosted(true);
+        } else {
+            navigate("/sign-up");
+        }
+    };
 
+    const handleCommentEvent = () => {
+        if (currentUser) {
+            submitComment();
+            setUserComment('');
+        } else {
+            navigate("/sign-up");
+        }
+    };
 
 
     return (
         <div >
             <NavBar />
-            {singlePostData?.map((data: any) => {
-                return <PageCenterContainer>
+            {singlePostData?.map((data: any, index: number) => {
+                return <PageCenterContainer key={index}>
                     <PostContainer>
                         <CardContainer>
                             <ImageContainer>
@@ -181,13 +202,14 @@ const UniqueUserPostComponent = () => {
                                                     whileTap={{ scale: 0.9 }}
                                                 >
                                                     <AiOutlineHeart className="notLiked" onClick={() => {
-                                                        newLikeMutation.mutate();
-                                                        setLikedPosted(true);
+                                                        handleLikeEvent();
                                                     }} />
                                                 </motion.div>
                                             }
 
-                                            <CommentButton />
+                                            <CommentButton onClick={() => {
+                                                inputRef.current.focus();
+                                            }} />
                                             <DownloadButton />
                                         </InteractIcons>
                                         <LinkButton />
@@ -200,13 +222,13 @@ const UniqueUserPostComponent = () => {
                                     </LikesContainer>
                                     <CommentInputTextContianer>
                                         <CommentInputBox
+                                            ref={inputRef}
                                             value={userComment}
                                             onChange={(e) => { setUserComment(e.target.value); }} placeholder="Add Comment..."></CommentInputBox>
                                         <SubmitCommentButton
                                             // isDisabled={disabledStatus}
                                             onClick={() => {
-                                                submitComment();
-                                                setUserComment('');
+                                                handleCommentEvent();
                                             }} />
                                     </CommentInputTextContianer>
                                 </PostSideBarBottomContainer>

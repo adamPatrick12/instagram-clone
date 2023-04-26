@@ -11,7 +11,8 @@ import {
     TextDescription,
     AddIcon, LoginBtn,
     PageContainer, ButtonContainer, SignUpBtn,
-    ProfileNewPostContainer
+    ProfileNewPostContainer,
+    LoadingContainer
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
 import UserPost from './UserPostComponent';
@@ -42,6 +43,7 @@ import { Authentication } from '../api/postUser';
 import { signInWithPopup, } from "firebase/auth";
 import { activeEmails } from '../Hooks/useActiveUsernames';
 import { DisplaySearchResultsAtom } from "../Atoms/Navbar";
+import { Alert, Space, Spin } from 'antd';
 
 
 
@@ -72,15 +74,20 @@ export const UserFeed = () => {
     const [takenEmails, setEmails] = useRecoilState(TakenEmailsAtom);
     const setShowSearchResults = useSetRecoilState(DisplaySearchResultsAtom);
     const isUserSignIn = useRecoilValue(authenticationAtom);
+    const [postsAreLoading, setLoadingPostState] = useState<boolean>();
 
     const currentUser = auth.currentUser;
 
 
     const fetchUserFeed = async () => {
+        setLoadingPostState(true);
+
         await fetch("https://instagram-clone-backend-pi.vercel.app/instagram-clone/user-feed")
             .then((response) => response.json())
             .then(((data) => setPostData(data)
             ));
+
+        setLoadingPostState(false);
     };
 
     useEffect(() => {
@@ -142,24 +149,31 @@ export const UserFeed = () => {
 
 
             <FeedDataContainer onClick={() => setShowSearchResults(false)}>
-                <div className='UserPostContainer'>
+                {postsAreLoading ?
+                    <LoadingContainer>
+                        <Spin tip="Loading Posts" size="large">
+                            <div className="content" />
+                        </Spin>
+                    </LoadingContainer>
+                    : <div className='UserPostContainer'>
 
-                    {postData.map((data) => {
-                        return (
-                            <UserPost key={data['date']}
-                                ImageURl={data['imageKey']}
-                                userName={data['user']['userName']}
-                                userID={data['user']['_id']}
-                                displayName={data['user']['displayName']}
-                                profilePicture={data['user']['profilePicture']}
-                                comments={data['comments']}
-                                likes={data['likes']}
-                                imageID={data['_id']
-                                }
-                            />
-                        );
-                    })}
-                </div>
+                        {postData.map((data) => {
+                            return (
+                                <UserPost key={data['date']}
+                                    ImageURl={data['imageKey']}
+                                    userName={data['user']['userName']}
+                                    userID={data['user']['_id']}
+                                    displayName={data['user']['displayName']}
+                                    profilePicture={data['user']['profilePicture']}
+                                    comments={data['comments']}
+                                    likes={data['likes']}
+                                    imageID={data['_id']
+                                    }
+                                />
+                            );
+                        })}
+                    </div>}
+
                 {isUserSignedIn ? <UserContainer>
                     <UserInfoCardContainer>
                         <UserProfileContainer>
@@ -219,6 +233,8 @@ export const UserFeed = () => {
                     </UserContainer>
                 }
             </FeedDataContainer>
+
+
         </PageContainer >
 
     );

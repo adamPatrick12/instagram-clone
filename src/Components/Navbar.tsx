@@ -8,7 +8,7 @@ import { InfoCircleOutlined, UserOutlined, HomeOutlined, HomeFilled } from '@ant
 import InstagramImg from "../Images/instagram-logo.png";
 import { HomePageIconAtom, ProfilePageIconAtom } from "../Atoms/Navbar";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { RiUserLine, RiUserFill, RiUserShared2Line, RiLogoutBoxRLine } from 'react-icons/ri';
+import { RiUserLine, RiUserFill, RiUserShared2Line, RiLogoutBoxRLine, RiUserAddLine } from 'react-icons/ri';
 import { useNavigate } from "react-router";
 import { UserObjectIDAtom } from "../Atoms/AuthenticationAtom";
 import { handleUsernameSearch } from "../Hooks/handleFuzzySearch";
@@ -24,6 +24,11 @@ import { authenticationAtom } from "../Atoms/AuthenticationAtom";
 
 
 const NavBar: React.FC = () => {
+
+    const isUserSignedIn = auth.currentUser;
+
+
+
 
     const navigate = useNavigate();
     const [homePageActive, setHomePageActive] = useRecoilState(HomePageIconAtom);
@@ -47,12 +52,11 @@ const NavBar: React.FC = () => {
     };
 
 
-
     useEffect(() => {
         fetchAllUsers().then(result => setAllUsers(result));
     }, []);
 
-    const items: MenuProps['items'] = [
+    let items: MenuProps['items'] = [
         {
             label: <MenuItems onClick={() => navigate(`/user-profile/${userObjectID}`)}>
                 <RiUserShared2Line style={{ height: "20px", width: "20px" }} /><p style={{ padding: '2px', marginLeft: '3px' }}>Profile</p>
@@ -62,6 +66,7 @@ const NavBar: React.FC = () => {
         {
             type: 'divider',
         },
+
         {
             label: <MenuItems>
                 <button onClick={signOutOfGoogle}>
@@ -71,6 +76,21 @@ const NavBar: React.FC = () => {
             key: '1',
         },
     ];
+
+
+    if (!isUserSignedIn) {
+        items = [
+            {
+                label: <MenuItems>
+                    <button onClick={() => navigate(`/sign-up`)}>
+                        <RiUserAddLine style={{ height: "20px", width: "20px" }} /><p style={{ padding: '2px', marginLeft: '3px' }}>Sign Up</p>
+                    </button>
+                </MenuItems>,
+                key: '0',
+            },
+        ];
+    }
+
 
     return (
         <NavbarContainer >

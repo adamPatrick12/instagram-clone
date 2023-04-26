@@ -1,8 +1,8 @@
 
 import NavBar from "./Navbar";
 import { HomePageIconAtom, ProfilePageIconAtom } from "../Atoms/Navbar";
-import { useRecoilCallback, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect, } from "react";
 import {
     UserProfilePageContainer, ProfileHeaderImage,
     ProfileTopSectionContainer, ProfileTopSection,

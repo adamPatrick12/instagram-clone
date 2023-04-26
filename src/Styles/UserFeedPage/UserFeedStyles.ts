@@ -37,7 +37,7 @@ export const UserContainer = styled.div`
 
 export const UserInfoCardContainer = styled.div`
   position: fixed;
-  top: 10%;
+  top: 13%;
   width: 270px;
 
   @media (max-width: 855px) {
@@ -193,4 +193,10 @@ export const LoginBtn = styled.button`
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.2);
     transform: translate(0px, -2px);
   }
+`;
+
+export const LoadingContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 265px;
 `;

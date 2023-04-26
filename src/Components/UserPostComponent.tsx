@@ -32,6 +32,8 @@ import { useNavigate } from "react-router";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { handleUserComment } from "../Hooks/handleUserComment";
 import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
+import { auth } from "../Firebase/FirebaseConfig";
+
 
 
 
@@ -51,9 +53,9 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
     const time: number = 500;
     const currentUserProfilePic = useRecoilValue(profilePictureAtom);
     const currentUserDisplayname = useRecoilValue(displayNameAtom);
-    const [likedPicture, setLikedPicture] = useState(false);
     const currentUserName = useRecoilValue(userNameAtom);
 
+    const isUserSignIn = auth.currentUser;
     const listOfUserLikes = likes.map((data: any) => data.userName);
 
     const reRenderPage = () => {
@@ -91,6 +93,17 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         }
     }, [userComment]);
 
+
+    const handleLikeEvent = () => {
+        if (isUserSignIn) {
+            handleLikeClick(postID, userObjectID);
+            reRenderPage();
+        } else {
+            navigate(`sign-up`);
+        }
+
+    };
+
     return (
         <UserPostCardContainer onMouseOver={() => setPostId(imageID)}>
             <UserPostHeader>
@@ -123,7 +136,6 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}>
                                 <AiFillHeart onClick={() => {
-                                    setLikedPicture(false);
                                     handleUnLikeClick(postID, userObjectID);
                                     reRenderPage();
                                 }
@@ -134,9 +146,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                                 whileTap={{ scale: 0.9 }}
                             >
                                 <AiOutlineHeart className="notLiked" onClick={() => {
-                                    setLikedPicture(true);
-                                    handleLikeClick(postID, userObjectID);
-                                    reRenderPage();
+                                    handleLikeEvent();
                                 }} />
                             </motion.div>}
 
