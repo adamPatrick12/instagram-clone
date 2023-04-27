@@ -40,6 +40,8 @@ import en from 'javascript-time-ago/locale/en';
 import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { auth } from "../Firebase/FirebaseConfig";
+import { usePrevious } from '../Hooks/usePrevious';
+import isEqual from 'lodash/isEqual';
 
 
 const UniqueUserPostComponent = () => {
@@ -53,35 +55,27 @@ const UniqueUserPostComponent = () => {
     const currentUserID: any = useRecoilValue(UserObjectIDAtom);
     const [userComment, setUserComment] = useRecoilState(UserCommentAtom);
     const [updateComments, setUpdateComments] = useRecoilState(UpdateCommentSectionAtom);
-    const time: number = 500;
+    const time: number = 2000;
     const navigate = useNavigate();
     const timeAgo = new TimeAgo('en-US');
     const { postID } = useParams();
     const [isPostLiked, setLikedPosted] = useState(true);
     const inputRef = useRef<any>(null);
-
+    const [pageUpdate, setUpdate] = useState(0);
+    const [postContent, setPostContent] = useState<any>();
 
     const { data: singlePostData, refetch } = useQuery(
         ['singleUserPost', postID],
         () => fetchSingleUserPost(postID),
+        { refetchInterval: 3500 }
     );
 
     const newLikeMutation = useMutation({
         mutationFn: () => handleLikeClick(postID, currentUserID),
-        onMutate: () => {
-            setTimeout(() => {
-                refetch();
-            }, 500);
-        },
     });
 
     const newUnLikeMutation = useMutation({
         mutationFn: () => handleUnLikeClick(postID, currentUserID),
-        onMutate: () => {
-            setTimeout(() => {
-                refetch();
-            }, 500);
-        },
     });
 
     const userWhoHaveLiked: [any] = singlePostData?.flatMap((postLikes: any) => postLikes.likes);
@@ -100,10 +94,10 @@ const UniqueUserPostComponent = () => {
         }
     };
 
-    useEffect(() => {
 
-        refetch();
-    }, [updateComments]);
+    useEffect(() => {
+        setPostContent(singlePostData);
+    }, [singlePostData]);
 
     const submitComment = () => {
         const userCommentData = {
@@ -115,13 +109,6 @@ const UniqueUserPostComponent = () => {
         };
         PostComment(userCommentData);
 
-        setTimeout(() => {
-            if (updateComments) {
-                setUpdateComments(false);
-            } else {
-                setUpdateComments(true);
-            }
-        }, time);
     };
 
     const handleLikeEvent = () => {
@@ -142,11 +129,13 @@ const UniqueUserPostComponent = () => {
         }
     };
 
+    console.log(postContent);
+
 
     return (
         <div >
             <NavBar />
-            {singlePostData?.map((data: any, index: number) => {
+            {postContent?.map((data: any, index: number) => {
                 return <PageCenterContainer key={index}>
                     <PostContainer>
                         <CardContainer>

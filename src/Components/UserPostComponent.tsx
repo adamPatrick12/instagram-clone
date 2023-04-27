@@ -81,7 +81,6 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
             userName: currentUserDisplayname,
         };
         PostComment(userCommentData);
-
         reRenderPage();
     };
 

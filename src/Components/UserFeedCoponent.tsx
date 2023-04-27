@@ -12,7 +12,6 @@ import {
     AddIcon, LoginBtn,
     PageContainer, ButtonContainer, SignUpBtn,
     ProfileNewPostContainer,
-    LoadingContainer
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
 import UserPost from './UserPostComponent';
@@ -43,8 +42,6 @@ import { Authentication } from '../api/postUser';
 import { signInWithPopup, } from "firebase/auth";
 import { activeEmails } from '../Hooks/useActiveUsernames';
 import { DisplaySearchResultsAtom } from "../Atoms/Navbar";
-import { Alert, Space, Spin } from 'antd';
-
 
 
 export const UserFeed = () => {
@@ -149,30 +146,24 @@ export const UserFeed = () => {
 
 
             <FeedDataContainer onClick={() => setShowSearchResults(false)}>
-                {postsAreLoading ?
-                    <LoadingContainer>
-                        <Spin tip="Loading Posts" size="large">
-                            <div className="content" />
-                        </Spin>
-                    </LoadingContainer>
-                    : <div className='UserPostContainer'>
+                <div className='UserPostContainer'>
 
-                        {postData.map((data) => {
-                            return (
-                                <UserPost key={data['date']}
-                                    ImageURl={data['imageKey']}
-                                    userName={data['user']['userName']}
-                                    userID={data['user']['_id']}
-                                    displayName={data['user']['displayName']}
-                                    profilePicture={data['user']['profilePicture']}
-                                    comments={data['comments']}
-                                    likes={data['likes']}
-                                    imageID={data['_id']
-                                    }
-                                />
-                            );
-                        })}
-                    </div>}
+                    {postData.map((data) => {
+                        return (
+                            <UserPost key={data['date']}
+                                ImageURl={data['imageKey']}
+                                userName={data['user']['userName']}
+                                userID={data['user']['_id']}
+                                displayName={data['user']['displayName']}
+                                profilePicture={data['user']['profilePicture']}
+                                comments={data['comments']}
+                                likes={data['likes']}
+                                imageID={data['_id']
+                                }
+                            />
+                        );
+                    })}
+                </div>
 
                 {isUserSignedIn ? <UserContainer>
                     <UserInfoCardContainer>
