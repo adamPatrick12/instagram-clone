@@ -40,8 +40,7 @@ import en from 'javascript-time-ago/locale/en';
 import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { auth } from "../Firebase/FirebaseConfig";
-import { usePrevious } from '../Hooks/usePrevious';
-import isEqual from 'lodash/isEqual';
+
 
 
 const UniqueUserPostComponent = () => {
