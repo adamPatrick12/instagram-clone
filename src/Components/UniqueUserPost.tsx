@@ -24,7 +24,7 @@ import { motion } from "framer-motion";
 import { UserCommentAtom } from "../Atoms/UserPostAtoms";
 
 import {
-    InteractIcons, LikeButton,
+    InteractIcons,
     CommentButton, DownloadButton, LinkButton,
 } from "../Styles/UserFeedPage/UserPostStyles";
 

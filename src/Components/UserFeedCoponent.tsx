@@ -27,7 +27,8 @@ import {
     profilePictureAtom,
     emailAtom,
     TakenEmailsAtom,
-    authenticationAtom
+    authenticationAtom,
+    UserObjectIDAtom
 } from "../Atoms/AuthenticationAtom";
 
 import { FollowListDisplayAtom, FollowListDisplayTab, CurrentUserFollowerListAtom, CurrentUserFollowingListAtom } from '../Atoms/UserProfileAtoms';
@@ -72,6 +73,7 @@ export const UserFeed = () => {
     const setShowSearchResults = useSetRecoilState(DisplaySearchResultsAtom);
     const isUserSignIn = useRecoilValue(authenticationAtom);
     const [postsAreLoading, setLoadingPostState] = useState<boolean>();
+    const currentUserID = useRecoilValue(UserObjectIDAtom);
 
     const currentUser = auth.currentUser;
 
@@ -167,7 +169,7 @@ export const UserFeed = () => {
 
                 {isUserSignedIn ? <UserContainer>
                     <UserInfoCardContainer>
-                        <UserProfileContainer>
+                        <UserProfileContainer onClick={() => navigate(`/user-profile/${currentUserID}`)}>
                             <img src={profilePicture} alt="" />
                             <UserNameContainer>
                                 <DisplayName>{displayName}</DisplayName>

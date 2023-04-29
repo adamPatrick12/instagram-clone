@@ -44,6 +44,8 @@ export const ProfileTopSection = styled.div`
     width: 200px;
     height: 200px;
     object-fit: cover;
+    object-position: center center;
+
     position: relative;
     top: -75px;
   }
