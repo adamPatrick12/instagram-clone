@@ -1,0 +1,4 @@
+.UserPostContainer {
+  display: flex;
+  flex-direction: row;
+}
