@@ -100,7 +100,15 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         } else {
             navigate(`sign-up`);
         }
+    };
 
+    const handleCommentEvent = () => {
+        if (isUserSignIn) {
+            submitComment();
+            setUserComment('');
+        } else {
+            navigate(`sign-up`);
+        }
     };
 
     return (
@@ -175,8 +183,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                     <SubmitCommentButton
                         isdisabled={disabledStatus}
                         onClick={() => {
-                            submitComment();
-                            setUserComment('');
+                            handleCommentEvent();
                         }} />
                 </CommentInputContianer>
             </UserPostFooter>
