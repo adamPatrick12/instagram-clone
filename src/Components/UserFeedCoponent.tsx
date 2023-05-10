@@ -11,7 +11,7 @@ import {
     TextDescription,
     AddIcon, LoginBtn,
     PageContainer, ButtonContainer, SignUpBtn,
-    ProfileNewPostContainer,
+    ProfileNewPostContainer, LoadingContainer
 } from '../Styles/UserFeedPage/UserFeedStyles';
 
 import UserPost from './UserPostComponent';
@@ -43,7 +43,7 @@ import { Authentication } from '../api/postUser';
 import { signInWithPopup, } from "firebase/auth";
 import { activeEmails } from '../Hooks/useActiveUsernames';
 import { DisplaySearchResultsAtom } from "../Atoms/Navbar";
-
+import { Space, Spin } from 'antd';
 
 export const UserFeed = () => {
 
@@ -144,6 +144,7 @@ export const UserFeed = () => {
                 setHomePageIcon(true);
             }}>
             <NavBar />
+
             {followListModual && <FollowListComponent followingList={currentUserFollowingList} followerList={currentUserFollowerList} />}
 
 
@@ -166,7 +167,6 @@ export const UserFeed = () => {
                         );
                     })}
                 </div>
-
                 {isUserSignedIn ? <UserContainer>
                     <UserInfoCardContainer>
                         <UserProfileContainer onClick={() => navigate(`/user-profile/${currentUserID}`)}>
@@ -175,6 +175,7 @@ export const UserFeed = () => {
                                 <DisplayName>{displayName}</DisplayName>
                                 <UserName>@{userName}</UserName>
                             </UserNameContainer>
+
                         </UserProfileContainer>
                         <UserFollowingContainer>
                             <ProfileNumberContainer onClick={() => {
@@ -217,6 +218,13 @@ export const UserFeed = () => {
                     </UserInfoCardContainer>
                 </UserContainer> :
                     <UserContainer>
+                        {postsAreLoading && <LoadingContainer>
+                            <Space direction="vertical" style={{ width: "100%" }}>
+                                <Spin tip="Loading" size="large">
+                                    <div className="content" />
+                                </Spin>
+                            </Space>
+                        </LoadingContainer>}
                         <UserInfoCardContainer>
                             <ButtonContainer>
                                 <SignUpBtn onClick={() => { navigate("/sign-up"); }}>Sign Up</SignUpBtn>

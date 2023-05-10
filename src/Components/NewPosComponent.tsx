@@ -14,6 +14,7 @@ import {
 } from "../Styles/NewPost/NewPostStyles";
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import { Button, message, Space } from 'antd';
 
 const NewPostComponent = () => {
     const userObjectID = useRecoilValue(UserObjectIDAtom);
@@ -22,7 +23,14 @@ const NewPostComponent = () => {
     const navigate = useNavigate();
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
     const [isLoading, setIsLoading] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
 
+    const error = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'File size limit is 5MB',
+        });
+    };
 
     checkAuth();
 
@@ -41,7 +49,7 @@ const NewPostComponent = () => {
         });
 
 
-        setPostImage('');
+        setPostImage(null);
         setIsLoading(false);
 
         navigate('/');
@@ -63,33 +71,37 @@ const NewPostComponent = () => {
                 </label>
             );
         }
-
     };
 
 
 
+
+
     useEffect(() => {
+        if (userPostImage?.size > 5000000) {
+            error();
+            setPostImage(null);
+        }
     }, [userPostImage]);
 
     return (
         <NewPostPageContainer>
+            {contextHolder}
             <NewPostHeader>
                 <h3>Create New Post</h3>
                 <CloseModelIcon onClick={() => {
                     navigate('/');
-                    setPostImage('');
+                    setPostImage(false);
 
                 }} />
             </NewPostHeader>
             <form onSubmit={onSubmit}>
                 {uploadImgComponents()}
-                <input onChange={(e) => { setPostImage(e.target.files?.[0] || null); }} id="file-upload" type="file" accept="image/*"></input>
+                <input onChange={(e) => { setPostImage(e.target.files?.[0] || null); }} id="file-upload" type="file" accept="image/*" maxLength={5000000} ></input>
                 <InputBox onChange={(e) => { setUserPostCaption(e.target.value); }} type="text" placeholder='Enter Caption...'></InputBox>
                 {isLoading ? <Spin indicator={antIcon} /> :
-                    <PostButton type="submit">Post</PostButton>
+                    <PostButton isFileUploaded={userPostImage} disabled={!userPostImage} type="submit">Post</PostButton>
                 }
-
-
             </form>
         </NewPostPageContainer>
     );

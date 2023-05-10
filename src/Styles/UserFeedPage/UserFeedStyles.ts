@@ -197,6 +197,6 @@ export const LoginBtn = styled.button`
 
 export const LoadingContainer = styled.div`
   position: absolute;
-  width: 100%;
   top: 265px;
+  width: 50px;
 `;

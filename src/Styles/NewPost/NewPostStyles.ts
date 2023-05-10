@@ -3,6 +3,10 @@ import { Close } from "@styled-icons/evil/Close";
 import { CloudUpload } from "@styled-icons/bootstrap/CloudUpload";
 import { CloudCheckFill } from "styled-icons/bootstrap";
 
+interface fileProp {
+  isFileUploaded?: boolean;
+}
+
 export const NewPostPageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -83,7 +87,7 @@ export const InputBox = styled.input`
   }
 `;
 
-export const PostButton = styled.button`
+export const PostButton = styled.button<fileProp>`
   padding: 0 32px;
   height: 40px;
   font-size: 17px;
@@ -95,4 +99,5 @@ export const PostButton = styled.button`
   border: 1px solid #888888;
   justify-self: center;
   background-color: white;
+  cursor: ${(props) => (props.isFileUploaded ? "pointer" : "not-allowed")};
 `;

@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const userPostImageFileAtom = atom<any>({
   key: "userImageState",
-  default: "",
+  default: null,
 });
 
 export const userPostCaptionAtom = atom<string>({
