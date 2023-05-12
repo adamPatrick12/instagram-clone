@@ -95,8 +95,12 @@ export const PostButton = styled.button<fileProp>`
   cursor: pointer;
   box-sizing: border-box;
   font-weight: 700;
-  color: #888888;
-  border: 1px solid #888888;
+  color: ${(props) =>
+    props.isFileUploaded ? "#888888" : "hsla(0,0%,48.6%,0.281)"};
+  border: ${(props) =>
+    props.isFileUploaded
+      ? "1px solid #888888"
+      : "1px solid hsla(0,0%,48.6%,0.281)"};
   justify-self: center;
   background-color: white;
   cursor: ${(props) => (props.isFileUploaded ? "pointer" : "not-allowed")};

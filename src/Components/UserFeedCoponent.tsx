@@ -74,8 +74,9 @@ export const UserFeed = () => {
     const isUserSignIn = useRecoilValue(authenticationAtom);
     const [postsAreLoading, setLoadingPostState] = useState<boolean>();
     const currentUserID = useRecoilValue(UserObjectIDAtom);
-
     const currentUser = auth.currentUser;
+
+
 
 
     const fetchUserFeed = async () => {
@@ -89,8 +90,27 @@ export const UserFeed = () => {
         setLoadingPostState(false);
     };
 
+    const fetchUniqueUserFeed = async () => {
+        if (currentUserID) {
+            await fetch(`https://instagram-clone-backend-pi.vercel.app/instagram-clone/following-user-feed/${currentUserID}`)
+                .then((response) => response.json())
+                .then(((data) => setPostData(data)
+                ));
+        }
+    };
+
+    const handleFeedFetching = async () => {
+        const isUserLoggedIn = await auth.currentUser;
+        if (isUserLoggedIn) {
+            fetchUniqueUserFeed();
+        } else {
+            fetchUserFeed();
+        }
+    };
+
+
     useEffect(() => {
-        fetchUserFeed();
+        handleFeedFetching();
         setHomePageIcon(true);
         setProfilePageIcon(false);
         activeEmails()
@@ -103,7 +123,7 @@ export const UserFeed = () => {
         }
 
 
-    }, [updateComments, isUserSignIn, currentUser]);
+    }, [updateComments, isUserSignIn, currentUser, currentUserID]);
 
 
     const signInWithGoogle = async () => {

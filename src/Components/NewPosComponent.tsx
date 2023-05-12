@@ -74,9 +74,6 @@ const NewPostComponent = () => {
     };
 
 
-
-
-
     useEffect(() => {
         if (userPostImage?.size > 5000000) {
             error();
@@ -92,7 +89,6 @@ const NewPostComponent = () => {
                 <CloseModelIcon onClick={() => {
                     navigate('/');
                     setPostImage(false);
-
                 }} />
             </NewPostHeader>
             <form onSubmit={onSubmit}>
@@ -109,5 +105,3 @@ const NewPostComponent = () => {
 
 export default NewPostComponent;
 
-
-<input id="file-upload" type="file" />;
