@@ -1,7 +1,7 @@
 import { SighUpComponent } from "./SignUpComponent";
 import UserFeed from './UserFeedCoponent';
 import NewPostComponent from "./NewPosComponent";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, HashRouter } from "react-router-dom";
 import UserProfile from './ProfileComponent';
 import UniqueUserPost from './UniqueUserPost';
 import EditProfile from "./EditProfileComponent";
