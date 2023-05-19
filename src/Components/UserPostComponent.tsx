@@ -33,6 +33,8 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { handleUserComment } from "../Hooks/handleUserComment";
 import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 import { auth } from "../Firebase/FirebaseConfig";
+import { message } from 'antd';
+
 
 
 
@@ -54,9 +56,22 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
     const currentUserProfilePic = useRecoilValue(profilePictureAtom);
     const currentUserDisplayname = useRecoilValue(displayNameAtom);
     const currentUserName = useRecoilValue(userNameAtom);
-
     const isUserSignIn = auth.currentUser;
     const listOfUserLikes = likes.map((data: any) => data.userName);
+    const [messageApi, contextHolder] = message.useMessage();
+
+
+    const copiedLink = () => {
+        messageApi.open({
+            type: 'success',
+            content: 'Link copied to clipboard',
+            style: {
+                marginTop: '90vh',
+            },
+        },
+
+        );
+    };
 
     const reRenderPage = () => {
         setTimeout(() => {
@@ -111,8 +126,15 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
         }
     };
 
+    const handleLinkEvent = () => {
+        copiedLink();
+        navigator.clipboard.writeText(`https://adampatrick12.vercel.app/#/user-post/${imageID}`);
+    };
+
+
     return (
         <UserPostCardContainer onMouseOver={() => setPostId(imageID)}>
+            {contextHolder}
             <UserPostHeader>
                 <UserInfoContainer>
                     <img src={profilePicture}
@@ -160,7 +182,10 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                         <CommentButton onClick={() => navigate(`/user-post/${imageID}`)} />
                         <DownloadButton />
                     </InteractIcons>
-                    <LinkButton />
+                    <motion.div whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}>
+                        <LinkButton onClick={() => { handleLinkEvent(); }} />
+                    </motion.div>
                 </PostIconContainer>
                 <Likes>{likes.length} Likes</Likes>
                 {comments.length === 0 ?

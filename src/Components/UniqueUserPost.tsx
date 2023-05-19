@@ -40,6 +40,8 @@ import en from 'javascript-time-ago/locale/en';
 import { handleLikeClick, handleUnLikeClick } from "../Hooks/handleLikes";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { auth } from "../Firebase/FirebaseConfig";
+import { message } from 'antd';
+
 
 
 
@@ -62,6 +64,8 @@ const UniqueUserPostComponent = () => {
     const inputRef = useRef<any>(null);
     const [pageUpdate, setUpdate] = useState(0);
     const [postContent, setPostContent] = useState<any>();
+    const [messageApi, contextHolder] = message.useMessage();
+
 
     const { data: singlePostData, refetch } = useQuery(
         ['singleUserPost', postID],
@@ -79,6 +83,17 @@ const UniqueUserPostComponent = () => {
 
     const userWhoHaveLiked: [any] = singlePostData?.flatMap((postLikes: any) => postLikes.likes);
 
+    const copiedLink = () => {
+        messageApi.open({
+            type: 'success',
+            content: 'Link copied to clipboard',
+            style: {
+                marginTop: '7vh',
+            },
+        },
+
+        );
+    };
 
 
     const checkIfPostIsLiked = () => {
@@ -128,8 +143,12 @@ const UniqueUserPostComponent = () => {
         }
     };
 
-    console.log(postContent);
+    const handleLinkEvent = (imageID: string) => {
+        copiedLink();
+        navigator.clipboard.writeText(`https://adampatrick12.vercel.app/#/user-post/${imageID}`);
+    };
 
+    console.log(postContent);
 
     return (
         <div >
@@ -137,6 +156,7 @@ const UniqueUserPostComponent = () => {
             {postContent?.map((data: any, index: number) => {
                 return <PageCenterContainer key={index}>
                     <PostContainer>
+                        {contextHolder}
                         <CardContainer>
                             <ImageContainer>
                                 <img src={data['imageKey']} alt="" />
@@ -194,13 +214,17 @@ const UniqueUserPostComponent = () => {
                                                     }} />
                                                 </motion.div>
                                             }
-
                                             <CommentButton onClick={() => {
                                                 inputRef.current.focus();
                                             }} />
                                             <DownloadButton />
                                         </InteractIcons>
-                                        <LinkButton />
+                                        <motion.div
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                        >
+                                            <LinkButton onClick={() => handleLinkEvent(data._id)} />
+                                        </motion.div>
                                     </IconContainer>
                                     <LikesContainer>
                                         <Likes>{data.likes.length} Likes</Likes>

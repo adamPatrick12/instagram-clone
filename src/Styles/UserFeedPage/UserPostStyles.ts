@@ -145,6 +145,7 @@ export const LinkButton = styled(LinkAlt)`
   height: 1.8em;
   margin: 0 7px 0 0;
   font-weight: 100;
+  cursor: pointer;
 `;
 
 export const Likes = styled.div`
