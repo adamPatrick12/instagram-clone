@@ -17,6 +17,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </QueryClientProvider>
       </RecoilRoot>
     </HashRouter>
-
   </React.StrictMode>
 );

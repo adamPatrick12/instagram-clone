@@ -156,7 +156,7 @@ const UserPost = ({ ImageURl, userName, displayName, profilePicture, imageID, co
                     <Skeleton.Image style={{ width: 560, height: 500, position: 'absolute', top: 20 }} active={true} />
                 </div>
             }
-            <img onClick={() => navigate(`/user-post/${imageID}`)} src={ImageURl} onLoad={(handledLoadingImage)} alt="" />
+            <img loading="lazy" onClick={() => navigate(`/user-post/${imageID}`)} src={ImageURl} onLoad={(handledLoadingImage)} alt="" />
             <UserPostFooter>
                 <PostIconContainer>
                     <InteractIcons>

@@ -14,7 +14,7 @@ import {
 } from "../Styles/NewPost/NewPostStyles";
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import { Button, message, Space } from 'antd';
+import { message } from 'antd';
 
 const NewPostComponent = () => {
     const userObjectID = useRecoilValue(UserObjectIDAtom);

@@ -148,7 +148,6 @@ const UniqueUserPostComponent = () => {
         navigator.clipboard.writeText(`https://adampatrick12.vercel.app/#/user-post/${imageID}`);
     };
 
-    console.log(postContent);
 
     return (
         <div >
