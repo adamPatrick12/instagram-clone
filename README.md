@@ -1,4 +1,4 @@
-# Instagram Clone 📱
+# Instagram Clone 📱 👉 [Live Preview](https://adampatrick12.vercel.app/)
 
 A Full Stack clone of Instagram's features and a complete redesign of the UI. Built using React with TypeScript for the frontend, NodeJS for the backend, MongoDB for the database, and AWS S3 to store images.
 
